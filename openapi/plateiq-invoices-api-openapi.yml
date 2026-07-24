@@ -1,0 +1,2402 @@
+openapi: 3.1.0
+info:
+  title: API Reference accounts invoices API
+  version: 1.0.0
+servers:
+- url: https://api.ottimate.com/v1
+  description: Production
+- url: https://sandbox-api.ottimate.com/v1
+  description: Sandbox
+tags:
+- name: invoices
+paths:
+  /invoices:
+    get:
+      operationId: get-invoices-root
+      summary: Retrieve paginated list of invoices
+      description: 'Returns a paginated list of invoices with comprehensive filtering capabilities.
+
+
+        ### Filtering Options
+
+        - Date range filtering by creation date (from/to dates)
+
+        - Date range filtering by last modified date (last_modified_date_from/last_modified_date_to)
+
+        - Filter by the user who last modified the invoice (last_modified_user_id)
+
+        - Vendor filtering by name or ID
+
+        - Location filtering by ottimate_location_id
+
+        - Status filtering (approved, incomplete, processing, etc.)
+
+
+        ### Pagination
+
+        Results are returned in pages with configurable size (1-100 items per page). Results are ordered by creation date (newest first).'
+      tags:
+      - invoices
+      parameters:
+      - name: page
+        in: query
+        description: Page number for pagination
+        required: false
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Number of items per page
+        required: false
+        schema:
+          type: integer
+      - name: date_from
+        in: query
+        description: 'Filter invoices from this date. Accepted formats: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS. All times are interpreted as UTC. When using expand=items, either date_from or last_modified_date_from is required.'
+        required: false
+        schema:
+          type: string
+      - name: date_from_utc
+        in: query
+        description: UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant.
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: date_to
+        in: query
+        description: 'Filter invoices to this date. Accepted formats: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS. All times are interpreted as UTC. When using expand=items and omitted, defaults to the current UTC datetime.'
+        required: false
+        schema:
+          type: string
+      - name: date_to_utc
+        in: query
+        description: UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant.
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: status
+        in: query
+        description: Filter by invoice status
+        required: false
+        schema:
+          $ref: '#/components/schemas/InvoicesGetParametersStatus'
+      - name: ottimate_location_ids
+        in: query
+        description: Filter by a comma-separated list of location IDs
+        required: false
+        schema:
+          type: string
+      - name: payment_status
+        in: query
+        description: Filter by payment status
+        required: false
+        schema:
+          $ref: '#/components/schemas/InvoicesGetParametersPaymentStatus'
+      - name: ottimate_vendor_id
+        in: query
+        description: Filter by specific vendor ID
+        required: false
+        schema:
+          type: string
+      - name: expand
+        in: query
+        description: 'Comma-separated list of fields to expand. Options: items. When used, returns full line item details along with catalog entry details. Requires date_from or last_modified_date_from (within a 30-day window); date_to and last_modified_date_to are optional and default to the current datetime if omitted.'
+        required: false
+        schema:
+          type: string
+      - name: invoice_ids
+        in: query
+        description: Filter by a comma-separated list of invoice IDs
+        required: false
+        schema:
+          type: string
+      - name: search
+        in: query
+        description: Search across multiple invoice fields
+        required: false
+        schema:
+          type: string
+      - name: custom_fields
+        in: query
+        description: Filter by custom field values. Pass a JSON object where each key is a custom field name and each value is the exact value to match. Multiple keys are ANDed together.
+        required: false
+        schema:
+          type: string
+      - name: last_modified_date_from
+        in: query
+        description: 'Filter invoices last modified on or after this date. Accepted formats: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS. All times are interpreted as UTC. When using expand=items, either last_modified_date_from or date_from is required.'
+        required: false
+        schema:
+          type: string
+      - name: last_modified_date_from_utc
+        in: query
+        description: UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant.
+        required: false
+        schema:
+          type: string
+      - name: last_modified_date_to
+        in: query
+        description: 'Filter invoices last modified on or before this date. Accepted formats: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS. All times are interpreted as UTC. When using expand=items and omitted, defaults to the current UTC datetime.'
+        required: false
+        schema:
+          type: string
+      - name: last_modified_date_to_utc
+        in: query
+        description: UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant.
+        required: false
+        schema:
+          type: string
+      - name: last_modified_user_id
+        in: query
+        description: Filter invoices by the ID of the user who last modified them
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with paginated invoice list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoices_get_invoices_root_Response_200'
+        '400':
+          description: Bad request - Invalid parameters provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Access denied or insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not found - Resource does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error - Server-side processing error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /invoices/{id}:
+    get:
+      operationId: get-invoices-id
+      summary: Retrieve detailed information for a specific invoice
+      description: "Returns **comprehensive details** for a single invoice including all metadata, processing information, and payment status.\n\n## \U0001F4CB What You Get\n\nThis endpoint provides the **complete invoice record** with:\n\n- \U0001F9FE **Full invoice metadata** (dates, amounts, status)\n- \U0001F3E2 **Vendor information** and contact details\n- \U0001F4CD **Location** where invoice was received\n- \U0001F4B3 **Payment information** (when invoice is paid)\n- ⚠️ **Error details** (if invoice has processing issues)\n- \U0001F4E4 **Export tracking** (integration status)\n\n## \U0001F50D Usage Examples\n\n### Basic Retrieval\n```bash\ncurl -H \"X-Api-Key: your-api-key\" \\\n     https://api.acme.com/v1/invoices/550e8400-e29b-41d4-a716-446655440000\n```\n\n### With Version Header\n```bash\ncurl -H \"X-Api-Key: your-api-key\" \\\n     -H \"X-API-Version: 1.0.0\" \\\n     https://api.acme.com/v1/invoices/550e8400-e29b-41d4-a716-446655440000\n```\n\n## ⚡ Performance Notes\n\n- **Response time**: Typically < 100ms\n- **Caching**: Results cached for 5 minutes\n- **Rate limits**: Applies to your overall API quota\n\n> \U0001F4A1 **Tip**: Use this endpoint after getting results from the list endpoint to get full details for specific invoices."
+      tags:
+      - invoices
+      parameters:
+      - name: id
+        in: path
+        description: Invoice UUID - Unique identifier of the invoice to retrieve
+        required: true
+        schema:
+          type: string
+      - name: expand
+        in: query
+        description: 'Comma-separated list of fields to expand. Options: `history`, `gl_splits`. Use `history` to include the full audit log. Use `gl_splits` to include GL account splits (real splits or virtual splits derived from line-item mappings).'
+        required: false
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with invoice details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoiceDetailObject'
+        '400':
+          description: Bad request - Invalid parameters or request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized - Authentication required or invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Access denied or insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not found - Resource does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error - Server-side processing error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      operationId: patch-invoices-id
+      summary: Update invoice header, line items, and dimensions
+      description: 'Updates an invoice along with its line items and dimensions.
+
+
+        ### Features
+
+        - Update invoice header fields (date, amount, vendor, notes, etc.)
+
+        - Create new line items (omit `id`)
+
+        - Update existing line items (include `id`)
+
+        - Set, update, or remove header and item-level dimensions
+
+        - Update custom metadata fields at header and item level (requires account-level custom field spec configuration)
+
+
+        ### Use Cases
+
+        - Invoice corrections
+
+        - Invoice reconciliation with updated line items
+
+        - Adding or updating dimensions after initial invoice creation
+
+        - Multi-field updates in a single request'
+      tags:
+      - invoices
+      parameters:
+      - name: id
+        in: path
+        description: Invoice ID to update
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Invoice updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoiceDetailObject'
+        '400':
+          description: Bad request - Invalid parameters or request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Access denied or insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not found - Resource does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '412':
+          description: Precondition failed - concurrent modification
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error - Server-side processing error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        description: Invoice update payload with optional items array
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ottimate_location_id:
+                  type: integer
+                  description: The ID of the location for this invoice.
+                erp_vendor_id:
+                  type: string
+                  description: The ERP ID of the vendor for this invoice.
+                erp_vendor_name:
+                  type: string
+                  description: ERP vendor name. Required when creating a new vendor via erp_vendor_id.
+                invoice_number:
+                  type: string
+                invoice_date:
+                  type: string
+                  format: date
+                due_date:
+                  type: string
+                  format: date
+                posting_date:
+                  type: string
+                  format: date
+                total_amount:
+                  type: number
+                  format: double
+                total_tax:
+                  type: number
+                  format: double
+                discount_amount:
+                  type: number
+                  format: double
+                purchase_order:
+                  type: string
+                notes:
+                  type: string
+                currency:
+                  type: string
+                type:
+                  $ref: '#/components/schemas/InvoicesIdPatchRequestBodyContentApplicationJsonSchemaType'
+                  description: Type of document.
+                dimensions:
+                  $ref: '#/components/schemas/InvoicesIdPatchRequestBodyContentApplicationJsonSchemaDimensions'
+                  description: Header-level dimension mappings. Keys are dimension types (e.g., 'DEPARTMENT') and values are `erp_dimension_id` strings from the `GET /dimensions` endpoint. Replaces all header dimensions with the provided set. Omit the field entirely to preserve existing dimensions. Pass `{}` to clear all header dimensions.
+                custom_fields:
+                  oneOf:
+                  - $ref: '#/components/schemas/InvoicesIdPatchRequestBodyContentApplicationJsonSchemaCustomFields'
+                  - type: 'null'
+                  description: 'Header-level custom metadata fields. Replaces the stored custom fields with the provided object — any keys not included are reset to their configured default values.
+
+
+                    **Requirements**: Custom fields must be configured for your account before use. Returns a `400` error if no spec is found or if unrecognised keys are sent.
+
+
+                    **Behaviour**: Omit the field entirely to preserve existing custom fields.'
+                items:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/InvoicesIdPatchRequestBodyContentApplicationJsonSchemaItemsItems'
+                  description: Line items to create or update. Include `id` to update an existing item, omit `id` to create a new item.
+                image_urls:
+                  type: array
+                  items:
+                    type: string
+                    format: uri
+                  description: 'Replaces all existing invoice images with the provided URLs. Pass an empty array to delete all images. Omit the field entirely to leave existing images unchanged. Supported formats: PDF, JPG, JPEG, PNG.'
+                raw_images:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/InvoicesIdPatchRequestBodyContentApplicationJsonSchemaRawImagesItems'
+                  description: 'Replaces all existing invoice images with the provided base64-encoded images. Pass an empty array to delete all images. Omit the field entirely to leave existing images unchanged. Supported formats: PDF, JPG, JPEG, PNG.'
+  /invoices/upload:
+    post:
+      operationId: post-invoices-upload
+      summary: Create invoice from file upload or URL download
+      description: 'Creates a new invoice by uploading a file directly or downloading from a URL. This endpoint combines file processing, S3 storage, and invoice creation in a single API call.
+
+
+        ### File Processing
+
+        - Multiple formats supported: PDF, JPG, PNG, TIFF
+
+        - Direct file upload via multipart form data
+
+        - URL-based file download and ingestion
+
+        - Automatic format and size validation
+
+        - Secure S3 storage integration
+
+
+        ### Invoice Creation Features
+
+        - Single-step upload and creation process
+
+        - Custom metadata support for tracking
+
+        - Location assignment
+
+        - Email sender tracking
+
+        - Integration with existing document processing pipeline
+
+
+        ### Use Cases
+
+        - Email attachment processing
+
+        - Mobile application file uploads
+
+        - Webhook-based ingestion from vendor portals
+
+        - Programmatic batch processing
+
+
+        ### Technical Specifications
+
+        - File size limit: 25MB per file
+
+        - Supported formats: PDF, JPG, JPEG, PNG, TIFF
+
+        - Authentication: API key required
+
+        - Access control: Location-level validation
+
+        - Storage: Automatic S3 upload with encryption'
+      tags:
+      - invoices
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      - name: Idempotency-Key
+        in: header
+        description: 'Client-generated unique key (UUID/ULID recommended). JSON requests: the first 2xx response is cached for 24h and replayed on a same-key retry with a matching body; a different body returns 422. Non-JSON requests (e.g. file uploads): the key is single-use — any same-key retry returns 422 regardless of body. See [Idempotency](https://docs.ottimate.com/idempotency) for full details.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Invoice created successfully. Returns the reference ID for the uploaded document. Invoice processing happens asynchronously.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoiceCreationResponse'
+        '400':
+          description: Bad request - Invalid request data or file format. Common causes include missing required fields, invalid file format, file too large, or invalid location ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized - Authentication required or invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Access denied or insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: Payload too large - File exceeds maximum size limit of 25MB.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable entity - Request validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error - Server-side processing error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        description: Invoice creation data - supports both file upload and URL-based ingestion
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                ottimate_location_id:
+                  type: integer
+                  description: Location ID where invoice should be processed
+                file:
+                  type: string
+                  format: binary
+                  description: Invoice file to upload (PDF, JPG, PNG, TIFF) - max 25MB
+                filename:
+                  type: string
+                  description: Original filename (optional, derived from file if not provided)
+                metadata:
+                  type: string
+                  description: JSON string containing additional invoice metadata
+                created_email:
+                  type: string
+                  format: email
+                  description: Email address of invoice sender (for tracking)
+              required:
+              - ottimate_location_id
+              - file
+  /invoices/mark-exported:
+    post:
+      operationId: post-invoices-mark-exported
+      summary: Mark multiple invoices as exported
+      description: ''
+      tags:
+      - invoices
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      - name: X-Export-Batch-Id
+        in: header
+        description: Optional export batch identifier used for logging
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkInvoiceOperationResponse'
+        '400':
+          description: Bad request - Invalid parameters or request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized - Authentication required or invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Access denied or insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error - Server-side processing error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        description: Bulk export request payload
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                invoices:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/InvoicesMarkExportedPostRequestBodyContentApplicationJsonSchemaInvoicesItems'
+                export_transaction_id:
+                  type: string
+                  description: Batch-level transaction ID for all invoices
+                marked_reason:
+                  type: string
+                  description: Batch-level reason for all invoices
+              required:
+              - invoices
+  /invoices/mark-unexported:
+    post:
+      operationId: post-invoices-mark-unexported
+      summary: Unexport multiple invoices
+      description: ''
+      tags:
+      - invoices
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Operation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkInvoiceUnexportOperationResponse'
+        '400':
+          description: Bad request - Invalid parameters or request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized - Authentication required or invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Access denied or insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error - Server-side processing error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        description: Bulk unexport request payload
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                invoices:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/InvoicesMarkUnexportedPostRequestBodyContentApplicationJsonSchemaInvoicesItems'
+                marked_reason:
+                  type: string
+                  description: Batch-level reason for all invoices
+                flag_invoice:
+                  type: boolean
+                  description: Flag the invoice as unexported
+              required:
+              - invoices
+  /invoices/uploads:
+    get:
+      operationId: get-invoices-uploads
+      summary: Retrieve uploads
+      description: Returns a list of uploads that have been uploaded but not yet processed.
+      tags:
+      - invoices
+      parameters:
+      - name: ottimate_location_id
+        in: query
+        description: Filter by a specific location ID
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with a list of uploads
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoices_get_invoices_uploads_Response_200'
+        '401':
+          description: Unauthorized - Authentication required or invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /invoices/{id}/approvers:
+    get:
+      operationId: get-invoices-id-approvers
+      summary: Retrieve list of approvers for a specific invoice
+      description: 'Returns a list of all approvers assigned to an invoice, including their approval status.
+
+
+        ### Features
+
+        - View all assigned approvers for an invoice
+
+        - Check approval status (pending, approved)
+
+        - See approver details (name, email)
+
+        - View policy-based and manual approvers
+
+
+        ### Use Cases
+
+        - Check who needs to approve an invoice
+
+        - Monitor approval progress
+
+        - Audit approval chain'
+      tags:
+      - invoices
+      parameters:
+      - name: id
+        in: path
+        description: Invoice ID
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with list of approvers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoices_get_invoices_id_approvers_Response_200'
+        '401':
+          description: Unauthorized - Authentication required or invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Access denied or insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not found - Resource does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /invoices/{id}/flag:
+    post:
+      operationId: post-invoices-id-flag
+      summary: Flag an invoice for review
+      description: 'Flags an invoice for review, moving it to incomplete status with a flagging reason.
+
+
+        ### Features
+
+        - Flags invoice and moves to incomplete status
+
+        - Supports optional flagging reason
+
+        - Triggers notifications to relevant users
+
+
+        ### Use Cases
+
+        - Flag invoices with issues for review
+
+        - Request corrections or additional information
+
+        - Mark invoices needing manual intervention'
+      tags:
+      - invoices
+      parameters:
+      - name: id
+        in: path
+        description: Invoice ID
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Invoice flagged successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoices_post_invoices_id_flag_Response_200'
+        '401':
+          description: Unauthorized - Authentication required or invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Access denied or insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not found - Resource does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        description: Optional flagging options
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                flagging_reason:
+                  type: string
+                  description: Reason for flagging the invoice
+  /invoices/import:
+    post:
+      operationId: post-invoices-import
+      summary: Bulk import invoices
+      description: Asynchronously creates up to 100 invoices in a single request. Each invoice must include a unique `upload_id` and a valid `ottimate_location_id`. Processing is queued via backgrund job and returns a `batch_id` for polling progress and results.
+      tags:
+      - invoices
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      - name: Idempotency-Key
+        in: header
+        description: 'Client-generated unique key (UUID/ULID recommended). JSON requests: the first 2xx response is cached for 24h and replayed on a same-key retry with a matching body; a different body returns 422. Non-JSON requests (e.g. file uploads): the key is single-use — any same-key retry returns 422 regardless of body. See [Idempotency](https://docs.ottimate.com/idempotency) for full details.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '202':
+          description: Bulk import accepted and queued for processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoices_post_invoices_import_Response_202'
+        '400':
+          description: Bad request - Invalid parameters or request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Access denied or insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/InvoicesImportPostRequestBodyContentApplicationJsonSchemaItems'
+  /invoices/{id}/images:
+    patch:
+      operationId: patch-invoices-id-images
+      summary: Replace all invoice images with uploaded files
+      description: 'Accepts one or more image files via multipart/form-data under the ''images'' key. Deletes all existing images and replaces them with the uploaded files. Supported formats: PDF, JPG, JPEG, PNG. Maximum file size per image: 50 MB. Per-file validation failures are reported in image_errors rather than rejecting the entire request.'
+      tags:
+      - invoices
+      parameters:
+      - name: id
+        in: path
+        description: The unique ID of the invoice
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: All images replaced successfully. image_errors is empty.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoices_patch_invoices_id_images_Response_200'
+        '400':
+          description: Bad request - Invalid parameters or request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Access denied or insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not found - Resource does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        description: One or more image files to attach to the invoice
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                  description: 'One or more image files to replace existing invoice images. Supported formats: PDF, JPG, JPEG, PNG.'
+              required:
+              - images
+  /invoices/receiver-export:
+    get:
+      operationId: get-invoices-receiver-export
+      summary: Retrieve catalog-matched invoice lines as receiver/quantity export
+      description: Returns a paginated list of exported invoices with their catalog-matched line items. Only invoices in exported state, from vendors with item validation enabled, are returned. Fringe catalog entries and unmatched lines are excluded. If an invoice has zero qualifying lines after filtering it is omitted entirely.
+      tags:
+      - invoices
+      parameters:
+      - name: ottimate_company_id
+        in: query
+        description: Ottimate company ID to scope the response
+        required: true
+        schema:
+          type: integer
+      - name: ottimate_location_id
+        in: query
+        description: Ottimate location (restaurant) ID to scope the response
+        required: true
+        schema:
+          type: integer
+      - name: exported_after
+        in: query
+        description: ISO 8601 datetime; returns invoices exported after this timestamp
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: exported_after_utc
+        in: query
+        description: UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant.
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: exported_before
+        in: query
+        description: ISO 8601 datetime; returns invoices exported before this timestamp
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: exported_before_utc
+        in: query
+        description: UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant.
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: vendor_id
+        in: query
+        description: Filter by vendor ID
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number
+        required: false
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Max results per page (default 50, max 200)
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated list of receiver export invoices
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoices_get_invoices_receiver-export_Response_200'
+        '400':
+          description: Bad request - Invalid parameters or request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Access denied or insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    InvoiceDetailObjectGlSplitsItemsDimensions:
+      type: object
+      properties: {}
+      description: Accounting dimensions for this split. Same structure as header-level dimensions. Keys are dimension type codes.
+      title: InvoiceDetailObjectGlSplitsItemsDimensions
+    InvoiceObjectPaymentStatus:
+      type: string
+      enum:
+      - paid
+      - partial
+      - unpaid
+      description: Payment status (paid, partial, unpaid)
+      title: InvoiceObjectPaymentStatus
+    InvoicesImportPostRequestBodyContentApplicationJsonSchemaItemsType:
+      type: string
+      enum:
+      - invoice
+      - credit_memo
+      description: Type of document.
+      title: InvoicesImportPostRequestBodyContentApplicationJsonSchemaItemsType
+    InvoiceDetailObjectHistoryItemsUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: User ID
+        email:
+          type: string
+          description: Email address
+        first_name:
+          type: string
+          description: First name
+        last_name:
+          type: string
+          description: Last name
+      description: User who performed the action
+      title: InvoiceDetailObjectHistoryItemsUser
+    InvoiceObjectLastModifiedUser:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+          format: email
+        first_name:
+          type: string
+        last_name:
+          type: string
+      description: User who last modified the invoice
+      title: InvoiceObjectLastModifiedUser
+    InvoiceDetailObjectGlSplitsItemsCustomFields:
+      type: object
+      properties: {}
+      description: Custom metadata fields for this split
+      title: InvoiceDetailObjectGlSplitsItemsCustomFields
+    InvoicesIdImagesPatchResponsesContentApplicationJsonSchemaImagesItems:
+      type: object
+      properties:
+        id:
+          type: integer
+        url:
+          type: string
+      title: InvoicesIdImagesPatchResponsesContentApplicationJsonSchemaImagesItems
+    InvoiceDetailObjectDimensions:
+      type: object
+      properties: {}
+      description: Header-level dimension mappings. Contains accounting dimensions assigned to the invoice header (e.g., Department, Class, Location).
+      title: InvoiceDetailObjectDimensions
+    BulkInvoiceOperationResponseFailedItems:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Invoice ID that failed
+        error:
+          type: string
+          description: Failure reason
+      required:
+      - id
+      - error
+      title: BulkInvoiceOperationResponseFailedItems
+    Invoices_post_invoices_id_flag_Response_200:
+      type: object
+      properties:
+        version:
+          type: string
+          description: API version
+        success:
+          type: boolean
+          description: Whether the operation was successful
+        message:
+          type: string
+          description: Success message
+        invoice:
+          $ref: '#/components/schemas/InvoicesIdFlagPostResponsesContentApplicationJsonSchemaInvoice'
+      title: Invoices_post_invoices_id_flag_Response_200
+    InvoicesImportPostRequestBodyContentApplicationJsonSchemaItemsItemsItems:
+      type: object
+      properties:
+        name:
+          type: string
+        sku:
+          type: string
+        quantity:
+          type: number
+          format: double
+        price:
+          type: number
+          format: double
+        is_taxed:
+          type: boolean
+        dimensions:
+          oneOf:
+          - $ref: '#/components/schemas/InvoicesImportPostRequestBodyContentApplicationJsonSchemaItemsItemsItemsDimensions'
+          - type: 'null'
+          description: 'Item-level dimension mappings. Same format as header-level dimensions: keys are dimension types and values are `erp_dimension_id` strings. If omitted, no item-level dimensions are set.'
+        custom_fields:
+          oneOf:
+          - $ref: '#/components/schemas/InvoicesImportPostRequestBodyContentApplicationJsonSchemaItemsItemsItemsCustomFields'
+          - type: 'null'
+          description: 'Item-level custom metadata fields. Keys and value types are validated against the invoice item custom field spec configured for your account in Ottimate.
+
+
+            **Requirements**: Invoice item custom fields must be configured for your account before use. Returns a `400` error if no spec is found or if unrecognised keys are sent.
+
+
+            **Behaviour**: Omitted keys are filled with their configured default values.'
+      required:
+      - name
+      - quantity
+      - price
+      title: InvoicesImportPostRequestBodyContentApplicationJsonSchemaItemsItemsItems
+    InvoiceObjectDimensions:
+      type: object
+      properties: {}
+      description: Header-level dimension mappings. Contains accounting dimensions assigned to the invoice header (e.g., Department, Class, Location).
+      title: InvoiceObjectDimensions
+    InvoicesIdPatchRequestBodyContentApplicationJsonSchemaType:
+      type: string
+      enum:
+      - invoice
+      - credit_memo
+      description: Type of document.
+      title: InvoicesIdPatchRequestBodyContentApplicationJsonSchemaType
+    Invoices_patch_invoices_id_images_Response_200:
+      type: object
+      properties:
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoicesIdImagesPatchResponsesContentApplicationJsonSchemaImagesItems'
+        image_errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoicesIdImagesPatchResponsesContentApplicationJsonSchemaImageErrorsItems'
+          description: Always empty on 200.
+      title: Invoices_patch_invoices_id_images_Response_200
+    InvoiceDetailObjectItemsProcessingResultStatus:
+      type: string
+      enum:
+      - success
+      - partial_success
+      - failure
+      description: 'Overall processing status: success (all items processed), partial_success (some failed), failure (all failed)'
+      title: InvoiceDetailObjectItemsProcessingResultStatus
+    InvoiceDetailObjectItemsProcessingResultFailure:
+      type: object
+      properties: {}
+      description: Map of request array index to error message
+      title: InvoiceDetailObjectItemsProcessingResultFailure
+    InvoicesGetParametersStatus:
+      type: string
+      enum:
+      - approved
+      - incomplete
+      - archived
+      - processing
+      - needs-attention
+      - ready-for-export
+      - exported
+      - pending-approval
+      title: InvoicesGetParametersStatus
+    InvoicesMarkUnexportedPostRequestBodyContentApplicationJsonSchemaInvoicesItems:
+      type: object
+      properties:
+        invoice_id:
+          type: integer
+          description: Unique identifier for the invoice
+        marked_reason:
+          type: string
+          description: Invoice specific reason displayed in the invoice history; overrides the batch-level reason
+      title: InvoicesMarkUnexportedPostRequestBodyContentApplicationJsonSchemaInvoicesItems
+    InvoicesReceiverExportGetResponsesContentApplicationJsonSchemaResultsItems:
+      type: object
+      properties:
+        ottimate_invoice_id:
+          type: string
+          description: Unique invoice identifier in Ottimate
+        ottimate_company_id:
+          type: integer
+          description: Ottimate company identifier this invoice belongs to
+        ottimate_location_id:
+          type: integer
+          description: Ottimate location identifier this invoice was received against
+        invoice_number:
+          type:
+          - string
+          - 'null'
+          description: Invoice number as it appears on the vendor document
+        vendor_name:
+          type: string
+          description: Name of the vendor in Ottimate
+        invoice_date:
+          type:
+          - string
+          - 'null'
+          format: date
+          description: Date the invoice was issued by the vendor
+        exported_at:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp when the invoice was exported from Ottimate to the ERP system
+        exported_at_utc:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC equivalent of exported_at. ISO 8601 with Z suffix, e.g. "2025-05-20T15:17:35.652584Z".
+        receiver_status:
+          type: string
+          description: '''success'' for all returned records. Only invoices that are exported and have at least one catalog-matched non-fringe line are returned, so all results are by definition in a valid receivable state'
+        receiver_lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoicesReceiverExportGetResponsesContentApplicationJsonSchemaResultsItemsReceiverLinesItems'
+          description: Catalog-matched line items from this invoice. Unmatched lines and fringe catalog lines are excluded. Invoices with zero qualifying lines are omitted entirely.
+      title: InvoicesReceiverExportGetResponsesContentApplicationJsonSchemaResultsItems
+    InvoicesIdImagesPatchResponsesContentApplicationJsonSchemaImageErrorsItems:
+      type: object
+      properties:
+        source:
+          type: string
+          description: Filename of the file that failed.
+        error:
+          type: string
+          description: Human-readable error message.
+      title: InvoicesIdImagesPatchResponsesContentApplicationJsonSchemaImageErrorsItems
+    BulkInvoiceUnexportOperationResponseSkippedItems:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Invoice ID that skipped
+        error:
+          type: string
+          description: Skipped reason
+      required:
+      - id
+      - error
+      title: BulkInvoiceUnexportOperationResponseSkippedItems
+    InvoicesIdPatchRequestBodyContentApplicationJsonSchemaItemsItemsDimensions:
+      type: object
+      properties: {}
+      description: Item-level dimension mappings. Keys are dimension types, values are `erp_dimension_id` strings. Merges with existing dimensions. Set a value to `null` to remove only that dimension. Pass `{}` or omit the field to preserve existing dimensions.
+      title: InvoicesIdPatchRequestBodyContentApplicationJsonSchemaItemsItemsDimensions
+    InvoiceObjectImagesItems:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique image identifier
+        url:
+          type: string
+          description: CDN URL to the invoice image
+      title: InvoiceObjectImagesItems
+    InvoiceDetailObjectPaymentStatus:
+      type: string
+      enum:
+      - paid
+      - partial
+      - unpaid
+      description: Payment status
+      title: InvoiceDetailObjectPaymentStatus
+    InvoicesImportPostRequestBodyContentApplicationJsonSchemaItemsItemsItemsDimensions:
+      type: object
+      properties: {}
+      description: 'Item-level dimension mappings. Same format as header-level dimensions: keys are dimension types and values are `erp_dimension_id` strings. If omitted, no item-level dimensions are set.'
+      title: InvoicesImportPostRequestBodyContentApplicationJsonSchemaItemsItemsItemsDimensions
+    InvoiceDetailObjectImagesItems:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Unique image identifier
+        url:
+          type: string
+          description: CDN URL to the invoice image
+      title: InvoiceDetailObjectImagesItems
+    InstantCaptureFileObject:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique file identifier
+        filename:
+          type: string
+          description: Name of the file
+        status:
+          type: string
+          description: Processing status of the file
+        date:
+          type: string
+          format: date-time
+          description: Date when the file was uploaded
+        no_of_pages:
+          type: integer
+          description: Number of pages in the file
+        ottimate_location_name:
+          type: string
+          description: Name of the location
+        preview_url:
+          type: string
+          description: URL to preview the file
+      required:
+      - id
+      - filename
+      - status
+      - date
+      - no_of_pages
+      title: InstantCaptureFileObject
+    InvoicesImportPostRequestBodyContentApplicationJsonSchemaItemsItemsItemsCustomFields:
+      type: object
+      properties: {}
+      description: 'Item-level custom metadata fields. Keys and value types are validated against the invoice item custom field spec configured for your account in Ottimate.
+
+
+        **Requirements**: Invoice item custom fields must be configured for your account before use. Returns a `400` error if no spec is found or if unrecognised keys are sent.
+
+
+        **Behaviour**: Omitted keys are filled with their configured default values.'
+      title: InvoicesImportPostRequestBodyContentApplicationJsonSchemaItemsItemsItemsCustomFields
+    InvoicesIdPatchRequestBodyContentApplicationJsonSchemaItemsItems:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Existing item ID to update. Omit to create a new item.
+        item:
+          type: integer
+          description: Inventory item ID
+        name:
+          type: string
+        sku:
+          type: string
+        quantity:
+          type: number
+          format: double
+        price:
+          type: number
+          format: double
+        is_taxed:
+          type: boolean
+        dimensions:
+          $ref: '#/components/schemas/InvoicesIdPatchRequestBodyContentApplicationJsonSchemaItemsItemsDimensions'
+          description: Item-level dimension mappings. Keys are dimension types, values are `erp_dimension_id` strings. Merges with existing dimensions. Set a value to `null` to remove only that dimension. Pass `{}` or omit the field to preserve existing dimensions.
+        custom_fields:
+          oneOf:
+          - $ref: '#/components/schemas/InvoicesIdPatchRequestBodyContentApplicationJsonSchemaItemsItemsCustomFields'
+          - type: 'null'
+          description: 'Item-level custom metadata fields. Replaces the stored item custom fields — omitted keys are reset to their configured default values.
+
+
+            **Requirements**: Invoice item custom fields must be configured for your account before use. Returns a `400` error if no spec is found or if unrecognised keys are sent.'
+      title: InvoicesIdPatchRequestBodyContentApplicationJsonSchemaItemsItems
+    InvoicesIdPatchRequestBodyContentApplicationJsonSchemaCustomFields:
+      type: object
+      properties: {}
+      description: 'Header-level custom metadata fields. Replaces the stored custom fields with the provided object — any keys not included are reset to their configured default values.
+
+
+        **Requirements**: Custom fields must be configured for your account before use. Returns a `400` error if no spec is found or if unrecognised keys are sent.
+
+
+        **Behaviour**: Omit the field entirely to preserve existing custom fields.'
+      title: InvoicesIdPatchRequestBodyContentApplicationJsonSchemaCustomFields
+    InvoicesGetParametersPaymentStatus:
+      type: string
+      enum:
+      - paid
+      - partial
+      - unpaid
+      title: InvoicesGetParametersPaymentStatus
+    InvoiceDetailObjectHistoryItems:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: History log entry ID
+        date:
+          type: string
+          format: date-time
+          description: Timestamp of the history event
+        date_utc:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC equivalent of date. ISO 8601 with Z suffix, e.g. "2025-05-20T15:17:35.652584Z".
+        reason:
+          type: string
+          description: Type of action that occurred
+        message:
+          type: string
+          description: Details about the action
+        user:
+          oneOf:
+          - $ref: '#/components/schemas/InvoiceDetailObjectHistoryItemsUser'
+          - type: 'null'
+          description: User who performed the action
+      title: InvoiceDetailObjectHistoryItems
+    InvoicesIdPatchRequestBodyContentApplicationJsonSchemaDimensions:
+      type: object
+      properties: {}
+      description: Header-level dimension mappings. Keys are dimension types (e.g., 'DEPARTMENT') and values are `erp_dimension_id` strings from the `GET /dimensions` endpoint. Replaces all header dimensions with the provided set. Omit the field entirely to preserve existing dimensions. Pass `{}` to clear all header dimensions.
+      title: InvoicesIdPatchRequestBodyContentApplicationJsonSchemaDimensions
+    InvoiceDetailObjectItemsProcessingResult:
+      type: object
+      properties:
+        success:
+          $ref: '#/components/schemas/InvoiceDetailObjectItemsProcessingResultSuccess'
+          description: Map of request array index to created/updated item ID
+        failure:
+          $ref: '#/components/schemas/InvoiceDetailObjectItemsProcessingResultFailure'
+          description: Map of request array index to error message
+        status:
+          $ref: '#/components/schemas/InvoiceDetailObjectItemsProcessingResultStatus'
+          description: 'Overall processing status: success (all items processed), partial_success (some failed), failure (all failed)'
+      description: Result of items processing (only present in PATCH response when items were included in request)
+      title: InvoiceDetailObjectItemsProcessingResult
+    BulkInvoiceUnexportOperationResponseFailedItems:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Invoice ID that failed
+        error:
+          type: string
+          description: Failure reason
+      required:
+      - id
+      - error
+      title: BulkInvoiceUnexportOperationResponseFailedItems
+    Invoices_get_invoices_uploads_Response_200:
+      type: object
+      properties:
+        version:
+          type: string
+          description: API version
+        count:
+          type: integer
+          description: Total number of files matching the query
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstantCaptureFileObject'
+      title: Invoices_get_invoices_uploads_Response_200
+    InvoiceObjectType:
+      type: string
+      enum:
+      - invoice
+      - credit_memo
+      - other
+      description: Type of invoice document
+      title: InvoiceObjectType
+    InvoicesImportPostResponsesContentApplicationJsonSchemaSummary:
+      type: object
+      properties:
+        invoice_count:
+          type: integer
+          description: Number of invoices accepted for processing.
+      title: InvoicesImportPostResponsesContentApplicationJsonSchemaSummary
+    Invoices_get_invoices_receiver-export_Response_200:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Total number of invoices matching the query
+        next:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL for the next page of results, or null if on the last page
+        previous:
+          type:
+          - string
+          - 'null'
+          format: uri
+          description: URL for the previous page of results, or null if on the first page
+        page:
+          type: integer
+          description: Current page number
+        per_page:
+          type: integer
+          description: Number of results per page
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoicesReceiverExportGetResponsesContentApplicationJsonSchemaResultsItems'
+      title: Invoices_get_invoices_receiver-export_Response_200
+    InvoiceObject:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique invoice identifier in UUID v4 format
+        invoice_number:
+          type: string
+          description: Invoice number from vendor
+        ottimate_vendor_name:
+          type: string
+          description: Vendor name
+        ottimate_location_name:
+          type: string
+          description: Location name
+        invoice_date:
+          type: string
+          format: date
+          description: Date invoice was issued
+        due_date:
+          type: string
+          format: date
+          description: Payment due date
+        total_amount:
+          type: number
+          format: double
+          description: Total invoice amount
+        total_tax:
+          type: number
+          format: double
+          description: Total tax amount
+        currency:
+          type: string
+          description: Currency code (ISO 4217)
+        outstanding_balance:
+          type: number
+          format: double
+          description: Remaining unpaid amount
+        type:
+          $ref: '#/components/schemas/InvoiceObjectType'
+          description: Type of invoice document
+        status:
+          type: string
+          description: Invoice processing status (processing, incomplete, approved, archived)
+        payment_status:
+          $ref: '#/components/schemas/InvoiceObjectPaymentStatus'
+          description: Payment status (paid, partial, unpaid)
+        purchase_order:
+          type: string
+          description: Associated purchase order number
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when invoice was created
+        created_at_utc:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC equivalent of created_at. ISO 8601 with Z suffix, e.g. "2025-05-20T15:17:35.652584Z".
+        approved_date:
+          type: string
+          format: date-time
+          description: Date when invoice was approved
+        approved_date_utc:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC equivalent of approved_date. ISO 8601 with Z suffix, e.g. "2025-05-20T15:17:35.652584Z".
+        exported_date:
+          type: string
+          format: date-time
+          description: Date when invoice was exported
+        exported_date_utc:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC equivalent of exported_date. ISO 8601 with Z suffix, e.g. "2025-05-20T15:17:35.652584Z".
+        last_modified_date:
+          type: string
+          format: date-time
+          description: Timestamp when invoice was last modified
+        last_modified_date_utc:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC equivalent of last_modified_date. ISO 8601 with Z suffix, e.g. "2025-05-20T15:17:35.652584Z".
+        last_modified_user:
+          oneOf:
+          - $ref: '#/components/schemas/InvoiceObjectLastModifiedUser'
+          - type: 'null'
+          description: User who last modified the invoice
+        posting_date:
+          type: string
+          format: date
+          description: Date when invoice was posted
+        error:
+          type: string
+          description: Processing error message if invoice has issues
+        has_price_variance:
+          type: boolean
+          description: Whether invoice has price discrepancies
+        has_unmatched_items:
+          type: boolean
+          description: Whether invoice has unmatched line items
+        on_hold:
+          $ref: '#/components/schemas/InvoiceObjectOnHold'
+          description: Hold status information
+        url:
+          type: string
+          description: URL to view the invoice in the Ottimate dashboard
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceObjectImagesItems'
+          description: List of invoice images
+        dimensions:
+          $ref: '#/components/schemas/InvoiceObjectDimensions'
+          description: Header-level dimension mappings. Contains accounting dimensions assigned to the invoice header (e.g., Department, Class, Location).
+      required:
+      - id
+      - status
+      - payment_status
+      - created_at
+      title: InvoiceObject
+    Invoices_get_invoices_id_approvers_Response_200:
+      type: object
+      properties:
+        version:
+          type: string
+          description: API version
+        approvers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApproverObject'
+      title: Invoices_get_invoices_id_approvers_Response_200
+    ApproverObject:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique approval record identifier
+        approver:
+          $ref: '#/components/schemas/ApproverObjectApprover'
+          description: Approver user details
+        policy:
+          oneOf:
+          - $ref: '#/components/schemas/ApproverObjectPolicy'
+          - type: 'null'
+          description: Policy that assigned this approver (null if manually added)
+        created_date:
+          type: string
+          format: date-time
+          description: Date when approver was added
+      required:
+      - id
+      - approver
+      - created_date
+      title: ApproverObject
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Human-readable error message
+        request_id:
+          type: string
+          description: Unique identifier for the request
+        message:
+          description: Additional error details, can be an object, a string, or null.
+        timestamp:
+          type: string
+          description: Timestamp when error occurred
+      required:
+      - code
+      - message
+      title: ErrorResponse
+    Invoices_post_invoices_import_Response_202:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Always "processing" — indicates the job was queued.
+        batch_id:
+          type: string
+          description: Unique ID for this batch job. Use with GET /v1/batch/{batch_id}/progress to poll status and GET /v1/batch/{batch_id}/results to fetch per-invoice outcomes.
+        batch_url:
+          type: string
+          description: Relative URL to poll for batch progress.
+        results_url:
+          type: string
+          description: Relative URL to fetch per-invoice results once the batch completes.
+        summary:
+          $ref: '#/components/schemas/InvoicesImportPostResponsesContentApplicationJsonSchemaSummary'
+      title: Invoices_post_invoices_import_Response_202
+    InvoicesMarkExportedPostRequestBodyContentApplicationJsonSchemaInvoicesItems:
+      type: object
+      properties:
+        invoice_id:
+          type: integer
+          description: Unique identifier for the invoice
+        marked_reason:
+          type: string
+          description: Invoice specific reason displayed in the invoice history; overrides the batch-level reason
+        export_transaction_id:
+          type: string
+          description: Invoice-specific transaction ID; overrides the batch-level transaction ID
+      title: InvoicesMarkExportedPostRequestBodyContentApplicationJsonSchemaInvoicesItems
+    InvoicesReceiverExportGetResponsesContentApplicationJsonSchemaResultsItemsReceiverLinesItems:
+      type: object
+      properties:
+        catalog_unique_key:
+          type:
+          - string
+          - 'null'
+          description: Unique key identifying the matched catalog entry, suitable for cross-referencing with your catalog system
+        upc:
+          type: string
+          description: Universal Product Code from the catalog entry, zero-padded to 13 digits (EAN-13 / GTIN-13). Empty string if no UPC is on file
+        description:
+          type: string
+          description: Item name sourced from the matched catalog entry
+        uom:
+          type: string
+          description: Catalog-normalized unit of measure (e.g. CS, EA, LB). Always reflects the catalog UOM, not the raw invoice UOM
+        case_pack:
+          type: number
+          format: double
+          description: Number of units per case as defined in the catalog entry
+        quantity_received:
+          type: number
+          format: double
+          description: UOM-normalized received quantity. For unit-matched lines billed per unit (UNIT_PRICE), the raw quantity is divided by case_pack to convert to cases. For all other matches the raw invoice quantity is returned as-is
+        unit_price:
+          type: number
+          format: double
+          description: Absolute unit price from the invoice line item
+        extended_price:
+          type: number
+          format: double
+          description: Absolute extended (total) price for this line item
+        pack_size:
+          type:
+          - string
+          - 'null'
+          description: Human-readable pack size description from the catalog entry (e.g. '25 LB', '6 CT')
+        vendor_id:
+          type:
+          - string
+          - 'null'
+          description: Vendor identifier for the inventory system (e.g. LOCSMS). Sourced from the vendor configuration on the location, not the invoice vendor object
+        ottimate_catalog_id:
+          type: string
+          description: Ottimate-internal catalog entry identifier for audit and lookup. Not recognized by LOCSMS or servicers
+      title: InvoicesReceiverExportGetResponsesContentApplicationJsonSchemaResultsItemsReceiverLinesItems
+    InvoicesImportPostRequestBodyContentApplicationJsonSchemaItemsDimensions:
+      type: object
+      properties: {}
+      description: Header-level dimension mappings. Keys are dimension types (e.g., 'DEPARTMENT', 'CLASS') and values are `erp_dimension_id` strings from the `GET /dimensions` endpoint. If omitted, no dimensions are set. Invalid dimension types or IDs return a `400` error.
+      title: InvoicesImportPostRequestBodyContentApplicationJsonSchemaItemsDimensions
+    InvoicesIdPatchRequestBodyContentApplicationJsonSchemaRawImagesItems:
+      type: object
+      properties:
+        filename:
+          type: string
+          description: Original filename including extension (e.g. invoice.pdf). Used to determine file format.
+        data:
+          type: string
+          description: Base64-encoded image content.
+      required:
+      - filename
+      - data
+      title: InvoicesIdPatchRequestBodyContentApplicationJsonSchemaRawImagesItems
+    ApproverObjectPolicy:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Policy ID
+        name:
+          type: string
+          description: Policy name
+      description: Policy that assigned this approver (null if manually added)
+      title: ApproverObjectPolicy
+    InvoiceDetailObjectLastModifiedUser:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+          format: email
+        first_name:
+          type: string
+        last_name:
+          type: string
+      description: User who last modified the invoice
+      title: InvoiceDetailObjectLastModifiedUser
+    InvoiceObjectOnHold:
+      type: object
+      properties:
+        is_held:
+          type: boolean
+          description: Whether invoice is on hold
+        reason:
+          type: string
+          description: Reason for hold
+      description: Hold status information
+      title: InvoiceObjectOnHold
+    Invoices_get_invoices_root_Response_200:
+      type: object
+      properties:
+        version:
+          type: string
+          description: API version
+        count:
+          type: integer
+          description: Total number of invoices matching the query
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceObject'
+          description: Array of invoice objects
+      required:
+      - version
+      - count
+      - results
+      title: Invoices_get_invoices_root_Response_200
+    InvoiceCreationResponse:
+      type: object
+      properties:
+        version:
+          type: string
+          description: API response version
+        reference_id:
+          type: string
+          description: The reference ID for the uploaded document. Use this to track the invoice through processing.
+      required:
+      - version
+      - reference_id
+      title: InvoiceCreationResponse
+    InvoiceDetailObjectItemsProcessingResultSuccess:
+      type: object
+      properties: {}
+      description: Map of request array index to created/updated item ID
+      title: InvoiceDetailObjectItemsProcessingResultSuccess
+    BulkInvoiceOperationResponse:
+      type: object
+      properties:
+        updated:
+          type: array
+          items:
+            type: integer
+          description: Successfully processed invoice IDs
+        failed:
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkInvoiceOperationResponseFailedItems'
+          description: Per-invoice errors
+      required:
+      - updated
+      - failed
+      title: BulkInvoiceOperationResponse
+    BulkInvoiceUnexportOperationResponse:
+      type: object
+      properties:
+        updated:
+          type: array
+          items:
+            type: integer
+          description: Successfully processed invoice IDs
+        flagged:
+          type: array
+          items:
+            type: integer
+          description: Successfully flagged invoice IDs
+        failed:
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkInvoiceUnexportOperationResponseFailedItems'
+          description: Per-invoice errors
+        skipped:
+          type: array
+          items:
+            $ref: '#/components/schemas/BulkInvoiceUnexportOperationResponseSkippedItems'
+          description: Per-invoice errors
+      required:
+      - updated
+      - failed
+      title: BulkInvoiceUnexportOperationResponse
+    InvoiceDetailObject:
+      type: object
+      properties:
+        version:
+          type: string
+          description: API version
+        id:
+          type: string
+          description: Unique invoice identifier
+        number:
+          type: string
+          description: Invoice number from vendor
+        ottimate_vendor_name:
+          type: string
+          description: Vendor name
+        ottimate_location_name:
+          type: string
+          description: Location name
+        invoice_date:
+          type: string
+          format: date
+          description: Date invoice was issued
+        due_date:
+          type: string
+          format: date
+          description: Payment due date
+        total_amount:
+          type: number
+          format: double
+          description: Total invoice amount
+        total_tax:
+          type: number
+          format: double
+          description: Total tax amount
+        currency:
+          type: string
+          description: Currency code (ISO 4217)
+        outstanding_balance:
+          type: number
+          format: double
+          description: Remaining unpaid amount
+        type:
+          $ref: '#/components/schemas/InvoiceDetailObjectType'
+          description: Type of invoice document
+        status:
+          type: string
+          description: Processing status
+        payment_status:
+          $ref: '#/components/schemas/InvoiceDetailObjectPaymentStatus'
+          description: Payment status
+        payment_info:
+          $ref: '#/components/schemas/InvoiceDetailObjectPaymentInfo'
+          description: Payment information (only present if payment_status is 'paid')
+        purchase_order:
+          type: string
+          description: Associated purchase order number
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when invoice was created
+        created_at_utc:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC equivalent of created_at. ISO 8601 with Z suffix, e.g. "2025-05-20T15:17:35.652584Z".
+        exported_date:
+          type: string
+          format: date-time
+          description: Date when invoice was exported
+        exported_date_utc:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC equivalent of exported_date. ISO 8601 with Z suffix, e.g. "2025-05-20T15:17:35.652584Z".
+        error:
+          type: string
+          description: Error message if invoice is flagged
+        url:
+          type: string
+          description: URL to view the invoice in the Ottimate dashboard
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceDetailObjectImagesItems'
+          description: List of invoice images
+        dimensions:
+          $ref: '#/components/schemas/InvoiceDetailObjectDimensions'
+          description: Header-level dimension mappings. Contains accounting dimensions assigned to the invoice header (e.g., Department, Class, Location).
+        gl_splits:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/InvoiceDetailObjectGlSplitsItems'
+          description: GL account splits for the invoice. Returns real splits if they exist, otherwise falls back to virtual splits derived from vendor split rules. null when no splits or rules are configured.
+        items_processing_result:
+          $ref: '#/components/schemas/InvoiceDetailObjectItemsProcessingResult'
+          description: Result of items processing (only present in PATCH response when items were included in request)
+        history:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceDetailObjectHistoryItems'
+          description: Audit history of the invoice. Only present when expand=history is passed as a query parameter.
+        last_modified_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Timestamp when invoice was last modified
+        last_modified_date_utc:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC equivalent of last_modified_date. ISO 8601 with Z suffix, e.g. "2025-05-20T15:17:35.652584Z".
+        last_modified_user:
+          oneOf:
+          - $ref: '#/components/schemas/InvoiceDetailObjectLastModifiedUser'
+          - type: 'null'
+          description: User who last modified the invoice
+      required:
+      - id
+      - status
+      - payment_status
+      - created_at
+      title: InvoiceDetailObject
+    InvoiceDetailObjectGlSplitsItems:
+      type: object
+      properties:
+        memo:
+          type:
+          - string
+          - 'null'
+          description: Optional note on the split
+        amount:
+          type: string
+          description: Split amount formatted to 2 decimal places
+        custom_fields:
+          oneOf:
+          - $ref: '#/components/schemas/InvoiceDetailObjectGlSplitsItemsCustomFields'
+          - type: 'null'
+          description: Custom metadata fields for this split
+        dimensions:
+          oneOf:
+          - $ref: '#/components/schemas/InvoiceDetailObjectGlSplitsItemsDimensions'
+          - type: 'null'
+          description: Accounting dimensions for this split. Same structure as header-level dimensions. Keys are dimension type codes.
+      title: InvoiceDetailObjectGlSplitsItems
+    InvoicesImportPostRequestBodyContentApplicationJsonSchemaItemsCustomFields:
+      type: object
+      properties: {}
+      description: 'Header-level custom metadata fields for this invoice. Keys and value types are validated against the custom field spec configured for your account in Ottimate.
+
+
+        **Requirements**: Custom fields must be configured for your account before use. Sending `custom_fields` when no spec is configured returns a `400` error. Unrecognised keys return a `400` error.
+
+
+        **Behaviour**: Omitted keys are filled with their configured default values.'
+      title: InvoicesImportPostRequestBodyContentApplicationJsonSchemaItemsCustomFields
+    InvoicesIdPatchRequestBodyContentApplicationJsonSchemaItemsItemsCustomFields:
+      type: object
+      properties: {}
+      description: 'Item-level custom metadata fields. Replaces the stored item custom fields — omitted keys are reset to their configured default values.
+
+
+        **Requirements**: Invoice item custom fields must be configured for your account before use. Returns a `400` error if no spec is found or if unrecognised keys are sent.'
+      title: InvoicesIdPatchRequestBodyContentApplicationJsonSchemaItemsItemsCustomFields
+    InvoicesIdFlagPostResponsesContentApplicationJsonSchemaInvoice:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Invoice ID
+        invoice_number:
+          type: string
+          description: Invoice number
+        status:
+          type: string
+          description: Invoice status after flagging
+      title: InvoicesIdFlagPostResponsesContentApplicationJsonSchemaInvoice
+    InvoicesImportPostRequestBodyContentApplicationJsonSchemaItems:
+      type: object
+      properties:
+        upload_id:
+          type: string
+          description: A mandatory unique identifier for creating an invoice.
+        ottimate_location_id:
+          type: integer
+          description: The ID of the location for this invoice.
+        erp_vendor_id:
+          type: string
+          description: The ERP ID of the vendor for this invoice.
+        invoice_number:
+          type: string
+        invoice_date:
+          type: string
+          format: date
+        due_date:
+          type: string
+          format: date
+        posting_date:
+          type: string
+          format: date
+        total_amount:
+          type: number
+          format: double
+        total_tax:
+          type: number
+          format: double
+        purchase_order:
+          type: string
+        notes:
+          type: string
+        currency:
+          type: string
+        type:
+          $ref: '#/components/schemas/InvoicesImportPostRequestBodyContentApplicationJsonSchemaItemsType'
+          description: Type of document.
+        dimensions:
+          oneOf:
+          - $ref: '#/components/schemas/InvoicesImportPostRequestBodyContentApplicationJsonSchemaItemsDimensions'
+          - type: 'null'
+          description: Header-level dimension mappings. Keys are dimension types (e.g., 'DEPARTMENT', 'CLASS') and values are `erp_dimension_id` strings from the `GET /dimensions` endpoint. If omitted, no dimensions are set. Invalid dimension types or IDs return a `400` error.
+        custom_fields:
+          oneOf:
+          - $ref: '#/components/schemas/InvoicesImportPostRequestBodyContentApplicationJsonSchemaItemsCustomFields'
+          - type: 'null'
+          description: 'Header-level custom metadata fields for this invoice. Keys and value types are validated against the custom field spec configured for your account in Ottimate.
+
+
+            **Requirements**: Custom fields must be configured for your account before use. Sending `custom_fields` when no spec is configured returns a `400` error. Unrecognised keys return a `400` error.
+
+
+            **Behaviour**: Omitted keys are filled with their configured default values.'
+        image_urls:
+          type: array
+          items:
+            type: string
+            format: uri
+          description: 'List of HTTPS image URLs to attach to the invoice. Supported formats: PDF, JPG, JPEG, PNG. raw_images is not supported for bulk import.'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoicesImportPostRequestBodyContentApplicationJsonSchemaItemsItemsItems'
+          description: Line items to create for the invoice.
+      required:
+      - upload_id
+      - ottimate_location_id
+      title: InvoicesImportPostRequestBodyContentApplicationJsonSchemaItems
+    InvoiceDetailObjectPaymentInfo:
+      type: object
+      properties:
+        payment_method:
+          type: string
+          description: Method used for payment
+        reference:
+          type: string
+          description: Payment reference number
+      description: Payment information (only present if payment_status is 'paid')
+      title: InvoiceDetailObjectPaymentInfo
+    ApproverObjectApprover:
+      type: object
+      properties:
+        id:
+          type: string
+          description: User ID
+        email:
+          type: string
+          format: email
+          description: User email address
+        display_name:
+          type: string
+          description: User display name
+      description: Approver user details
+      title: ApproverObjectApprover
+    InvoiceDetailObjectType:
+      type: string
+      enum:
+      - invoice
+      - credit_memo
+      - other
+      description: Type of invoice document
+      title: InvoiceDetailObjectType
+  securitySchemes:
+    OAuth2:
+      type: http
+      scheme: bearer
+      description: OAuth2 authentication flows. Auth server URLs will vary by environment

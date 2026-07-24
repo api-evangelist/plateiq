@@ -1,0 +1,288 @@
+openapi: 3.1.0
+info:
+  title: API Reference accounts API
+  version: 1.0.0
+servers:
+- url: https://api.ottimate.com/v1
+  description: Production
+- url: https://sandbox-api.ottimate.com/v1
+  description: Sandbox
+tags:
+- name: accounts
+paths:
+  /accounts/{id}/companies:
+    get:
+      operationId: get-accounts-id-companies
+      summary: Retrieve companies for an account
+      description: Returns a paginated list of companies associated with the specified account.
+      tags:
+      - accounts
+      parameters:
+      - name: id
+        in: path
+        description: Account ID
+        required: true
+        schema:
+          type: string
+      - name: search
+        in: query
+        description: Search term for company name
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Number of items per page
+        required: false
+        schema:
+          type: integer
+      - name: page
+        in: query
+        description: Page number for pagination
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with paginated company list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accounts_get_accounts_id_companies_Response_200'
+  /accounts/{id}/locations:
+    get:
+      operationId: get-accounts-id-locations
+      summary: Retrieve locations for an account
+      description: Returns a paginated list of locations associated with the specified account.
+      tags:
+      - accounts
+      parameters:
+      - name: id
+        in: path
+        description: Account ID
+        required: true
+        schema:
+          type: string
+      - name: search
+        in: query
+        description: Search term for location name
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Number of items per page
+        required: false
+        schema:
+          type: integer
+      - name: page
+        in: query
+        description: Page number for pagination
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with paginated location list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accounts_get_accounts_id_locations_Response_200'
+  /accounts:
+    get:
+      operationId: get-accounts-root
+      summary: Retrieve accounts for the authenticated user
+      description: Returns a paginated list of Ottimate accounts that the authenticated user has access to, based on partner associations linked to the OAuth client credentials.
+      tags:
+      - accounts
+      parameters:
+      - name: search
+        in: query
+        description: Search term to filter accounts by name
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Number of items per page
+        required: false
+        schema:
+          type: integer
+      - name: page
+        in: query
+        description: Page number for pagination
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with paginated account list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accounts_get_accounts_root_Response_200'
+components:
+  schemas:
+    LocationObject:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        company:
+          type: string
+        location_group:
+          type: string
+          description: 'The group this location belongs to. Returned when X-API-Version: 1.1.0 or later.'
+        group:
+          type: string
+          description: 'Deprecated. Use location_group (requires X-API-Version: 1.1.0). Returned for X-API-Version: 1.0.0 and unversioned requests.'
+      required:
+      - id
+      - name
+      title: LocationObject
+    CompanyObject:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        location_count:
+          type: integer
+        plan:
+          type: string
+      required:
+      - id
+      - name
+      title: CompanyObject
+    Accounts_get_accounts_root_Response_200:
+      type: object
+      properties:
+        count:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountObject'
+      title: Accounts_get_accounts_root_Response_200
+    Accounts_get_accounts_id_locations_Response_200:
+      type: object
+      properties:
+        count:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/LocationObject'
+      title: Accounts_get_accounts_id_locations_Response_200
+    AccountObject:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Account ID (racc_ prefixed)
+        name:
+          type: string
+          description: Account name
+        created_date:
+          type: string
+          description: Account creation timestamp
+        created_date_utc:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC equivalent of created_date. ISO 8601 with Z suffix, e.g. "2025-05-20T15:17:35.652584Z".
+        company_count:
+          type: integer
+          description: Number of companies in this account
+        location_count:
+          type: integer
+          description: Number of active locations in this account
+      required:
+      - id
+      - name
+      title: AccountObject
+    Accounts_get_accounts_id_companies_Response_200:
+      type: object
+      properties:
+        count:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CompanyObject'
+      title: Accounts_get_accounts_id_companies_Response_200
+  securitySchemes:
+    OAuth2:
+      type: http
+      scheme: bearer
+      description: OAuth2 authentication flows. Auth server URLs will vary by environment

@@ -1,0 +1,375 @@
+openapi: 3.1.0
+info:
+  title: API Reference accounts batch API
+  version: 1.0.0
+servers:
+- url: https://api.ottimate.com/v1
+  description: Production
+- url: https://sandbox-api.ottimate.com/v1
+  description: Sandbox
+tags:
+- name: batch
+paths:
+  /batch/{id}/progress:
+    get:
+      operationId: get-batch-id-progress
+      summary: Poll batch progress
+      description: Returns the current progress of a batch operation. Poll this endpoint until `status` is `completed`. When completed, a `results_url` is included. If all tasks failed, an `error` field is included with the failure reason.
+      tags:
+      - batch
+      parameters:
+      - name: id
+        in: path
+        description: The batch ID returned from the initiating bulk operation
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with current batch progress
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchProgressResponse'
+        '401':
+          description: Unauthorized - Authentication required or invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Access denied or insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /batch/{id}/results:
+    get:
+      operationId: get-batch-id-results
+      summary: Retrieve batch results
+      description: Returns the per-task results for a batch operation. Call this endpoint after polling `/progress` until `status` is `completed`. Each entry in `results` corresponds to one task, with the task outcome in `result` and any error message in `message`.
+      tags:
+      - batch
+      parameters:
+      - name: id
+        in: path
+        description: The batch ID returned from the initiating bulk operation
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with batch results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchResultsResponse'
+        '401':
+          description: Unauthorized - Authentication required or invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Access denied or insufficient permissions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /batch:
+    get:
+      operationId: get-batch-root
+      summary: List batches
+      description: Returns a paginated list of batch jobs belonging to the authenticated user, sorted by last modified time descending. Use the `status` filter to narrow results to in-progress or completed batches. Use `date_from` / `date_to` to filter by last modified time range.
+      tags:
+      - batch
+      parameters:
+      - name: status
+        in: query
+        description: Filter by batch status. `processing` returns in-progress batches; `completed` returns finished batches.
+        required: false
+        schema:
+          $ref: '#/components/schemas/BatchGetParametersStatus'
+      - name: date_from
+        in: query
+        description: Return only batches last modified at or after this ISO 8601 datetime (e.g. `2024-01-01T00:00:00Z`).
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: date_from_utc
+        in: query
+        description: UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant.
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: date_to
+        in: query
+        description: Return only batches last modified at or before this ISO 8601 datetime (e.g. `2024-12-31T23:59:59Z`).
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: date_to_utc
+        in: query
+        description: UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant.
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: limit
+        in: query
+        description: Number of results per page (default 20).
+        required: false
+        schema:
+          type: integer
+      - name: page
+        in: query
+        description: Page number.
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Paginated list of batch jobs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Batch_get_batch_root_Response_200'
+        '400':
+          description: Bad request - Invalid parameters or request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized - Authentication required or invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    BatchResultsResponse:
+      type: object
+      properties:
+        version:
+          type: string
+        batch_id:
+          type: string
+          description: The batch identifier
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchResultsResponseResultsItems'
+          description: One entry per task in the batch
+      required:
+      - version
+      - batch_id
+      - results
+      title: BatchResultsResponse
+    BatchProgressResponseStatus:
+      type: string
+      enum:
+      - processing
+      - completed
+      description: '`processing` while tasks are running; `completed` when all tasks have finished (regardless of individual success/failure)'
+      title: BatchProgressResponseStatus
+    BatchGetResponsesContentApplicationJsonSchemaResultsItemsStatus:
+      type: string
+      enum:
+      - processing
+      - completed
+      description: '`processing` while tasks are running; `completed` when all tasks have finished'
+      title: BatchGetResponsesContentApplicationJsonSchemaResultsItemsStatus
+    Batch_get_batch_root_Response_200:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Total number of batches matching the filter
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchGetResponsesContentApplicationJsonSchemaResultsItems'
+      title: Batch_get_batch_root_Response_200
+    BatchResultsResponseResultsItems:
+      type: object
+      properties:
+        task:
+          type: integer
+          description: Internal task ID
+        result:
+          description: The outcome of the task (e.g. the created/updated resource). Null if the task failed.
+        message:
+          type: string
+          description: Error message if the task failed. Null on success.
+      required:
+      - task
+      title: BatchResultsResponseResultsItems
+    BatchGetParametersStatus:
+      type: string
+      enum:
+      - processing
+      - completed
+      title: BatchGetParametersStatus
+    BatchProgressResponse:
+      type: object
+      properties:
+        version:
+          type: string
+        batch_id:
+          type: string
+          description: The batch identifier
+        progress:
+          type: number
+          format: double
+          description: Fraction of tasks completed (0.0 to 1.0). Value of 1.0 means all tasks have finished (success or failure).
+        tasks_count:
+          type: integer
+          description: Total number of tasks in the batch
+        tasks_completed:
+          type: integer
+          description: Number of tasks that completed successfully
+        tasks_failed:
+          type: integer
+          description: Number of tasks that failed
+        status:
+          $ref: '#/components/schemas/BatchProgressResponseStatus'
+          description: '`processing` while tasks are running; `completed` when all tasks have finished (regardless of individual success/failure)'
+        results_url:
+          type:
+          - string
+          - 'null'
+          description: URL to fetch per-task results. Present only when `status` is `completed`.
+        error:
+          type:
+          - string
+          - 'null'
+          description: Error message when all tasks in the batch failed. Null otherwise.
+      required:
+      - version
+      - batch_id
+      - progress
+      - tasks_count
+      - tasks_completed
+      - tasks_failed
+      - status
+      title: BatchProgressResponse
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Human-readable error message
+        request_id:
+          type: string
+          description: Unique identifier for the request
+        message:
+          description: Additional error details, can be an object, a string, or null.
+        timestamp:
+          type: string
+          description: Timestamp when error occurred
+      required:
+      - code
+      - message
+      title: ErrorResponse
+    BatchGetResponsesContentApplicationJsonSchemaResultsItems:
+      type: object
+      properties:
+        batch_id:
+          type: string
+          description: The batch identifier. Use this to poll `/batch/{id}/progress` or fetch `/batch/{id}/results`.
+        status:
+          $ref: '#/components/schemas/BatchGetResponsesContentApplicationJsonSchemaResultsItemsStatus'
+          description: '`processing` while tasks are running; `completed` when all tasks have finished'
+        progress:
+          type: number
+          format: double
+          description: Fraction of tasks completed (0.0 to 1.0)
+        tasks_count:
+          type: integer
+          description: Total number of tasks in the batch
+        tasks_completed:
+          type: integer
+          description: Number of tasks that completed successfully
+        tasks_failed:
+          type: integer
+          description: Number of tasks that failed
+        modified_at:
+          type: string
+          description: Last time the batch was modified
+        completed_at:
+          type:
+          - string
+          - 'null'
+          description: When the batch finished, or null if still processing
+      required:
+      - batch_id
+      - status
+      - progress
+      - tasks_count
+      - tasks_completed
+      - tasks_failed
+      - modified_at
+      title: BatchGetResponsesContentApplicationJsonSchemaResultsItems
+  securitySchemes:
+    OAuth2:
+      type: http
+      scheme: bearer
+      description: OAuth2 authentication flows. Auth server URLs will vary by environment

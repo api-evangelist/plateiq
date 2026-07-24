@@ -1,0 +1,799 @@
+openapi: 3.1.0
+info:
+  title: API Reference accounts vendors API
+  version: 1.0.0
+servers:
+- url: https://api.ottimate.com/v1
+  description: Production
+- url: https://sandbox-api.ottimate.com/v1
+  description: Sandbox
+tags:
+- name: vendors
+paths:
+  /vendors:
+    get:
+      operationId: get-vendors-root
+      summary: Retrieve a paginated list of accounting vendors
+      description: Returns a paginated list of accounting vendors, filterable by company. The `detail=basic` query parameter returns a simplified response.
+      tags:
+      - vendors
+      parameters:
+      - name: ottimate_company_id
+        in: query
+        description: Filter vendors by company ID
+        required: false
+        schema:
+          type: integer
+      - name: detail
+        in: query
+        description: Specify the level of detail in the response
+        required: false
+        schema:
+          $ref: '#/components/schemas/VendorsGetParametersDetail'
+      - name: last_modified_date_from
+        in: query
+        description: 'Filter vendors last modified on or after this date. Requires ottimate_company_id. Accepted formats: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS. All times are interpreted as UTC. A date-only value is treated as 00:00:00 UTC.'
+        required: false
+        schema:
+          type: string
+      - name: last_modified_date_from_utc
+        in: query
+        description: UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant.
+        required: false
+        schema:
+          type: string
+      - name: last_modified_date_to
+        in: query
+        description: 'Filter vendors last modified on or before this date. Requires ottimate_company_id. Accepted formats: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS. All times are interpreted as UTC. A date-only value is treated as 00:00:00 UTC — to include the full day pass an explicit time (e.g. 2024-12-31 23:59:59).'
+        required: false
+        schema:
+          type: string
+      - name: last_modified_date_to_utc
+        in: query
+        description: UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant.
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number (default 1)
+        required: false
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Number of results per page (default 20)
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with paginated vendor list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendors_get_vendors_root_Response_200'
+        '400':
+          description: Bad request - Invalid parameters or request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized - Authentication required or invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: post-vendors-root
+      summary: Create a single new accounting vendor
+      description: Creates a new vendor with the provided details. The `erp_vendor_id` is required and will be mapped to both `accounting_id` and `dd_unique_key`.
+      tags:
+      - vendors
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      - name: Idempotency-Key
+        in: header
+        description: 'Client-generated unique key (UUID/ULID recommended). JSON requests: the first 2xx response is cached for 24h and replayed on a same-key retry with a matching body; a different body returns 422. Non-JSON requests (e.g. file uploads): the key is single-use — any same-key retry returns 422 regardless of body. See [Idempotency](https://docs.ottimate.com/idempotency) for full details.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendors_post_vendors_root_Response_201'
+        '400':
+          description: Bad request - Invalid parameters or request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ottimate_company_id:
+                  type: integer
+                erp_vendor_name:
+                  type: string
+                erp_vendor_id:
+                  type: string
+                email:
+                  type: string
+                phone:
+                  type: string
+                net_terms:
+                  type: string
+                payment_method:
+                  $ref: '#/components/schemas/VendorsPostRequestBodyContentApplicationJsonSchemaPaymentMethod'
+                  description: (Optional) Vendor payment method
+                city:
+                  type: string
+                  description: (Optional) Vendor city
+                state:
+                  type: string
+                  description: (Optional) Vendor state
+                zipcode:
+                  type: string
+                  description: (Optional) Vendor zipcode
+                address_line_1:
+                  type: string
+                  description: (Optional) Vendor address line 1
+                address_line_2:
+                  type: string
+                  description: (Optional) Vendor address line 2
+              required:
+              - ottimate_company_id
+              - erp_vendor_name
+              - erp_vendor_id
+  /vendors/{id}:
+    get:
+      operationId: get-vendors-id
+      summary: Retrieve a specific vendor by ID
+      description: Returns detailed information for a single accounting vendor using its unique ID.
+      tags:
+      - vendors
+      parameters:
+      - name: id
+        in: path
+        description: The unique ID of the vendor
+        required: true
+        schema:
+          type: string
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with vendor details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendors_get_vendors_id_Response_200'
+        '404':
+          description: Not found - Resource does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /vendors/bulk:
+    post:
+      operationId: post-vendors-bulk
+      summary: Create or update multiple accounting vendors
+      description: Allows for the creation or updating of multiple vendors in a single request. Maximum 100 vendors per request.
+      tags:
+      - vendors
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      - name: Idempotency-Key
+        in: header
+        description: 'Client-generated unique key (UUID/ULID recommended). JSON requests: the first 2xx response is cached for 24h and replayed on a same-key retry with a matching body; a different body returns 422. Non-JSON requests (e.g. file uploads): the key is single-use — any same-key retry returns 422 regardless of body. See [Idempotency](https://docs.ottimate.com/idempotency) for full details.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Successfully created or updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Vendors_post_vendors_bulk_Response_201'
+        '400':
+          description: Bad request - Invalid parameters or request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ottimate_company_id:
+                  type: integer
+                vendors:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/VendorsBulkPostRequestBodyContentApplicationJsonSchemaVendorsItems'
+              required:
+              - ottimate_company_id
+components:
+  schemas:
+    VendorsBulkPostResponsesContentApplicationJsonSchemaCreatedItems:
+      type: object
+      properties:
+        id:
+          type: integer
+        ottimate_company_id:
+          type: integer
+        erp_vendor_id:
+          type:
+          - string
+          - 'null'
+        erp_vendor_name:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+        phone:
+          type:
+          - string
+          - 'null'
+        net_terms:
+          type:
+          - string
+          - 'null'
+        payment_method:
+          oneOf:
+          - $ref: '#/components/schemas/VendorsBulkPostResponsesContentApplicationJsonSchemaCreatedItemsPaymentMethod'
+          - type: 'null'
+        address_line_1:
+          type:
+          - string
+          - 'null'
+        address_line_2:
+          type:
+          - string
+          - 'null'
+        city:
+          type:
+          - string
+          - 'null'
+        state:
+          type:
+          - string
+          - 'null'
+        zipcode:
+          type:
+          - string
+          - 'null'
+      title: VendorsBulkPostResponsesContentApplicationJsonSchemaCreatedItems
+    VendorsBulkPostRequestBodyContentApplicationJsonSchemaVendorsItems:
+      type: object
+      properties:
+        erp_vendor_name:
+          type: string
+          description: Vendor name
+        erp_vendor_id:
+          type: string
+          description: Unique vendor ID in ERP system
+        email:
+          type: string
+          description: (Optional) Vendor email
+        phone:
+          type: string
+          description: (Optional) Vendor phone number
+        net_terms:
+          type: string
+          description: (Optional) Payment terms
+        payment_method:
+          $ref: '#/components/schemas/VendorsBulkPostRequestBodyContentApplicationJsonSchemaVendorsItemsPaymentMethod'
+          description: (Optional) Vendor payment method
+        address_line_1:
+          type: string
+          description: (Optional) Vendor address line 1
+        address_line_2:
+          type: string
+          description: (Optional) Vendor address line 2
+        city:
+          type: string
+          description: (Optional) Vendor city
+        state:
+          type: string
+          description: (Optional) Vendor state
+        zipcode:
+          type: string
+          description: (Optional) Vendor zipcode
+      required:
+      - erp_vendor_id
+      title: VendorsBulkPostRequestBodyContentApplicationJsonSchemaVendorsItems
+    VendorsIdGetResponsesContentApplicationJsonSchemaVendorPaymentMethod:
+      type: string
+      enum:
+      - credit_card
+      - ach
+      - check
+      - wire_transfer
+      - unknown
+      title: VendorsIdGetResponsesContentApplicationJsonSchemaVendorPaymentMethod
+    VendorsBulkPostResponsesContentApplicationJsonSchemaErrorsItems:
+      type: object
+      properties:
+        index:
+          type: integer
+        erp_vendor_id:
+          type:
+          - string
+          - 'null'
+        error:
+          type: string
+        type:
+          type: string
+      title: VendorsBulkPostResponsesContentApplicationJsonSchemaErrorsItems
+    VendorsGetResponsesContentApplicationJsonSchemaVendorsItemsPaymentMethod:
+      type: string
+      enum:
+      - credit_card
+      - ach
+      - check
+      - wire_transfer
+      - unknown
+      title: VendorsGetResponsesContentApplicationJsonSchemaVendorsItemsPaymentMethod
+    Vendors_get_vendors_id_Response_200:
+      type: object
+      properties:
+        version:
+          type: string
+        vendor:
+          $ref: '#/components/schemas/VendorsIdGetResponsesContentApplicationJsonSchemaVendor'
+      required:
+      - version
+      - vendor
+      title: Vendors_get_vendors_id_Response_200
+    VendorsPostRequestBodyContentApplicationJsonSchemaPaymentMethod:
+      type: string
+      enum:
+      - credit_card
+      - ach
+      - check
+      - wire_transfer
+      - unknown
+      description: (Optional) Vendor payment method
+      title: VendorsPostRequestBodyContentApplicationJsonSchemaPaymentMethod
+    VendorsBulkPostResponsesContentApplicationJsonSchemaCreatedItemsPaymentMethod:
+      type: string
+      enum:
+      - credit_card
+      - ach
+      - check
+      - wire_transfer
+      - unknown
+      title: VendorsBulkPostResponsesContentApplicationJsonSchemaCreatedItemsPaymentMethod
+    VendorsBulkPostRequestBodyContentApplicationJsonSchemaVendorsItemsPaymentMethod:
+      type: string
+      enum:
+      - credit_card
+      - ach
+      - check
+      - wire_transfer
+      - unknown
+      description: (Optional) Vendor payment method
+      title: VendorsBulkPostRequestBodyContentApplicationJsonSchemaVendorsItemsPaymentMethod
+    Vendors_post_vendors_bulk_Response_201:
+      type: object
+      properties:
+        version:
+          type: string
+        success_count:
+          type: integer
+        created_count:
+          type: integer
+        updated_count:
+          type: integer
+        error_count:
+          type: integer
+        created:
+          type: array
+          items:
+            $ref: '#/components/schemas/VendorsBulkPostResponsesContentApplicationJsonSchemaCreatedItems'
+        updated:
+          type: array
+          items:
+            $ref: '#/components/schemas/VendorsBulkPostResponsesContentApplicationJsonSchemaUpdatedItems'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/VendorsBulkPostResponsesContentApplicationJsonSchemaErrorsItems'
+      title: Vendors_post_vendors_bulk_Response_201
+    VendorsPostResponsesContentApplicationJsonSchemaVendor:
+      type: object
+      properties:
+        id:
+          type: integer
+        ottimate_company_id:
+          type: integer
+        erp_vendor_id:
+          type:
+          - string
+          - 'null'
+        erp_vendor_name:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+        phone:
+          type:
+          - string
+          - 'null'
+        net_terms:
+          type:
+          - string
+          - 'null'
+        payment_method:
+          oneOf:
+          - $ref: '#/components/schemas/VendorsPostResponsesContentApplicationJsonSchemaVendorPaymentMethod'
+          - type: 'null'
+        address_line_1:
+          type:
+          - string
+          - 'null'
+        address_line_2:
+          type:
+          - string
+          - 'null'
+        city:
+          type:
+          - string
+          - 'null'
+        state:
+          type:
+          - string
+          - 'null'
+        zipcode:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - ottimate_company_id
+      title: VendorsPostResponsesContentApplicationJsonSchemaVendor
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Human-readable error message
+        request_id:
+          type: string
+          description: Unique identifier for the request
+        message:
+          description: Additional error details, can be an object, a string, or null.
+        timestamp:
+          type: string
+          description: Timestamp when error occurred
+      required:
+      - code
+      - message
+      title: ErrorResponse
+    VendorsIdGetResponsesContentApplicationJsonSchemaVendor:
+      type: object
+      properties:
+        id:
+          type: integer
+        ottimate_company_id:
+          type: integer
+        company_name:
+          type: string
+        erp_vendor_id:
+          type:
+          - string
+          - 'null'
+        erp_vendor_name:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+        phone:
+          type:
+          - string
+          - 'null'
+        net_terms:
+          type:
+          - string
+          - 'null'
+        payment_method:
+          oneOf:
+          - $ref: '#/components/schemas/VendorsIdGetResponsesContentApplicationJsonSchemaVendorPaymentMethod'
+          - type: 'null'
+        address_line_1:
+          type:
+          - string
+          - 'null'
+        address_line_2:
+          type:
+          - string
+          - 'null'
+        city:
+          type:
+          - string
+          - 'null'
+        state:
+          type:
+          - string
+          - 'null'
+        zipcode:
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - ottimate_company_id
+      - erp_vendor_id
+      - erp_vendor_name
+      title: VendorsIdGetResponsesContentApplicationJsonSchemaVendor
+    VendorsGetResponsesContentApplicationJsonSchemaVendorsItems:
+      type: object
+      properties:
+        id:
+          type: integer
+        ottimate_company_id:
+          type: integer
+        company_name:
+          type: string
+        erp_vendor_id:
+          type:
+          - string
+          - 'null'
+        erp_vendor_name:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+        phone:
+          type:
+          - string
+          - 'null'
+        net_terms:
+          type:
+          - string
+          - 'null'
+        payment_method:
+          oneOf:
+          - $ref: '#/components/schemas/VendorsGetResponsesContentApplicationJsonSchemaVendorsItemsPaymentMethod'
+          - type: 'null'
+        address_line_1:
+          type:
+          - string
+          - 'null'
+        address_line_2:
+          type:
+          - string
+          - 'null'
+        city:
+          type:
+          - string
+          - 'null'
+        state:
+          type:
+          - string
+          - 'null'
+        zipcode:
+          type:
+          - string
+          - 'null'
+        last_modified_date:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        last_modified_date_utc:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC equivalent of last_modified_date. ISO 8601 with Z suffix, e.g. "2025-05-20T15:17:35.652584Z".
+      required:
+      - id
+      - erp_vendor_name
+      title: VendorsGetResponsesContentApplicationJsonSchemaVendorsItems
+    Vendors_get_vendors_root_Response_200:
+      type: object
+      properties:
+        version:
+          type: string
+        count:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+        vendors:
+          type: array
+          items:
+            $ref: '#/components/schemas/VendorsGetResponsesContentApplicationJsonSchemaVendorsItems'
+      required:
+      - version
+      - count
+      - page
+      - limit
+      - vendors
+      title: Vendors_get_vendors_root_Response_200
+    VendorsBulkPostResponsesContentApplicationJsonSchemaUpdatedItems:
+      type: object
+      properties:
+        id:
+          type: integer
+        ottimate_company_id:
+          type: integer
+        erp_vendor_id:
+          type:
+          - string
+          - 'null'
+        erp_vendor_name:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+        phone:
+          type:
+          - string
+          - 'null'
+        net_terms:
+          type:
+          - string
+          - 'null'
+        payment_method:
+          oneOf:
+          - $ref: '#/components/schemas/VendorsBulkPostResponsesContentApplicationJsonSchemaUpdatedItemsPaymentMethod'
+          - type: 'null'
+        address_line_1:
+          type:
+          - string
+          - 'null'
+        address_line_2:
+          type:
+          - string
+          - 'null'
+        city:
+          type:
+          - string
+          - 'null'
+        state:
+          type:
+          - string
+          - 'null'
+        zipcode:
+          type:
+          - string
+          - 'null'
+      title: VendorsBulkPostResponsesContentApplicationJsonSchemaUpdatedItems
+    Vendors_post_vendors_root_Response_201:
+      type: object
+      properties:
+        version:
+          type: string
+        vendor:
+          $ref: '#/components/schemas/VendorsPostResponsesContentApplicationJsonSchemaVendor'
+      required:
+      - version
+      - vendor
+      title: Vendors_post_vendors_root_Response_201
+    VendorsGetParametersDetail:
+      type: string
+      enum:
+      - basic
+      title: VendorsGetParametersDetail
+    VendorsBulkPostResponsesContentApplicationJsonSchemaUpdatedItemsPaymentMethod:
+      type: string
+      enum:
+      - credit_card
+      - ach
+      - check
+      - wire_transfer
+      - unknown
+      title: VendorsBulkPostResponsesContentApplicationJsonSchemaUpdatedItemsPaymentMethod
+    VendorsPostResponsesContentApplicationJsonSchemaVendorPaymentMethod:
+      type: string
+      enum:
+      - credit_card
+      - ach
+      - check
+      - wire_transfer
+      - unknown
+      title: VendorsPostResponsesContentApplicationJsonSchemaVendorPaymentMethod
+  securitySchemes:
+    OAuth2:
+      type: http
+      scheme: bearer
+      description: OAuth2 authentication flows. Auth server URLs will vary by environment

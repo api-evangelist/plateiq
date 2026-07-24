@@ -1,0 +1,1028 @@
+openapi: 3.1.0
+info:
+  title: API Reference accounts purchaseOrders API
+  version: 1.0.0
+servers:
+- url: https://api.ottimate.com/v1
+  description: Production
+- url: https://sandbox-api.ottimate.com/v1
+  description: Sandbox
+tags:
+- name: purchaseOrders
+paths:
+  /purchase-orders:
+    get:
+      operationId: get-purchase-orders-root
+      summary: Retrieve a paginated list of purchase orders
+      description: Returns a paginated list of purchase orders, filterable by company, location, vendor, status, and date range.
+      tags:
+      - purchaseOrders
+      parameters:
+      - name: ottimate_company_id
+        in: query
+        description: Filter by company ID
+        required: false
+        schema:
+          type: integer
+      - name: ottimate_location_id
+        in: query
+        description: Filter by location ID
+        required: false
+        schema:
+          type: integer
+      - name: erp_vendor_id
+        in: query
+        description: Filter by ERP vendor ID (external vendor identifier)
+        required: false
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: Filter by PO status
+        required: false
+        schema:
+          $ref: '#/components/schemas/PurchaseOrdersGetParametersStatus'
+      - name: date_from
+        in: query
+        description: Filter by start date (YYYY-MM-DD)
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: date_to
+        in: query
+        description: Filter by end date (YYYY-MM-DD)
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: expand
+        in: query
+        description: 'Comma-separated list of fields to expand. Supported values: items. When expand=items is used, date_from and date_to must both be provided and within a 30-day window.'
+        required: false
+        schema:
+          type: string
+      - name: external_id
+        in: query
+        description: Filter by external (ERP) purchase order ID
+        required: false
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: Page number (default 1)
+        required: false
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: Number of results per page (default 20)
+        required: false
+        schema:
+          type: integer
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with paginated purchase order list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Purchase-Orders_get_purchase-orders_root_Response_200'
+        '400':
+          description: Bad request - Invalid parameters or request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized - Authentication required or invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: post-purchase-orders-root
+      summary: Create a single purchase order
+      description: Creates a new purchase order with the provided details. The `po_number` field is required and must be provided by the client (no auto-generation).
+      tags:
+      - purchaseOrders
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      - name: Idempotency-Key
+        in: header
+        description: 'Client-generated unique key (UUID/ULID recommended). JSON requests: the first 2xx response is cached for 24h and replayed on a same-key retry with a matching body; a different body returns 422. Non-JSON requests (e.g. file uploads): the key is single-use — any same-key retry returns 422 regardless of body. See [Idempotency](https://docs.ottimate.com/idempotency) for full details.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '201':
+          description: Successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrderCreateResponse'
+        '400':
+          description: Bad request - Invalid parameters or request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrderCreateRequest'
+  /purchase-orders/{id}:
+    get:
+      operationId: get-purchase-orders-id
+      summary: Retrieve a specific purchase order by ID
+      description: Returns detailed information for a single purchase order including all line items.
+      tags:
+      - purchaseOrders
+      parameters:
+      - name: id
+        in: path
+        description: The unique ID of the purchase order
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response with purchase order details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrderDetail'
+        '404':
+          description: Not found - Resource does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      operationId: patch-purchase-orders-id
+      summary: Update an existing purchase order
+      description: 'Updates a purchase order. Note: `status`, `po_number`, `external_id`, `erp_vendor_id`, and `ottimate_location_id` cannot be changed.'
+      tags:
+      - purchaseOrders
+      parameters:
+      - name: id
+        in: path
+        description: The unique ID of the purchase order
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrderUpdateResponse'
+        '400':
+          description: Bad request - Invalid parameters or request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not found - Resource does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                erp_vendor_name:
+                  type: string
+                  description: Vendor name from ERP system
+                date:
+                  type: string
+                  format: date
+                total_amount:
+                  type: number
+                  format: double
+                tax:
+                  type: number
+                  format: double
+                freight:
+                  type: number
+                  format: double
+                miscellaneous_charges:
+                  type: number
+                  format: double
+                invoice_number_ref:
+                  type: string
+                is_2_way:
+                  type: boolean
+                items:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/PurchaseOrdersIdPatchRequestBodyContentApplicationJsonSchemaItemsItems'
+                  description: Items with `id` update the existing item. Items without `id` create a new item. When creating, `name`, `quantity`, and `price` are required.
+                custom_fields:
+                  $ref: '#/components/schemas/PurchaseOrdersIdPatchRequestBodyContentApplicationJsonSchemaCustomFields'
+                  description: Optional custom fields configured for this company's purchase orders
+  /purchase-orders/bulk:
+    post:
+      operationId: post-purchase-orders-bulk
+      summary: Bulk create or update purchase orders
+      description: Creates or updates multiple purchase orders in a single request. Maximum 100 purchase orders and 1000 total line items per request. Processing is always asynchronous via Celery and returns a batch tracking ID for polling progress.
+      tags:
+      - purchaseOrders
+      parameters:
+      - name: Authorization
+        in: header
+        description: OAuth2 authentication flows. Auth server URLs will vary by environment
+        required: true
+        schema:
+          type: string
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      - name: Idempotency-Key
+        in: header
+        description: 'Client-generated unique key (UUID/ULID recommended). JSON requests: the first 2xx response is cached for 24h and replayed on a same-key retry with a matching body; a different body returns 422. Non-JSON requests (e.g. file uploads): the key is single-use — any same-key retry returns 422 regardless of body. See [Idempotency](https://docs.ottimate.com/idempotency) for full details.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '202':
+          description: Asynchronous processing started. Poll batch_url for progress.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkUpsertAsyncResponse'
+        '400':
+          description: Bad request - Invalid parameters or request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseOrderBulkUpsertRequest'
+components:
+  schemas:
+    PurchaseOrderSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        external_id:
+          type: string
+          description: External unique identifier for idempotent operations
+        po_number:
+          type: string
+          description: PO number (client-provided, mandatory)
+        status:
+          $ref: '#/components/schemas/PurchaseOrderSummaryStatus'
+        ottimate_location_id:
+          type: integer
+        ottimate_company_id:
+          type: integer
+        date:
+          type: string
+          format: date
+        erp_vendor_id:
+          type: string
+          description: External vendor identifier from ERP system
+        erp_vendor_name:
+          type: string
+          description: Vendor name from ERP system
+        total_amount:
+          type: number
+          format: double
+        created_date:
+          type: string
+          format: date-time
+        created_date_utc:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC equivalent of created_date. ISO 8601 with Z suffix, e.g. "2025-05-20T15:17:35.652584Z".
+        last_modified_date:
+          type: string
+          format: date-time
+        last_modified_date_utc:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC equivalent of last_modified_date. ISO 8601 with Z suffix, e.g. "2025-05-20T15:17:35.652584Z".
+        custom_fields:
+          $ref: '#/components/schemas/PurchaseOrderSummaryCustomFields'
+          description: Custom fields configured for this company's purchase orders
+      required:
+      - id
+      - status
+      title: PurchaseOrderSummary
+    PurchaseOrdersIdPatchRequestBodyContentApplicationJsonSchemaItemsItemsDimensions:
+      type: object
+      properties: {}
+      description: 'Dimension values keyed by dimension type. Each value must be a string — the ERP dimension code or ID (e.g. "DEPT-001"). Example: {"DEPARTMENT": "DEPT-001", "CLASS": "CLASS-001"}. Important: the GET response returns dimensions as rich objects (with id, name, code); passing an object here instead of a string will return a PO4000 validation error. When provided, REPLACES all existing dimensions on the item — include every dimension you want to keep. Omit the field or pass null to leave dimensions unchanged. Passing {} returns 400.'
+      title: PurchaseOrdersIdPatchRequestBodyContentApplicationJsonSchemaItemsItemsDimensions
+    PurchaseOrderCreateRequestItemsItems:
+      type: object
+      properties:
+        external_id:
+          type: string
+        name:
+          type: string
+        sku:
+          type: string
+        quantity:
+          type: number
+          format: double
+        price:
+          type: number
+          format: double
+        uom:
+          type: string
+        dimensions:
+          oneOf:
+          - $ref: '#/components/schemas/PurchaseOrderCreateRequestItemsItemsDimensions'
+          - type: 'null'
+          description: Dimension values keyed by type (e.g. PROJECT, CLASS). Each value is the ERP external_id of the dimension. When provided, REPLACES all existing dimensions on the item — include every dimension you want to keep. Omit the field or pass null to leave dimensions unchanged. Passing {} returns 400.
+      required:
+      - name
+      - quantity
+      - price
+      title: PurchaseOrderCreateRequestItemsItems
+    PurchaseOrderDetailPurchaseOrderItemsItemsDimensions:
+      type: object
+      properties: {}
+      description: Resolved dimensions keyed by dimension type. Each value is an object containing the dimension's id, erp_dimension_id, name, and code — unlike the POST/PATCH request format which expects plain string values.
+      title: PurchaseOrderDetailPurchaseOrderItemsItemsDimensions
+    PurchaseOrderDetailPurchaseOrderStatus:
+      type: string
+      enum:
+      - pending
+      - open
+      - received
+      - closed
+      - flagged
+      - archived
+      - deleted
+      title: PurchaseOrderDetailPurchaseOrderStatus
+    PurchaseOrderSummaryCustomFields:
+      type: object
+      properties: {}
+      description: Custom fields configured for this company's purchase orders
+      title: PurchaseOrderSummaryCustomFields
+    PurchaseOrderCreateResponseCustomFields:
+      type: object
+      properties: {}
+      description: Optional custom fields configured for this company's purchase orders
+      title: PurchaseOrderCreateResponseCustomFields
+    BulkUpsertAsyncResponse:
+      type: object
+      properties:
+        version:
+          type: string
+        status:
+          $ref: '#/components/schemas/BulkUpsertAsyncResponseStatus'
+        batch_id:
+          type: string
+        batch_url:
+          type: string
+        results_url:
+          type: string
+        summary:
+          $ref: '#/components/schemas/BulkUpsertAsyncResponseSummary'
+      required:
+      - status
+      - batch_id
+      title: BulkUpsertAsyncResponse
+    PurchaseOrderBulkUpsertRequestPurchaseOrdersItems:
+      type: object
+      properties:
+        external_id:
+          type: string
+        po_number:
+          type: string
+        erp_vendor_id:
+          type: string
+          description: External vendor identifier from ERP system
+        erp_vendor_name:
+          type: string
+          description: Vendor name from ERP system
+        date:
+          type: string
+          format: date
+        total_amount:
+          type: number
+          format: double
+        tax:
+          type: number
+          format: double
+        freight:
+          type: number
+          format: double
+        miscellaneous_charges:
+          type: number
+          format: double
+        invoice_number_ref:
+          type: string
+          description: Invoice reference number
+        is_2_way:
+          type: boolean
+          description: Whether this is a 2-way match PO
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PurchaseOrderBulkUpsertRequestPurchaseOrdersItemsItemsItems'
+        custom_fields:
+          $ref: '#/components/schemas/PurchaseOrderBulkUpsertRequestPurchaseOrdersItemsCustomFields'
+          description: Optional custom fields configured for this company's purchase orders
+      required:
+      - po_number
+      - erp_vendor_id
+      - date
+      - total_amount
+      - items
+      title: PurchaseOrderBulkUpsertRequestPurchaseOrdersItems
+    PurchaseOrderCreateRequestItemsItemsDimensions:
+      type: object
+      properties: {}
+      description: Dimension values keyed by type (e.g. PROJECT, CLASS). Each value is the ERP external_id of the dimension. When provided, REPLACES all existing dimensions on the item — include every dimension you want to keep. Omit the field or pass null to leave dimensions unchanged. Passing {} returns 400.
+      title: PurchaseOrderCreateRequestItemsItemsDimensions
+    PurchaseOrderCreateResponseItemsItems:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        external_id:
+          type: string
+        name:
+          type: string
+        sku:
+          type: string
+        quantity:
+          type: number
+          format: double
+        price:
+          type: number
+          format: double
+        uom:
+          type: string
+        dimensions:
+          $ref: '#/components/schemas/PurchaseOrderCreateResponseItemsItemsDimensions'
+          description: Resolved dimensions keyed by dimension type. Each value is an object containing the dimension's id, erp_dimension_id, name, and code — unlike the POST/PATCH request format which expects plain string values.
+        created_date:
+          type: string
+          format: date-time
+        last_modified_date:
+          type: string
+          format: date-time
+      required:
+      - name
+      - quantity
+      - price
+      title: PurchaseOrderCreateResponseItemsItems
+    PurchaseOrderUpdateResponse:
+      type: object
+      properties:
+        version:
+          type: string
+        id:
+          type: string
+          format: uuid
+        external_id:
+          type: string
+        po_number:
+          type: string
+        status:
+          $ref: '#/components/schemas/PurchaseOrderUpdateResponseStatus'
+        ottimate_location_id:
+          type: integer
+        ottimate_company_id:
+          type: integer
+        date:
+          type: string
+          format: date
+        erp_vendor_id:
+          type: string
+        erp_vendor_name:
+          type: string
+        total_amount:
+          type: number
+          format: double
+        items_count:
+          type: integer
+        last_modified_date:
+          type: string
+          format: date-time
+          description: Last modification timestamp. UTC ISO 8601, e.g. "2024-01-15T10:30:00Z".
+      required:
+      - id
+      - status
+      title: PurchaseOrderUpdateResponse
+    PurchaseOrderCreateResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        external_id:
+          type: string
+        po_number:
+          type: string
+        status:
+          $ref: '#/components/schemas/PurchaseOrderCreateResponseStatus'
+        ottimate_location_id:
+          type: integer
+        ottimate_company_id:
+          type: integer
+        date:
+          type: string
+          format: date
+        erp_vendor_id:
+          type: string
+        erp_vendor_name:
+          type: string
+        total_amount:
+          type: number
+          format: double
+        items_count:
+          type: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PurchaseOrderCreateResponseItemsItems'
+        created_date:
+          type: string
+          format: date-time
+          description: Creation timestamp. UTC ISO 8601, e.g. "2024-01-15T10:30:00Z".
+        custom_fields:
+          $ref: '#/components/schemas/PurchaseOrderCreateResponseCustomFields'
+          description: Optional custom fields configured for this company's purchase orders
+      required:
+      - id
+      - status
+      title: PurchaseOrderCreateResponse
+    PurchaseOrderCreateResponseStatus:
+      type: string
+      enum:
+      - pending
+      - open
+      - received
+      - closed
+      - flagged
+      - archived
+      - deleted
+      title: PurchaseOrderCreateResponseStatus
+    PurchaseOrderBulkUpsertRequestPurchaseOrdersItemsItemsItems:
+      type: object
+      properties:
+        external_id:
+          type: string
+        name:
+          type: string
+        sku:
+          type: string
+        quantity:
+          type: number
+          format: double
+        price:
+          type: number
+          format: double
+        uom:
+          type: string
+        dimensions:
+          oneOf:
+          - $ref: '#/components/schemas/PurchaseOrderBulkUpsertRequestPurchaseOrdersItemsItemsItemsDimensions'
+          - type: 'null'
+          description: Dimension values keyed by type (e.g. PROJECT, CLASS). Each value is the ERP external_id of the dimension. When provided, REPLACES all existing dimensions on the item — include every dimension you want to keep. Omit the field or pass null to leave dimensions unchanged. Passing {} returns 400.
+      required:
+      - name
+      - quantity
+      - price
+      title: PurchaseOrderBulkUpsertRequestPurchaseOrdersItemsItemsItems
+    PurchaseOrderDetail:
+      type: object
+      properties:
+        version:
+          type: string
+        purchase_order:
+          $ref: '#/components/schemas/PurchaseOrderDetailPurchaseOrder'
+      required:
+      - purchase_order
+      title: PurchaseOrderDetail
+    PurchaseOrderBulkUpsertRequestPurchaseOrdersItemsItemsItemsDimensions:
+      type: object
+      properties: {}
+      description: Dimension values keyed by type (e.g. PROJECT, CLASS). Each value is the ERP external_id of the dimension. When provided, REPLACES all existing dimensions on the item — include every dimension you want to keep. Omit the field or pass null to leave dimensions unchanged. Passing {} returns 400.
+      title: PurchaseOrderBulkUpsertRequestPurchaseOrdersItemsItemsItemsDimensions
+    PurchaseOrdersGetParametersStatus:
+      type: string
+      enum:
+      - pending_review
+      - approved
+      - rejected
+      - closed
+      title: PurchaseOrdersGetParametersStatus
+    PurchaseOrderDetailPurchaseOrderCustomFields:
+      type: object
+      properties: {}
+      description: Custom fields configured for this company's purchase orders
+      title: PurchaseOrderDetailPurchaseOrderCustomFields
+    PurchaseOrderDetailPurchaseOrder:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        external_id:
+          type: string
+        po_number:
+          type: string
+        status:
+          $ref: '#/components/schemas/PurchaseOrderDetailPurchaseOrderStatus'
+        ottimate_location_id:
+          type: integer
+        ottimate_company_id:
+          type: integer
+        date:
+          type: string
+          format: date
+        erp_vendor_id:
+          type: string
+        erp_vendor_name:
+          type: string
+        total_amount:
+          type: number
+          format: double
+        tax:
+          type: number
+          format: double
+        freight:
+          type: number
+          format: double
+        miscellaneous_charges:
+          type: number
+          format: double
+        invoice_number_ref:
+          type: string
+        is_2_way:
+          type: boolean
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PurchaseOrderDetailPurchaseOrderItemsItems'
+        created_date:
+          type: string
+          format: date-time
+        created_date_utc:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC equivalent of created_date. ISO 8601 with Z suffix, e.g. "2025-05-20T15:17:35.652584Z".
+        last_modified_date:
+          type: string
+          format: date-time
+        last_modified_date_utc:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC equivalent of last_modified_date. ISO 8601 with Z suffix, e.g. "2025-05-20T15:17:35.652584Z".
+        custom_fields:
+          $ref: '#/components/schemas/PurchaseOrderDetailPurchaseOrderCustomFields'
+          description: Custom fields configured for this company's purchase orders
+      required:
+      - id
+      - status
+      title: PurchaseOrderDetailPurchaseOrder
+    PurchaseOrderCreateRequestCustomFields:
+      type: object
+      properties: {}
+      description: Optional custom fields configured for this company's purchase orders
+      title: PurchaseOrderCreateRequestCustomFields
+    PurchaseOrdersIdPatchRequestBodyContentApplicationJsonSchemaItemsItems:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Existing item ID. If provided, updates that item; if omitted, creates a new item.
+        external_id:
+          type: string
+        name:
+          type: string
+          description: Required when creating a new item (no id).
+        sku:
+          type: string
+        quantity:
+          type: number
+          format: double
+          description: Required when creating a new item (no id).
+        price:
+          type: number
+          format: double
+          description: Required when creating a new item (no id).
+        uom:
+          type: string
+        dimensions:
+          oneOf:
+          - $ref: '#/components/schemas/PurchaseOrdersIdPatchRequestBodyContentApplicationJsonSchemaItemsItemsDimensions'
+          - type: 'null'
+          description: 'Dimension values keyed by dimension type. Each value must be a string — the ERP dimension code or ID (e.g. "DEPT-001"). Example: {"DEPARTMENT": "DEPT-001", "CLASS": "CLASS-001"}. Important: the GET response returns dimensions as rich objects (with id, name, code); passing an object here instead of a string will return a PO4000 validation error. When provided, REPLACES all existing dimensions on the item — include every dimension you want to keep. Omit the field or pass null to leave dimensions unchanged. Passing {} returns 400.'
+      title: PurchaseOrdersIdPatchRequestBodyContentApplicationJsonSchemaItemsItems
+    BulkUpsertAsyncResponseStatus:
+      type: string
+      enum:
+      - processing
+      title: BulkUpsertAsyncResponseStatus
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Human-readable error message
+        request_id:
+          type: string
+          description: Unique identifier for the request
+        message:
+          description: Additional error details, can be an object, a string, or null.
+        timestamp:
+          type: string
+          description: Timestamp when error occurred
+      required:
+      - code
+      - message
+      title: ErrorResponse
+    PurchaseOrderCreateResponseItemsItemsDimensions:
+      type: object
+      properties: {}
+      description: Resolved dimensions keyed by dimension type. Each value is an object containing the dimension's id, erp_dimension_id, name, and code — unlike the POST/PATCH request format which expects plain string values.
+      title: PurchaseOrderCreateResponseItemsItemsDimensions
+    PurchaseOrderCreateRequest:
+      type: object
+      properties:
+        ottimate_location_id:
+          type: integer
+        external_id:
+          type: string
+        po_number:
+          type: string
+        erp_vendor_id:
+          type: string
+          description: External vendor identifier from ERP system
+        erp_vendor_name:
+          type: string
+          description: Vendor name from ERP system
+        date:
+          type: string
+          format: date
+        total_amount:
+          type: number
+          format: double
+        tax:
+          type: number
+          format: double
+        freight:
+          type: number
+          format: double
+        miscellaneous_charges:
+          type: number
+          format: double
+        invoice_number_ref:
+          type: string
+          description: Invoice reference number
+        is_2_way:
+          type: boolean
+          description: Whether this is a 2-way match PO
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PurchaseOrderCreateRequestItemsItems'
+        custom_fields:
+          $ref: '#/components/schemas/PurchaseOrderCreateRequestCustomFields'
+          description: Optional custom fields configured for this company's purchase orders
+      required:
+      - ottimate_location_id
+      - po_number
+      - erp_vendor_id
+      - date
+      - total_amount
+      - items
+      title: PurchaseOrderCreateRequest
+    PurchaseOrderUpdateResponseStatus:
+      type: string
+      enum:
+      - pending
+      - open
+      - received
+      - closed
+      - flagged
+      - archived
+      - deleted
+      title: PurchaseOrderUpdateResponseStatus
+    PurchaseOrdersIdPatchRequestBodyContentApplicationJsonSchemaCustomFields:
+      type: object
+      properties: {}
+      description: Optional custom fields configured for this company's purchase orders
+      title: PurchaseOrdersIdPatchRequestBodyContentApplicationJsonSchemaCustomFields
+    Purchase-Orders_get_purchase-orders_root_Response_200:
+      type: object
+      properties:
+        version:
+          type: string
+        count:
+          type: integer
+        page:
+          type: integer
+        limit:
+          type: integer
+        purchase_orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/PurchaseOrderSummary'
+      title: Purchase-Orders_get_purchase-orders_root_Response_200
+    PurchaseOrderBulkUpsertRequestPurchaseOrdersItemsCustomFields:
+      type: object
+      properties: {}
+      description: Optional custom fields configured for this company's purchase orders
+      title: PurchaseOrderBulkUpsertRequestPurchaseOrdersItemsCustomFields
+    PurchaseOrderSummaryStatus:
+      type: string
+      enum:
+      - pending
+      - open
+      - received
+      - closed
+      - flagged
+      - archived
+      - deleted
+      title: PurchaseOrderSummaryStatus
+    BulkUpsertAsyncResponseSummary:
+      type: object
+      properties:
+        count:
+          type: integer
+        total_items:
+          type: integer
+      title: BulkUpsertAsyncResponseSummary
+    PurchaseOrderDetailPurchaseOrderItemsItems:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        external_id:
+          type: string
+        name:
+          type: string
+        sku:
+          type: string
+        quantity:
+          type: number
+          format: double
+        price:
+          type: number
+          format: double
+        uom:
+          type: string
+        dimensions:
+          oneOf:
+          - $ref: '#/components/schemas/PurchaseOrderDetailPurchaseOrderItemsItemsDimensions'
+          - type: 'null'
+          description: Resolved dimensions keyed by dimension type. Each value is an object containing the dimension's id, erp_dimension_id, name, and code — unlike the POST/PATCH request format which expects plain string values.
+        created_date:
+          type: string
+          format: date-time
+        created_date_utc:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC equivalent of created_date. ISO 8601 with Z suffix, e.g. "2025-05-20T15:17:35.652584Z".
+        last_modified_date:
+          type: string
+          format: date-time
+        last_modified_date_utc:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: UTC equivalent of last_modified_date. ISO 8601 with Z suffix, e.g. "2025-05-20T15:17:35.652584Z".
+      title: PurchaseOrderDetailPurchaseOrderItemsItems
+    PurchaseOrderBulkUpsertRequest:
+      type: object
+      properties:
+        ottimate_company_id:
+          type: integer
+          description: Company ID for all purchase orders in this batch
+        ottimate_location_id:
+          type: integer
+          description: Default location ID for all purchase orders in this batch
+        purchase_orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/PurchaseOrderBulkUpsertRequestPurchaseOrdersItems'
+          description: Max 100 POs with max 1000 total items
+      required:
+      - ottimate_company_id
+      - ottimate_location_id
+      - purchase_orders
+      title: PurchaseOrderBulkUpsertRequest
+  securitySchemes:
+    OAuth2:
+      type: http
+      scheme: bearer
+      description: OAuth2 authentication flows. Auth server URLs will vary by environment

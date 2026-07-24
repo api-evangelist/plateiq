@@ -1,0 +1,121 @@
+openapi: 3.1.0
+info:
+  title: API Reference accounts oauth API
+  version: 1.0.0
+servers:
+- url: https://api.ottimate.com/v1
+  description: Production
+- url: https://sandbox-api.ottimate.com/v1
+  description: Sandbox
+tags:
+- name: oauth
+paths:
+  /oauth/token:
+    post:
+      operationId: post-oauth-token
+      summary: Get OAuth Token
+      description: Exchange credentials for an access token. Supports `client_credentials` grant type.
+      tags:
+      - oauth
+      parameters:
+      - name: X-Api-Key
+        in: header
+        description: API key for authentication
+        required: true
+        schema:
+          type: string
+      - name: X-API-Version
+        in: header
+        description: 'API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.'
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful token response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Oauth_post_oauth_token_Response_200'
+        '400':
+          description: Bad request - Invalid parameters or request format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized - Authentication required or invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      requestBody:
+        description: OAuth 2.0 parameters
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                grant_type:
+                  $ref: '#/components/schemas/OauthTokenPostRequestBodyContentApplicationXWwwFormUrlencodedSchemaGrantType'
+                  description: Grant type for the request. Must be 'client_credentials'.
+                client_id:
+                  type: string
+                  description: The client ID issued to the client.
+                client_secret:
+                  type: string
+                  description: The client secret issued to the client.
+                scope:
+                  type: string
+                  description: The scope of the access request.
+              required:
+              - grant_type
+              - client_id
+              - client_secret
+components:
+  schemas:
+    OauthTokenPostRequestBodyContentApplicationXWwwFormUrlencodedSchemaGrantType:
+      type: string
+      enum:
+      - client_credentials
+      description: Grant type for the request. Must be 'client_credentials'.
+      title: OauthTokenPostRequestBodyContentApplicationXWwwFormUrlencodedSchemaGrantType
+    Oauth_post_oauth_token_Response_200:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: The access token.
+        token_type:
+          type: string
+          description: The type of the token (e.g., Bearer).
+        expires_in:
+          type: integer
+          description: The lifetime in seconds of the access token.
+        scope:
+          type: string
+          description: The scope of the access token.
+      title: Oauth_post_oauth_token_Response_200
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Human-readable error message
+        request_id:
+          type: string
+          description: Unique identifier for the request
+        message:
+          description: Additional error details, can be an object, a string, or null.
+        timestamp:
+          type: string
+          description: Timestamp when error occurred
+      required:
+      - code
+      - message
+      title: ErrorResponse
+  securitySchemes:
+    OAuth2:
+      type: http
+      scheme: bearer
+      description: OAuth2 authentication flows. Auth server URLs will vary by environment
