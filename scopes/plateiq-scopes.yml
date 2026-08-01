@@ -1,0 +1,16 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.ottimate.com/auth.md
+docs: https://docs.ottimate.com/auth
+provider: plateiq
+api: Ottimate API
+flow: client_credentials
+notes: >-
+  The Ottimate OAuth2 client-credentials flow currently supports a single scope.
+  The effective data an integration can reach is further constrained by the
+  API User's account/company/location scoping (see account-structure/scoping).
+scopes:
+- name: accounts.can_access_dashboard
+  description: >-
+    Grants the OAuth application access to the Ottimate dashboard data surface
+    for the provisioned API User. Currently the only supported OAuth scope.

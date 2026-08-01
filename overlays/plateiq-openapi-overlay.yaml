@@ -1,0 +1,43 @@
+generated: '2026-07-20'
+method: generated
+source: openapi/plateiq-openapi.yaml
+overlay: 1.0.0
+info:
+  title: API Evangelist enrichment overlay for the Ottimate API
+  version: 1.0.0
+extends: openapi/plateiq-openapi.yaml
+actions:
+- target: $.info
+  description: Annotate provenance and canonical developer surfaces captured during enrichment.
+  update:
+    x-apievangelist-enrichment:
+      provider: plateiq
+      brand: Ottimate (formerly Plate IQ)
+      docs: https://docs.ottimate.com/welcome
+      llms_txt: https://docs.ottimate.com/llms.txt
+      mcp_server: https://docs.ottimate.com/_mcp/server
+      status_page: https://status.ottimate.com/
+      access: partner-provisioned (Partner Manager issues API key + OAuth client)
+- target: $.components.securitySchemes
+  description: >-
+    Document the dual-header auth reality (both X-API-Key and OAuth2 Bearer are
+    required) that the single spec securityScheme does not capture.
+  update:
+    ApiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Per-client-account API key, required on every request in addition to the OAuth2 Bearer token.
+- target: $.info
+  description: Record cross-cutting runtime semantics harvested from the docs.
+  update:
+    x-apievangelist-conventions:
+      idempotency_header: Idempotency-Key
+      idempotency_cache_hours: 24
+      replay_header: X-Idempotent-Replayed
+      version_header: X-API-Version
+      pagination: page + size (limit on some collections)
+      field_expansion: expand
+      rate_limit: 1000 rps steady / 2000 burst / 10000 per day per key
+      request_timeout_seconds: 29
+      error_envelope: ErrorResponse (code/message/request_id/timestamp)

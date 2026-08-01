@@ -1,0 +1,30 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.ottimate.com/welcome
+docs: https://docs.ottimate.com/welcome
+provider: plateiq
+name: Ottimate Docs MCP Server
+status: live
+transport: streamable-http
+endpoint: https://docs.ottimate.com/_mcp/server
+server_info:
+  name: fern-docs-mcp-server
+  version: 1.0.0
+  protocol_version: '2024-11-05'
+scope: documentation-search
+description: >-
+  Official hosted MCP server advertised by Ottimate for AI client integration
+  (Claude Code, Cursor, etc.). Backed by Fern's docs MCP; it exposes the Ottimate
+  developer documentation as a searchable tool. It does NOT proxy the REST API
+  operations themselves — it surfaces the docs corpus at docs.ottimate.com.
+tools:
+- name: searchDocs
+  title: Search docs.ottimate.com Docs
+  description: Search the documentation at https://docs.ottimate.com. Returns relevant doc passages with source URLs.
+  read_only: true
+  input:
+    query: string  # the search query to run against the docs
+notes: >-
+  A candidate API-operation MCP could be derived from the 53 OpenAPI operations
+  (invoices/vendors/dimensions/catalog/purchase-orders/receipts), but Ottimate
+  publishes only this docs-search MCP today.

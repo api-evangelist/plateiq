@@ -1,27 +1,296 @@
 aid: plateiq
 name: PlateIQ
-description: 'PlateIQ is a company surfaced as a portfolio company of initialized-capital and added to
-  the API Evangelist network as a stub for enrichment. Sector: enterprise-saas. This profile is a lead
-  awaiting the enrichment pipeline.'
+description: >-
+  Ottimate (formerly Plate IQ) is an AI-powered accounts payable automation platform for
+  restaurants, hospitality, and multi-location businesses. It captures and GL-codes invoices
+  with high accuracy via its InstantCapture engine, automates approval workflows and PO/receipt
+  matching in Core AP, and sends vendor payments via ACH, check, or virtual card through VendorPay.
+  Ottimate exposes a partner-provisioned REST API (OpenAPI 3.1) over JSON with OAuth2
+  client-credentials plus API-key auth, idempotent writes, bulk and asynchronous operations, and
+  ERP integrations for QuickBooks, NetSuite, Sage Intacct, Acumatica, and Microsoft Dynamics.
 url: https://raw.githubusercontent.com/api-evangelist/plateiq/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://ottimate.com/wp-content/uploads/2025/09/ottimate-cover-image.png
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - initialized-capital
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: provider
+x-tier-reason: has-public-api
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
 tags:
 - Company
 - Enterprise Saas
-apis: []
+- Accounts Payable
+- Invoice Automation
+- Payments
+- Fintech
+- Restaurants
+- Procurement
+- Spend Management
+- ERP Integration
+apis:
+- aid: plateiq:plateiq-accounts-api
+  name: PlateIQ accounts API
+  description: The accounts API from PlateIQ — 3 operation(s) for accounts.
+  humanURL: https://docs.ottimate.com/welcome
+  baseURL: https://api.ottimate.com/v1
+  tags:
+  - accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/plateiq-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ottimate.com/welcome
+  - type: APIReference
+    url: https://docs.ottimate.com/api-reference
+  - type: GettingStarted
+    url: https://docs.ottimate.com/integration-journey
+  - type: Authentication
+    url: authentication/plateiq-authentication.yml
+  - type: Sandbox
+    url: sandbox/plateiq-sandbox.yml
+- aid: plateiq:plateiq-batch-api
+  name: PlateIQ batch API
+  description: The batch API from PlateIQ — 3 operation(s) for batch.
+  humanURL: https://docs.ottimate.com/welcome
+  baseURL: https://api.ottimate.com/v1
+  tags:
+  - batch
+  properties:
+  - type: OpenAPI
+    url: openapi/plateiq-batch-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ottimate.com/welcome
+  - type: APIReference
+    url: https://docs.ottimate.com/api-reference
+  - type: GettingStarted
+    url: https://docs.ottimate.com/integration-journey
+  - type: Authentication
+    url: authentication/plateiq-authentication.yml
+  - type: Sandbox
+    url: sandbox/plateiq-sandbox.yml
+- aid: plateiq:plateiq-catalog-api
+  name: PlateIQ catalog API
+  description: The catalog API from PlateIQ — 12 operation(s) for catalog.
+  humanURL: https://docs.ottimate.com/welcome
+  baseURL: https://api.ottimate.com/v1
+  tags:
+  - catalog
+  properties:
+  - type: OpenAPI
+    url: openapi/plateiq-catalog-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ottimate.com/welcome
+  - type: APIReference
+    url: https://docs.ottimate.com/api-reference
+  - type: GettingStarted
+    url: https://docs.ottimate.com/integration-journey
+  - type: Authentication
+    url: authentication/plateiq-authentication.yml
+  - type: Sandbox
+    url: sandbox/plateiq-sandbox.yml
+- aid: plateiq:plateiq-dimensions-api
+  name: PlateIQ dimensions API
+  description: The dimensions API from PlateIQ — 3 operation(s) for dimensions.
+  humanURL: https://docs.ottimate.com/welcome
+  baseURL: https://api.ottimate.com/v1
+  tags:
+  - dimensions
+  properties:
+  - type: OpenAPI
+    url: openapi/plateiq-dimensions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ottimate.com/welcome
+  - type: APIReference
+    url: https://docs.ottimate.com/api-reference
+  - type: GettingStarted
+    url: https://docs.ottimate.com/integration-journey
+  - type: Authentication
+    url: authentication/plateiq-authentication.yml
+  - type: Sandbox
+    url: sandbox/plateiq-sandbox.yml
+- aid: plateiq:plateiq-invoices-api
+  name: PlateIQ invoices API
+  description: The invoices API from PlateIQ — 11 operation(s) for invoices.
+  humanURL: https://docs.ottimate.com/welcome
+  baseURL: https://api.ottimate.com/v1
+  tags:
+  - invoices
+  properties:
+  - type: OpenAPI
+    url: openapi/plateiq-invoices-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ottimate.com/welcome
+  - type: APIReference
+    url: https://docs.ottimate.com/api-reference
+  - type: GettingStarted
+    url: https://docs.ottimate.com/integration-journey
+  - type: Authentication
+    url: authentication/plateiq-authentication.yml
+  - type: Sandbox
+    url: sandbox/plateiq-sandbox.yml
+- aid: plateiq:plateiq-oauth-api
+  name: PlateIQ oauth API
+  description: The oauth API from PlateIQ — 1 operation(s) for oauth.
+  humanURL: https://docs.ottimate.com/welcome
+  baseURL: https://api.ottimate.com/v1
+  tags:
+  - oauth
+  properties:
+  - type: OpenAPI
+    url: openapi/plateiq-oauth-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ottimate.com/welcome
+  - type: APIReference
+    url: https://docs.ottimate.com/api-reference
+  - type: GettingStarted
+    url: https://docs.ottimate.com/integration-journey
+  - type: Authentication
+    url: authentication/plateiq-authentication.yml
+  - type: Sandbox
+    url: sandbox/plateiq-sandbox.yml
+- aid: plateiq:plateiq-purchaseorders-api
+  name: PlateIQ purchaseOrders API
+  description: The purchaseOrders API from PlateIQ — 3 operation(s) for purchaseorders.
+  humanURL: https://docs.ottimate.com/welcome
+  baseURL: https://api.ottimate.com/v1
+  tags:
+  - purchaseOrders
+  properties:
+  - type: OpenAPI
+    url: openapi/plateiq-purchaseorders-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ottimate.com/welcome
+  - type: APIReference
+    url: https://docs.ottimate.com/api-reference
+  - type: GettingStarted
+    url: https://docs.ottimate.com/integration-journey
+  - type: Authentication
+    url: authentication/plateiq-authentication.yml
+  - type: Sandbox
+    url: sandbox/plateiq-sandbox.yml
+- aid: plateiq:plateiq-receipts-api
+  name: PlateIQ receipts API
+  description: The receipts API from PlateIQ — 3 operation(s) for receipts.
+  humanURL: https://docs.ottimate.com/welcome
+  baseURL: https://api.ottimate.com/v1
+  tags:
+  - receipts
+  properties:
+  - type: OpenAPI
+    url: openapi/plateiq-receipts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ottimate.com/welcome
+  - type: APIReference
+    url: https://docs.ottimate.com/api-reference
+  - type: GettingStarted
+    url: https://docs.ottimate.com/integration-journey
+  - type: Authentication
+    url: authentication/plateiq-authentication.yml
+  - type: Sandbox
+    url: sandbox/plateiq-sandbox.yml
+- aid: plateiq:plateiq-vendors-api
+  name: PlateIQ vendors API
+  description: The vendors API from PlateIQ — 3 operation(s) for vendors.
+  humanURL: https://docs.ottimate.com/welcome
+  baseURL: https://api.ottimate.com/v1
+  tags:
+  - vendors
+  properties:
+  - type: OpenAPI
+    url: openapi/plateiq-vendors-api-openapi.yml
+  - type: Documentation
+    url: https://docs.ottimate.com/welcome
+  - type: APIReference
+    url: https://docs.ottimate.com/api-reference
+  - type: GettingStarted
+    url: https://docs.ottimate.com/integration-journey
+  - type: Authentication
+    url: authentication/plateiq-authentication.yml
+  - type: Sandbox
+    url: sandbox/plateiq-sandbox.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 18
+  pass: local-v1
 common:
 - type: Website
-  url: https://plateiq.com/
+  url: https://ottimate.com/
+- type: DeveloperPortal
+  url: https://docs.ottimate.com/welcome
+- type: Documentation
+  url: https://docs.ottimate.com/welcome
+- type: APIReference
+  url: https://docs.ottimate.com/api-reference
+- type: GettingStarted
+  url: https://docs.ottimate.com/integration-journey
+- type: Blog
+  url: https://ottimate.com/blog/
+- type: Support
+  url: https://ottimate.com/support/
+- type: PrivacyPolicy
+  url: https://ottimate.com/privacy-policy/
+- type: TermsOfService
+  url: https://ottimate.com/terms-of-service/
+- type: StatusPage
+  url: lifecycle/plateiq-lifecycle.yml
+- type: Deprecation
+  url: lifecycle/plateiq-lifecycle.yml
+- type: Lifecycle
+  url: lifecycle/plateiq-lifecycle.yml
+- type: ChangeLog
+  url: changelog/plateiq-changelog.yml
+- type: OpenAPI
+  url: openapi/plateiq-openapi.yaml
+- type: Authentication
+  url: authentication/plateiq-authentication.yml
+- type: OAuthScopes
+  url: scopes/plateiq-scopes.yml
+- type: Conventions
+  url: conventions/plateiq-conventions.yml
+- type: Idempotency
+  url: conventions/plateiq-conventions.yml
+- type: RateLimits
+  url: rate-limits/plateiq-rate-limits.yml
+- type: ErrorCatalog
+  url: errors/plateiq-problem-types.yml
+- type: DataModel
+  url: data-model/plateiq-data-model.yml
+- type: Sandbox
+  url: sandbox/plateiq-sandbox.yml
+- type: MCPServer
+  url: mcp/plateiq-mcp.yml
+- type: LLMsTxt
+  url: llms/plateiq-llms.txt
+- type: Overlay
+  url: overlays/plateiq-openapi-overlay.yaml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Conformance
+  url: conformance/plateiq-conformance.yml
+- type: Compliance
+  url: conformance/plateiq-conformance.yml
+- type: TrustCenter
+  url: security/plateiq-trust-center.yml
+- type: DomainSecurity
+  url: security/plateiq-domain-security.yml

@@ -1,0 +1,28 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.ottimate.com/api-limits.md
+docs: https://docs.ottimate.com/api-limits
+provider: plateiq
+api: Ottimate API
+rate_limits:
+- name: steady-state
+  limit_count: 1000
+  unit: requests
+  window: second
+  algorithm: token-bucket
+  description: Tokens refill at 1,000/second and are consumed per request.
+- name: burst
+  limit_count: 2000
+  unit: requests
+  description: Maximum simultaneous requests before the steady-state rate applies; for short spikes only.
+- name: daily-quota
+  limit_count: 10000
+  unit: requests
+  window: day
+  scope: per API key
+  reset: midnight UTC
+  description: Contact the Ottimate Partner Manager to raise the daily quota.
+request_timeout_seconds: 29
+async_note: >-
+  Long-running operations (e.g. bulk uploads) are processed asynchronously — the
+  API returns immediately with a batch id to poll rather than blocking on the timeout.

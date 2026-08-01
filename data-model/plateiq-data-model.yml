@@ -1,0 +1,108 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/plateiq-openapi.json
+docs: https://docs.ottimate.com/account-structure/overview
+provider: plateiq
+api: Ottimate API
+notes: >-
+  Entity graph derived from the OpenAPI object schemas (220 component schemas)
+  and their *_id reference fields, plus the documented account structure
+  (Account -> Company -> Location). Identifiers are prefixed ottimate_* for
+  Ottimate-native ids and erp_* for the partner ERP's ids.
+entities:
+- name: Account
+  schema: AccountObject
+  description: Top-level organizational entity for a partner/customer.
+- name: Company
+  schema: CompanyObject
+  description: A legal entity within an account.
+- name: Location
+  schema: LocationObject
+  description: A physical site within a company.
+- name: Vendor
+  description: An accounting vendor invoices are issued by.
+- name: Dimension
+  description: An accounting dimension (cost center, department, class, project, custom attribute).
+- name: PurchaseOrder
+  description: A purchase order synced from the ERP for two-/three-way matching.
+- name: Receipt
+  description: A goods-received receipt for three-way matching against a PO.
+- name: Invoice
+  schema: InvoiceObject
+  description: A vendor invoice captured, coded, approved, and exported.
+- name: InvoiceLineItem
+  description: A line on an invoice, optionally matched to a catalog entry and PO item.
+- name: Approver
+  schema: ApproverObject
+  description: A user/policy that must approve an invoice.
+- name: CatalogEntry
+  schema: CatalogEntryObject
+  description: A catalog item used for price/quantity validation and matching.
+- name: CatalogAllowance
+  schema: CatalogAllowanceObject
+  description: An allowance/adjustment attached to a catalog entry.
+- name: CatalogVariance
+  description: A detected variance between invoiced and cataloged price/quantity.
+- name: Batch
+  description: A tracking record for an asynchronous bulk operation.
+relationships:
+- from: Company
+  type: belongs_to
+  to: Account
+- from: Location
+  type: belongs_to
+  to: Company
+- from: Invoice
+  type: belongs_to
+  to: Company
+  via: ottimate_company_id
+- from: Invoice
+  type: belongs_to
+  to: Location
+  via: ottimate_location_id
+- from: Invoice
+  type: belongs_to
+  to: Vendor
+  via: erp_vendor_id
+- from: Invoice
+  type: has_many
+  to: InvoiceLineItem
+- from: Invoice
+  type: has_many
+  to: Approver
+- from: InvoiceLineItem
+  type: has_many
+  to: Dimension
+- from: InvoiceLineItem
+  type: belongs_to
+  to: CatalogEntry
+- from: PurchaseOrder
+  type: belongs_to
+  to: Company
+  via: ottimate_company_id
+- from: PurchaseOrder
+  type: has_many
+  to: Dimension
+- from: Receipt
+  type: belongs_to
+  to: PurchaseOrder
+  via: ottimate_po_id
+- from: CatalogEntry
+  type: belongs_to
+  to: Company
+  via: ottimate_company_id
+- from: CatalogEntry
+  type: belongs_to
+  to: Vendor
+  via: erp_vendor_id
+- from: CatalogAllowance
+  type: belongs_to
+  to: CatalogEntry
+  via: catalog_entry_id
+- from: CatalogVariance
+  type: belongs_to
+  to: Company
+  via: ottimate_company_id
+id_conventions:
+  ottimate_native: ottimate_company_id, ottimate_location_id, ottimate_po_id, ottimate_po_item_id
+  erp_external: erp_vendor_id, erp_dimension_id, po_external_id, po_external_item_id

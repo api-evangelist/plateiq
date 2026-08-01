@@ -1,0 +1,41 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.ottimate.com/releases.md
+docs:
+  release_plan: https://docs.ottimate.com/releases
+  changelog: https://docs.ottimate.com/v-1/changelog
+  status_page: https://status.ottimate.com/
+provider: plateiq
+api: Ottimate API
+versioning:
+  scheme: path + header
+  current_major: v1
+  path_prefix: /v1
+  header: X-API-Version
+maturity_labels:
+- name: Stable
+  meaning: Fully production-ready. Covered by SLA and backward-compatibility guarantees.
+- name: Generally Available
+  meaning: Released to all users; no breaking changes without a versioned migration path.
+- name: Beta
+  meaning: Available for integration/testing; functionality complete but may change; not yet under SLA.
+- name: Pre-release
+  meaning: Early access preview; interface and behavior may change significantly.
+- name: In Development
+  meaning: Visible for planning; not yet available for use.
+- name: Deprecated
+  meaning: Scheduled for removal; still functions; refer to the changelog for the sunset timeline.
+deprecation_policy:
+  present: true
+  description: >-
+    Endpoints are tagged Deprecated when scheduled for removal; they continue to
+    function while consumers migrate, with the sunset timeline published in the
+    changelog. GA endpoints receive no breaking changes without a versioned
+    migration path.
+  ref: https://docs.ottimate.com/releases
+status_page:
+  present: true
+  url: https://status.ottimate.com/
+  provider: Atlassian Statuspage
+sla:
+  note: SLA and backward-compatibility guarantees apply to Stable-status endpoints.

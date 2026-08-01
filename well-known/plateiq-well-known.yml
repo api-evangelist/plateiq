@@ -1,0 +1,29 @@
+generated: '2026-07-20'
+method: probed
+source: https://ottimate.com/
+provider: plateiq
+host_probed: ottimate.com
+note: >-
+  No /.well-known/ discovery documents are published. The OAuth authorization
+  server sits behind api.ottimate.com (returns 403 to unauthenticated probes)
+  and exposes no public metadata document. Empty result is expected and valid.
+probes:
+- path: /.well-known/security.txt
+  status: 404
+  file: null
+- path: /.well-known/openid-configuration
+  status: 404
+  file: null
+- path: /.well-known/oauth-authorization-server
+  status: 404
+  file: null
+- path: /.well-known/api-catalog
+  status: 404
+  file: null
+- path: /.well-known/ai-plugin.json
+  status: 404
+  file: null
+- path: /llms.txt
+  status: 404
+  file: null
+  note: No llms.txt on the marketing host; the docs host publishes one at docs.ottimate.com/llms.txt (captured under llms/).

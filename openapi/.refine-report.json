@@ -1,0 +1,30 @@
+{
+  "provider": "plateiq",
+  "sources": [
+    "plateiq-accounts-api-openapi.yml",
+    "plateiq-batch-api-openapi.yml",
+    "plateiq-catalog-api-openapi.yml",
+    "plateiq-dimensions-api-openapi.yml",
+    "plateiq-invoices-api-openapi.yml",
+    "plateiq-oauth-api-openapi.yml",
+    "plateiq-purchaseorders-api-openapi.yml",
+    "plateiq-receipts-api-openapi.yml",
+    "plateiq-vendors-api-openapi.yml"
+  ],
+  "outputs": [
+    "plateiq-accounts-api-openapi.yml",
+    "plateiq-batch-api-openapi.yml",
+    "plateiq-catalog-api-openapi.yml",
+    "plateiq-dimensions-api-openapi.yml",
+    "plateiq-invoices-api-openapi.yml",
+    "plateiq-oauth-api-openapi.yml",
+    "plateiq-purchaseorders-api-openapi.yml",
+    "plateiq-receipts-api-openapi.yml",
+    "plateiq-vendors-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

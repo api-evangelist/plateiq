@@ -1,0 +1,27 @@
+generated: '2026-07-20'
+method: generated
+source: openapi/plateiq-openapi.json
+provider: plateiq
+api: Ottimate API
+skills:
+- name: plateiq-invoice-capture-and-export
+  file: plateiq-invoice-capture-and-export.md
+  description: Capture a vendor invoice from a file, monitor extraction, code it, route approvals, and mark exported.
+  operations:
+  - post-invoices-upload
+  - get-invoices-uploads
+  - get-invoices-id
+  - patch-invoices-id
+  - get-invoices-id-approvers
+  - post-invoices-id-flag
+  - post-invoices-mark-exported
+- name: plateiq-sync-erp-master-data
+  file: plateiq-sync-erp-master-data.md
+  description: Bulk-sync vendors and dimensions from an ERP into Ottimate and verify the results.
+  operations:
+  - post-vendors-bulk
+  - get-vendors-root
+  - post-dimensions-bulk
+  - get-dimensions-root
+  - get-batch-id-progress
+  - get-batch-id-results

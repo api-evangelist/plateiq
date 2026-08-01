@@ -1,0 +1,98 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.ottimate.com/llms.txt
+docs:
+  overview: https://docs.ottimate.com/overview
+  idempotency: https://docs.ottimate.com/idempotency
+  api_limits: https://docs.ottimate.com/api-limits
+  scoping: https://docs.ottimate.com/account-structure/scoping
+provider: plateiq
+api: Ottimate API
+transport:
+  protocol: REST over HTTPS
+  format: JSON
+  base_url_production: https://api.ottimate.com/v1
+  base_url_sandbox: https://sandbox-api.ottimate.com/v1
+authentication:
+  style: dual-header
+  headers:
+  - X-API-Key
+  - 'Authorization: Bearer <oauth2_access_token>'
+  ref: authentication/plateiq-authentication.yml
+versioning:
+  style: path + header
+  path_prefix: /v1
+  header: X-API-Version
+idempotency:
+  supported: true
+  header: Idempotency-Key
+  optional: true
+  applies_to: state-changing (write) requests
+  recommended_format: UUIDv4 or ULID
+  key_length: 1-128 characters
+  key_charset: 'A-Z a-z 0-9 . _ - + = /'
+  cache_lifetime_hours: 24
+  scope: API key + HTTP method + path + idempotency key
+  cached_responses: only 2xx responses are cached
+  json_tier: >-
+    For application/json requests the body is SHA-256 hashed; a retry with the
+    same key and same body replays the cached response with header
+    X-Idempotent-Replayed: true, a different body returns 422.
+  non_json_tier: >-
+    For multipart / non-JSON bodies matching is key-only; a retry with the same
+    key returns 422 (use a new key for a new request).
+  in_flight_retry: 409 Conflict while the first request is still processing
+  replay_header: 'X-Idempotent-Replayed: true'
+  invalid_key: 400 Bad Request
+  ref: https://docs.ottimate.com/idempotency
+pagination:
+  style: page-number
+  params:
+  - name: page
+    description: Page number
+  - name: size
+    description: Page size
+  - name: limit
+    description: Alternate result-count limiter used on some collections
+  filtering:
+  - search
+  - date_from
+  - date_to
+  - status
+  - ottimate_company_id
+  - ottimate_location_id
+field_expansion:
+  supported: true
+  param: expand
+  description: Expand related resources inline on supported endpoints.
+scoping:
+  required_params:
+  - ottimate_company_id
+  - ottimate_location_id
+  description: >-
+    Most create/retrieve endpoints require a company and/or location scope
+    parameter; access is enforced by the API User's scope level.
+error_envelope:
+  format: custom-json
+  is_rfc9457: false
+  schema: ErrorResponse
+  fields:
+  - code       # human-readable error message / code
+  - message    # additional detail (object, string, or null)
+  - request_id # unique identifier for the request (use for support)
+  - timestamp  # when the error occurred
+  ref: errors/plateiq-problem-types.yml
+request_tracing:
+  field: request_id
+  location: error response body
+  description: Every error carries a request_id for support correlation.
+rate_limiting:
+  ref: rate-limits/plateiq-rate-limits.yml
+  steady_state: 1000 requests/second (token bucket)
+  burst: 2000 requests
+  daily_quota: 10000 requests/day per API key (resets midnight UTC)
+  request_timeout_seconds: 29
+async_processing:
+  description: >-
+    Long-running / bulk operations return immediately with a batch id; poll
+    GET /batch/{id}/progress and GET /batch/{id}/results for status and output.

@@ -1,0 +1,33 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.ottimate.com/sandbox.md
+docs: https://docs.ottimate.com/sandbox
+provider: plateiq
+api: Ottimate API
+environments:
+- name: sandbox
+  api_base: https://sandbox-api.ottimate.com/v1
+  auth_server: https://sandbox-auth.ottimate.com/oauth/token
+  dashboard: https://sandbox.ottimate.com
+- name: production
+  api_base: https://api.ottimate.com/v1
+  auth_server: https://api.ottimate.com/v1/oauth/token
+  dashboard: https://ottimate.com
+credentials:
+  provisioning: >-
+    An Ottimate Partner Manager creates a mock client account in the sandbox and
+    provides a Sandbox API Key plus a Sandbox Client ID and Client Secret. The
+    API will not work without a properly configured sandbox client account.
+  contact: peter.niu@ottimate.com
+  self_serve: false
+test_data:
+  approach: >-
+    Create test entities via the API — vendors (POST /v1/vendors), dimensions
+    (POST /v1/dimensions), invoices (POST /v1/invoices or /v1/invoices/upload).
+  recommendation: Use descriptive names like "Test Vendor - Electronics" rather than real company data.
+  published_test_values: none  # Ottimate publishes no fixed test cards/tokens; testers create their own entities
+differences_from_production:
+- Separate credentials and identifiers
+- Isolated data (sandbox changes do not affect production)
+- Feature parity — all production APIs are available
+- Different URLs (replace the `sandbox-` prefix for production)

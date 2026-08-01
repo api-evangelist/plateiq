@@ -1,0 +1,53 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/plateiq-openapi.json
+docs: https://docs.ottimate.com/idempotency
+provider: plateiq
+api: Ottimate API
+format: custom-json
+is_rfc9457: false
+envelope:
+  schema: ErrorResponse
+  content_type: application/json
+  fields:
+    code: Human-readable error message / code string
+    message: Additional error details (object, string, or null)
+    request_id: Unique identifier for the request, cite when contacting support
+    timestamp: Timestamp when the error occurred
+  required:
+  - code
+  - message
+status_codes:
+- status: 400
+  title: Bad Request
+  meaning: Malformed request or invalid parameters (e.g. an invalid Idempotency-Key).
+- status: 401
+  title: Unauthorized
+  meaning: Missing/expired access token or missing API key. Refresh the OAuth token and retry.
+- status: 403
+  title: Forbidden
+  meaning: The API User's scope does not permit access to the requested company/location resource.
+- status: 404
+  title: Not Found
+  meaning: The requested resource does not exist or is out of scope for the API User.
+- status: 412
+  title: Precondition Failed
+  meaning: A required precondition on the request was not met.
+- status: 413
+  title: Payload Too Large
+  meaning: The uploaded file or request body exceeds allowed size limits.
+- status: 422
+  title: Unprocessable Entity
+  meaning: >-
+    Validation failed, or idempotency conflict — same Idempotency-Key replayed
+    with a different (mutated) JSON body, or a non-JSON body retried with a reused key.
+- status: 409
+  title: Conflict
+  meaning: A retry arrived while the original request with the same Idempotency-Key is still processing.
+- status: 500
+  title: Internal Server Error
+  meaning: An unexpected server error occurred; retry with backoff and cite request_id if persistent.
+notes: >-
+  Only 2xx responses are cached by the idempotency layer; 4xx/5xx responses are
+  processed fresh on retry. Ottimate is not a payments-decline-code surface — no
+  buyer-masked decline code catalog is published.

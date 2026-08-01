@@ -1,0 +1,36 @@
+generated: '2026-07-20'
+method: searched
+source: https://ottimate.com/
+docs:
+  security: https://ottimate.com/feature/ap-automation-data-security/
+  auth: https://docs.ottimate.com/auth
+provider: plateiq
+api: Ottimate API
+standards:
+- id: oauth2
+  conforms: true
+  evidence: OAuth2 client-credentials flow with token endpoint /v1/oauth/token (docs.ottimate.com/auth).
+- id: rest-json
+  conforms: true
+  evidence: Standard REST API over HTTPS using JSON with conventional HTTP methods and status codes (overview).
+- id: idempotency
+  conforms: true
+  evidence: Idempotency-Key header with 24h cache, SHA-256 body match, X-Idempotent-Replayed replay header (docs.ottimate.com/idempotency).
+- id: rfc9457
+  conforms: false
+  evidence: Errors use a custom ErrorResponse envelope (code/message/request_id/timestamp), not application/problem+json.
+- id: soc2-type-ii
+  conforms: true
+  evidence: SOC 2 Type II (A-Lign) badge published on ottimate.com.
+- id: iso-27001
+  conforms: true
+  evidence: ISO 27001 badge published on ottimate.com.
+- id: openapi-3.1
+  conforms: true
+  evidence: Publishes an OpenAPI 3.1.0 description at docs.ottimate.com/openapi.json.
+compliance:
+  certifications:
+  - SOC 2 Type II
+  - ISO 27001
+  auditor: A-Lign
+  source: https://ottimate.com/

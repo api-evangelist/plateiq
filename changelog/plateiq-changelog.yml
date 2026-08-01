@@ -1,0 +1,24 @@
+generated: '2026-07-20'
+method: searched
+source: https://docs.ottimate.com/v-1/changelog
+docs: https://docs.ottimate.com/v-1/changelog
+provider: plateiq
+api: Ottimate API
+scheme: dated
+current_version: v1
+entries:
+- date: '2026-03-05'
+  url: https://docs.ottimate.com/changelog/2026/3/5
+  breaking: false
+  highlights:
+  - Purchase Orders and Receipts APIs promoted from in-development to Beta (two-way / three-way matching).
+  - PO line items support dimension mappings via the `dimensions` field (keyed by type, e.g. PROJECT, CLASS).
+  - Purchase orders support a `custom_fields` object for company-specific metadata.
+  - Flexible PO lookup for receipts — by ottimate_po_id or by erp_vendor_id + ottimate_location_id + po_number/po_external_id.
+- date: '2026-02-27'
+  url: https://docs.ottimate.com/changelog/2026/2/27
+  breaking: false
+  highlights:
+  - Introduced Purchase Orders, Receipts, and Batch processing endpoints (in development).
+  - Added bulk operations across several existing APIs.
+  - Established availability-status tags (Stable/GA/Beta/Pre-release/In Development/Deprecated) across the API Reference.
