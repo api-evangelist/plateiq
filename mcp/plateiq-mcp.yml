@@ -4,7 +4,8 @@ source: https://docs.ottimate.com/welcome
 docs: https://docs.ottimate.com/welcome
 provider: plateiq
 name: Ottimate Docs MCP Server
-status: live
+status: published
+status_raw: live
 transport: streamable-http
 endpoint: https://docs.ottimate.com/_mcp/server
 server_info:
