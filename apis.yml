@@ -261,7 +261,7 @@ common:
 - type: ChangeLog
   url: changelog/plateiq-changelog.yml
 - type: OpenAPI
-  url: openapi/plateiq-openapi.yaml
+  url: openapi/_original/plateiq-openapi.yaml
 - type: Authentication
   url: authentication/plateiq-authentication.yml
 - type: OAuthScopes
