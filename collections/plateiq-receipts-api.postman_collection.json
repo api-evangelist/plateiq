@@ -1,0 +1,1284 @@
+{
+  "item": [
+    {
+      "id": "df2384e2-4d25-4273-8562-384d63702441",
+      "name": "receipts",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4cdbcfc0-3f01-4617-8a17-3b7ef1a358ff",
+          "name": "Retrieve a paginated list of receipts",
+          "request": {
+            "name": "Retrieve a paginated list of receipts",
+            "description": {
+              "content": "Returns a paginated list of receipts, filterable by company, location, purchase order, status, and date range.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "receipts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ottimate_company_id",
+                  "value": "<integer>",
+                  "description": "Filter by company ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "ottimate_location_id",
+                  "value": "<integer>",
+                  "description": "Filter by location ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "ottimate_po_id",
+                  "value": "<string>",
+                  "description": "Filter by purchase order ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter by receipt status"
+                },
+                {
+                  "disabled": false,
+                  "key": "date_from",
+                  "value": "<date>",
+                  "description": "Filter by start date (YYYY-MM-DD)"
+                },
+                {
+                  "disabled": false,
+                  "key": "date_to",
+                  "value": "<date>",
+                  "description": "Filter by end date (YYYY-MM-DD)"
+                },
+                {
+                  "disabled": false,
+                  "key": "expand",
+                  "value": "<string>",
+                  "description": "Comma-separated list of fields to expand. Supported values: items. When expand=items is used, date_from and date_to must both be provided and within a 30-day window."
+                },
+                {
+                  "disabled": false,
+                  "key": "external_id",
+                  "value": "<string>",
+                  "description": "Filter by external (ERP) receipt ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Page number (default 1)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Number of results per page (default 20)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication",
+                "key": "X-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                "key": "X-API-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c8a5b04f-d0ef-440d-8c3f-98bab8af905d",
+              "name": "Successful response with paginated receipt list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ottimate_company_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "ottimate_location_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "ottimate_po_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "date_from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "date_to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "external_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"version\": \"string\",\n  \"count\": 5426,\n  \"page\": 3811,\n  \"limit\": 3185,\n  \"receipts\": [\n    {\n      \"id\": \"string\",\n      \"status\": \"archived\",\n      \"external_id\": \"string\",\n      \"receipt_number\": \"string\",\n      \"ottimate_po_id\": \"string\",\n      \"date\": \"1965-01-09\",\n      \"total_amount\": 1629.137897379588,\n      \"created_date\": \"1954-04-14T06:18:15.890Z\",\n      \"created_date_utc\": \"1973-01-08T22:35:32.014Z\"\n    },\n    {\n      \"id\": \"string\",\n      \"status\": \"pending\",\n      \"external_id\": \"string\",\n      \"receipt_number\": \"string\",\n      \"ottimate_po_id\": \"string\",\n      \"date\": \"1953-02-07\",\n      \"total_amount\": 4534.482153381967,\n      \"created_date\": \"1985-11-26T10:20:34.894Z\",\n      \"created_date_utc\": \"1992-05-08T07:34:39.257Z\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6665499a-9948-430b-b42a-2acfd1c496fa",
+              "name": "Bad request - Invalid parameters or request format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ottimate_company_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "ottimate_location_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "ottimate_po_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "date_from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "date_to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "external_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": {},\n  \"request_id\": \"string\",\n  \"timestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9c0709d6-4281-4c3f-a6ee-c6171a6b76b3",
+              "name": "Unauthorized - Authentication required or invalid credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ottimate_company_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "ottimate_location_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "ottimate_po_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "date_from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "date_to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "external_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": {},\n  \"request_id\": \"string\",\n  \"timestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9c595901-0a68-4385-bba1-b816c5c16295",
+          "name": "Create a single receipt",
+          "request": {
+            "name": "Create a single receipt",
+            "description": {
+              "content": "Creates a new receipt linked to an existing purchase order. The `receipt_number` field is required and must be provided by the client",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "receipts"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication",
+                "key": "X-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                "key": "X-API-Version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Client-generated unique key (UUID/ULID recommended). JSON requests: the first 2xx response is cached for 24h and replayed on a same-key retry with a matching body; a different body returns 422. Non-JSON requests (e.g. file uploads): the key is single-use — any same-key retry returns 422 regardless of body. See [Idempotency](https://docs.ottimate.com/idempotency) for full details.",
+                "key": "Idempotency-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"receipt_number\": \"<string>\",\n  \"date\": \"<date>\",\n  \"total_amount\": \"<double>\",\n  \"items\": [\n    {\n      \"quantity\": \"<double>\",\n      \"external_id\": \"<string>\",\n      \"ottimate_po_item_id\": \"<string>\",\n      \"po_external_item_id\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"price\": \"<double>\",\n      \"uom\": \"<string>\"\n    },\n    {\n      \"quantity\": \"<double>\",\n      \"external_id\": \"<string>\",\n      \"ottimate_po_item_id\": \"<string>\",\n      \"po_external_item_id\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"price\": \"<double>\",\n      \"uom\": \"<string>\"\n    }\n  ],\n  \"ottimate_po_id\": \"<string>\",\n  \"ottimate_location_id\": \"<integer>\",\n  \"erp_vendor_id\": \"<string>\",\n  \"po_number\": \"<string>\",\n  \"po_external_id\": \"<string>\",\n  \"external_id\": \"<string>\",\n  \"invoice_number_ref\": \"<string>\",\n  \"note\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9ec14a9f-9f39-4523-86e6-754170971a51",
+              "name": "Successfully created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-generated unique key (UUID/ULID recommended). JSON requests: the first 2xx response is cached for 24h and replayed on a same-key retry with a matching body; a different body returns 422. Non-JSON requests (e.g. file uploads): the key is single-use — any same-key retry returns 422 regardless of body. See [Idempotency](https://docs.ottimate.com/idempotency) for full details.",
+                    "key": "Idempotency-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"receipt_number\": \"<string>\",\n  \"date\": \"<date>\",\n  \"total_amount\": \"<double>\",\n  \"items\": [\n    {\n      \"quantity\": 6436.13723001684,\n      \"external_id\": \"string\",\n      \"ottimate_po_item_id\": \"string\",\n      \"po_external_item_id\": \"string\",\n      \"sku\": \"string\",\n      \"price\": 1984.342751179251,\n      \"uom\": \"string\"\n    },\n    {\n      \"quantity\": 9108.380113376554,\n      \"external_id\": \"string\",\n      \"ottimate_po_item_id\": \"string\",\n      \"po_external_item_id\": \"string\",\n      \"sku\": \"string\",\n      \"price\": 9581.878219096674,\n      \"uom\": \"string\"\n    }\n  ],\n  \"ottimate_po_id\": \"<string>\",\n  \"ottimate_location_id\": \"<integer>\",\n  \"erp_vendor_id\": \"<string>\",\n  \"po_number\": \"<string>\",\n  \"po_external_id\": \"<string>\",\n  \"external_id\": \"<string>\",\n  \"invoice_number_ref\": \"<string>\",\n  \"note\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"status\": \"closed\",\n  \"external_id\": \"string\",\n  \"receipt_number\": \"string\",\n  \"ottimate_po_id\": \"string\",\n  \"date\": \"1969-02-01\",\n  \"total_amount\": 9540.188160606385,\n  \"items_count\": 8953,\n  \"created_date\": \"2025-02-09T09:56:24.526Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "590bdf9a-b1a0-4267-b2da-76fc0584233e",
+              "name": "Bad request - Invalid parameters or request format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receipts"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-generated unique key (UUID/ULID recommended). JSON requests: the first 2xx response is cached for 24h and replayed on a same-key retry with a matching body; a different body returns 422. Non-JSON requests (e.g. file uploads): the key is single-use — any same-key retry returns 422 regardless of body. See [Idempotency](https://docs.ottimate.com/idempotency) for full details.",
+                    "key": "Idempotency-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"receipt_number\": \"<string>\",\n  \"date\": \"<date>\",\n  \"total_amount\": \"<double>\",\n  \"items\": [\n    {\n      \"quantity\": 6436.13723001684,\n      \"external_id\": \"string\",\n      \"ottimate_po_item_id\": \"string\",\n      \"po_external_item_id\": \"string\",\n      \"sku\": \"string\",\n      \"price\": 1984.342751179251,\n      \"uom\": \"string\"\n    },\n    {\n      \"quantity\": 9108.380113376554,\n      \"external_id\": \"string\",\n      \"ottimate_po_item_id\": \"string\",\n      \"po_external_item_id\": \"string\",\n      \"sku\": \"string\",\n      \"price\": 9581.878219096674,\n      \"uom\": \"string\"\n    }\n  ],\n  \"ottimate_po_id\": \"<string>\",\n  \"ottimate_location_id\": \"<integer>\",\n  \"erp_vendor_id\": \"<string>\",\n  \"po_number\": \"<string>\",\n  \"po_external_id\": \"<string>\",\n  \"external_id\": \"<string>\",\n  \"invoice_number_ref\": \"<string>\",\n  \"note\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": {},\n  \"request_id\": \"string\",\n  \"timestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c239d953-e777-4102-81eb-53253b870064",
+          "name": "Retrieve a specific receipt by ID",
+          "request": {
+            "name": "Retrieve a specific receipt by ID",
+            "description": {
+              "content": "Returns detailed information for a single receipt including all line items.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "receipts",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The unique ID of the receipt"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication",
+                "key": "X-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                "key": "X-API-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d47ee14f-e023-4149-b1fb-d9f48208a79f",
+              "name": "Successful response with receipt details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receipts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique ID of the receipt"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"receipt\": {\n    \"id\": \"string\",\n    \"status\": \"pending\",\n    \"external_id\": \"string\",\n    \"receipt_number\": \"string\",\n    \"ottimate_po_id\": \"string\",\n    \"date\": \"2008-01-14\",\n    \"total_amount\": 3533.0692529778908,\n    \"invoice_number_ref\": \"string\",\n    \"note\": \"string\",\n    \"items\": [\n      {\n        \"id\": \"string\",\n        \"external_id\": \"string\",\n        \"ottimate_po_item_id\": \"string\",\n        \"name\": \"string\",\n        \"sku\": \"string\",\n        \"quantity\": 1956.6427839450296,\n        \"price\": 9123.72188653361,\n        \"uom\": \"string\",\n        \"created_date\": \"2014-08-08T12:52:50.635Z\",\n        \"created_date_utc\": \"2008-09-27T18:42:26.943Z\",\n        \"last_modified_date\": \"1965-11-07T09:24:42.960Z\",\n        \"last_modified_date_utc\": \"1997-03-06T09:50:12.354Z\"\n      },\n      {\n        \"id\": \"string\",\n        \"external_id\": \"string\",\n        \"ottimate_po_item_id\": \"string\",\n        \"name\": \"string\",\n        \"sku\": \"string\",\n        \"quantity\": 4854.190010634658,\n        \"price\": 3365.3401676150074,\n        \"uom\": \"string\",\n        \"created_date\": \"2023-04-08T00:56:43.043Z\",\n        \"created_date_utc\": \"1979-01-29T20:32:00.792Z\",\n        \"last_modified_date\": \"1991-02-02T19:08:34.444Z\",\n        \"last_modified_date_utc\": \"2024-12-31T03:40:36.264Z\"\n      }\n    ],\n    \"created_date\": \"1954-11-20T22:49:04.262Z\",\n    \"created_date_utc\": \"2019-07-12T01:33:12.845Z\",\n    \"last_modified_date\": \"1991-03-04T23:08:49.524Z\",\n    \"last_modified_date_utc\": \"2023-10-29T09:52:42.044Z\"\n  },\n  \"version\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0a8e7bcd-e579-425e-a479-9754212749f1",
+              "name": "Not found - Resource does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receipts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique ID of the receipt"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": {},\n  \"request_id\": \"string\",\n  \"timestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "24e76e2d-eac1-499f-b4b6-fb6d13b83cc3",
+          "name": "Update an existing receipt",
+          "request": {
+            "name": "Update an existing receipt",
+            "description": {
+              "content": "Updates a receipt. Note: `status`, `receipt_number`, `external_id`, and `ottimate_po_id` cannot be changed.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "receipts",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The unique ID of the receipt"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication",
+                "key": "X-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                "key": "X-API-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"receipt_number\": \"<string>\",\n  \"date\": \"<date>\",\n  \"total_amount\": \"<double>\",\n  \"invoice_number_ref\": \"<string>\",\n  \"note\": \"<string>\",\n  \"items\": [\n    {\n      \"id\": \"<string>\",\n      \"external_id\": \"<string>\",\n      \"ottimate_po_item_id\": \"<string>\",\n      \"po_external_item_id\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"quantity\": \"<double>\",\n      \"price\": \"<double>\",\n      \"uom\": \"<string>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"external_id\": \"<string>\",\n      \"ottimate_po_item_id\": \"<string>\",\n      \"po_external_item_id\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"quantity\": \"<double>\",\n      \"price\": \"<double>\",\n      \"uom\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0c704bf7-ccf7-45ed-b84b-7fff10af2bb0",
+              "name": "Successfully updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receipts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique ID of the receipt"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"receipt_number\": \"<string>\",\n  \"date\": \"<date>\",\n  \"total_amount\": \"<double>\",\n  \"invoice_number_ref\": \"<string>\",\n  \"note\": \"<string>\",\n  \"items\": [\n    {\n      \"id\": \"string\",\n      \"external_id\": \"string\",\n      \"ottimate_po_item_id\": \"string\",\n      \"po_external_item_id\": \"string\",\n      \"sku\": \"string\",\n      \"quantity\": 5286.483577836514,\n      \"price\": 8374.343759881154,\n      \"uom\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"external_id\": \"string\",\n      \"ottimate_po_item_id\": \"string\",\n      \"po_external_item_id\": \"string\",\n      \"sku\": \"string\",\n      \"quantity\": 6928.966373040995,\n      \"price\": 5001.414098399519,\n      \"uom\": \"string\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"status\": \"pending\",\n  \"version\": \"string\",\n  \"external_id\": \"string\",\n  \"receipt_number\": \"string\",\n  \"ottimate_po_id\": \"string\",\n  \"date\": \"1989-12-12\",\n  \"total_amount\": 8990.69782770172,\n  \"items_count\": 9979,\n  \"last_modified_date\": \"1979-03-10T03:13:44.411Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "15b21b36-4d7f-4069-a35f-fccdd4b54684",
+              "name": "Bad request - Invalid parameters or request format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receipts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique ID of the receipt"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"receipt_number\": \"<string>\",\n  \"date\": \"<date>\",\n  \"total_amount\": \"<double>\",\n  \"invoice_number_ref\": \"<string>\",\n  \"note\": \"<string>\",\n  \"items\": [\n    {\n      \"id\": \"string\",\n      \"external_id\": \"string\",\n      \"ottimate_po_item_id\": \"string\",\n      \"po_external_item_id\": \"string\",\n      \"sku\": \"string\",\n      \"quantity\": 5286.483577836514,\n      \"price\": 8374.343759881154,\n      \"uom\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"external_id\": \"string\",\n      \"ottimate_po_item_id\": \"string\",\n      \"po_external_item_id\": \"string\",\n      \"sku\": \"string\",\n      \"quantity\": 6928.966373040995,\n      \"price\": 5001.414098399519,\n      \"uom\": \"string\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": {},\n  \"request_id\": \"string\",\n  \"timestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d9bca386-9fa5-4a4b-a308-2aacccc34d9f",
+              "name": "Not found - Resource does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receipts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The unique ID of the receipt"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"receipt_number\": \"<string>\",\n  \"date\": \"<date>\",\n  \"total_amount\": \"<double>\",\n  \"invoice_number_ref\": \"<string>\",\n  \"note\": \"<string>\",\n  \"items\": [\n    {\n      \"id\": \"string\",\n      \"external_id\": \"string\",\n      \"ottimate_po_item_id\": \"string\",\n      \"po_external_item_id\": \"string\",\n      \"sku\": \"string\",\n      \"quantity\": 5286.483577836514,\n      \"price\": 8374.343759881154,\n      \"uom\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"external_id\": \"string\",\n      \"ottimate_po_item_id\": \"string\",\n      \"po_external_item_id\": \"string\",\n      \"sku\": \"string\",\n      \"quantity\": 6928.966373040995,\n      \"price\": 5001.414098399519,\n      \"uom\": \"string\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": {},\n  \"request_id\": \"string\",\n  \"timestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "98e2e9b4-1cd2-4673-a3a6-a7006f025e2e",
+          "name": "Bulk create or update receipts",
+          "request": {
+            "name": "Bulk create or update receipts",
+            "description": {
+              "content": "Creates or updates multiple receipts in a single request. Maximum 100 receipts and 1000 total line items per request. Processing is always asynchronous via Celery and returns a batch tracking ID for polling progress.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "receipts",
+                "bulk"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication",
+                "key": "X-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                "key": "X-API-Version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Client-generated unique key (UUID/ULID recommended). JSON requests: the first 2xx response is cached for 24h and replayed on a same-key retry with a matching body; a different body returns 422. Non-JSON requests (e.g. file uploads): the key is single-use — any same-key retry returns 422 regardless of body. See [Idempotency](https://docs.ottimate.com/idempotency) for full details.",
+                "key": "Idempotency-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ottimate_company_id\": \"<integer>\",\n  \"receipts\": [\n    {\n      \"receipt_number\": \"<string>\",\n      \"date\": \"<date>\",\n      \"total_amount\": \"<double>\",\n      \"items\": [\n        {\n          \"quantity\": \"<double>\",\n          \"external_id\": \"<string>\",\n          \"ottimate_po_item_id\": \"<string>\",\n          \"po_external_item_id\": \"<string>\",\n          \"sku\": \"<string>\",\n          \"price\": \"<double>\",\n          \"uom\": \"<string>\"\n        },\n        {\n          \"quantity\": \"<double>\",\n          \"external_id\": \"<string>\",\n          \"ottimate_po_item_id\": \"<string>\",\n          \"po_external_item_id\": \"<string>\",\n          \"sku\": \"<string>\",\n          \"price\": \"<double>\",\n          \"uom\": \"<string>\"\n        }\n      ],\n      \"ottimate_po_id\": \"<string>\",\n      \"ottimate_location_id\": \"<integer>\",\n      \"erp_vendor_id\": \"<string>\",\n      \"po_number\": \"<string>\",\n      \"po_external_id\": \"<string>\",\n      \"external_id\": \"<string>\",\n      \"invoice_number_ref\": \"<string>\",\n      \"note\": \"<string>\"\n    },\n    {\n      \"receipt_number\": \"<string>\",\n      \"date\": \"<date>\",\n      \"total_amount\": \"<double>\",\n      \"items\": [\n        {\n          \"quantity\": \"<double>\",\n          \"external_id\": \"<string>\",\n          \"ottimate_po_item_id\": \"<string>\",\n          \"po_external_item_id\": \"<string>\",\n          \"sku\": \"<string>\",\n          \"price\": \"<double>\",\n          \"uom\": \"<string>\"\n        },\n        {\n          \"quantity\": \"<double>\",\n          \"external_id\": \"<string>\",\n          \"ottimate_po_item_id\": \"<string>\",\n          \"po_external_item_id\": \"<string>\",\n          \"sku\": \"<string>\",\n          \"price\": \"<double>\",\n          \"uom\": \"<string>\"\n        }\n      ],\n      \"ottimate_po_id\": \"<string>\",\n      \"ottimate_location_id\": \"<integer>\",\n      \"erp_vendor_id\": \"<string>\",\n      \"po_number\": \"<string>\",\n      \"po_external_id\": \"<string>\",\n      \"external_id\": \"<string>\",\n      \"invoice_number_ref\": \"<string>\",\n      \"note\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "0139d28a-a4b5-4792-8cc8-83e36340debd",
+              "name": "Asynchronous processing started. Poll batch_url for progress.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receipts",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-generated unique key (UUID/ULID recommended). JSON requests: the first 2xx response is cached for 24h and replayed on a same-key retry with a matching body; a different body returns 422. Non-JSON requests (e.g. file uploads): the key is single-use — any same-key retry returns 422 regardless of body. See [Idempotency](https://docs.ottimate.com/idempotency) for full details.",
+                    "key": "Idempotency-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ottimate_company_id\": \"<integer>\",\n  \"receipts\": [\n    {\n      \"receipt_number\": \"string\",\n      \"date\": \"1980-01-11\",\n      \"total_amount\": 1244.3611674096312,\n      \"items\": [\n        {\n          \"quantity\": 779.1281585315845,\n          \"external_id\": \"string\",\n          \"ottimate_po_item_id\": \"string\",\n          \"po_external_item_id\": \"string\",\n          \"sku\": \"string\",\n          \"price\": 8139.173465764186,\n          \"uom\": \"string\"\n        },\n        {\n          \"quantity\": 2082.074902605081,\n          \"external_id\": \"string\",\n          \"ottimate_po_item_id\": \"string\",\n          \"po_external_item_id\": \"string\",\n          \"sku\": \"string\",\n          \"price\": 1220.8974398156658,\n          \"uom\": \"string\"\n        }\n      ],\n      \"ottimate_po_id\": \"string\",\n      \"ottimate_location_id\": 8135,\n      \"erp_vendor_id\": \"string\",\n      \"po_number\": \"string\",\n      \"po_external_id\": \"string\",\n      \"external_id\": \"string\",\n      \"invoice_number_ref\": \"string\",\n      \"note\": \"string\"\n    },\n    {\n      \"receipt_number\": \"string\",\n      \"date\": \"2016-12-03\",\n      \"total_amount\": 2891.4178817143443,\n      \"items\": [\n        {\n          \"quantity\": 5335.944638287001,\n          \"external_id\": \"string\",\n          \"ottimate_po_item_id\": \"string\",\n          \"po_external_item_id\": \"string\",\n          \"sku\": \"string\",\n          \"price\": 7089.370811749105,\n          \"uom\": \"string\"\n        },\n        {\n          \"quantity\": 8416.698916565467,\n          \"external_id\": \"string\",\n          \"ottimate_po_item_id\": \"string\",\n          \"po_external_item_id\": \"string\",\n          \"sku\": \"string\",\n          \"price\": 705.7690960188568,\n          \"uom\": \"string\"\n        }\n      ],\n      \"ottimate_po_id\": \"string\",\n      \"ottimate_location_id\": 3610,\n      \"erp_vendor_id\": \"string\",\n      \"po_number\": \"string\",\n      \"po_external_id\": \"string\",\n      \"external_id\": \"string\",\n      \"invoice_number_ref\": \"string\",\n      \"note\": \"string\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"processing\",\n  \"batch_id\": \"string\",\n  \"version\": \"string\",\n  \"batch_url\": \"string\",\n  \"results_url\": \"string\",\n  \"summary\": {\n    \"count\": 5081,\n    \"total_items\": 8762\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3711964f-8a5b-4782-8e22-1eee98b520f3",
+              "name": "Bad request - Invalid parameters or request format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "receipts",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-generated unique key (UUID/ULID recommended). JSON requests: the first 2xx response is cached for 24h and replayed on a same-key retry with a matching body; a different body returns 422. Non-JSON requests (e.g. file uploads): the key is single-use — any same-key retry returns 422 regardless of body. See [Idempotency](https://docs.ottimate.com/idempotency) for full details.",
+                    "key": "Idempotency-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ottimate_company_id\": \"<integer>\",\n  \"receipts\": [\n    {\n      \"receipt_number\": \"string\",\n      \"date\": \"1980-01-11\",\n      \"total_amount\": 1244.3611674096312,\n      \"items\": [\n        {\n          \"quantity\": 779.1281585315845,\n          \"external_id\": \"string\",\n          \"ottimate_po_item_id\": \"string\",\n          \"po_external_item_id\": \"string\",\n          \"sku\": \"string\",\n          \"price\": 8139.173465764186,\n          \"uom\": \"string\"\n        },\n        {\n          \"quantity\": 2082.074902605081,\n          \"external_id\": \"string\",\n          \"ottimate_po_item_id\": \"string\",\n          \"po_external_item_id\": \"string\",\n          \"sku\": \"string\",\n          \"price\": 1220.8974398156658,\n          \"uom\": \"string\"\n        }\n      ],\n      \"ottimate_po_id\": \"string\",\n      \"ottimate_location_id\": 8135,\n      \"erp_vendor_id\": \"string\",\n      \"po_number\": \"string\",\n      \"po_external_id\": \"string\",\n      \"external_id\": \"string\",\n      \"invoice_number_ref\": \"string\",\n      \"note\": \"string\"\n    },\n    {\n      \"receipt_number\": \"string\",\n      \"date\": \"2016-12-03\",\n      \"total_amount\": 2891.4178817143443,\n      \"items\": [\n        {\n          \"quantity\": 5335.944638287001,\n          \"external_id\": \"string\",\n          \"ottimate_po_item_id\": \"string\",\n          \"po_external_item_id\": \"string\",\n          \"sku\": \"string\",\n          \"price\": 7089.370811749105,\n          \"uom\": \"string\"\n        },\n        {\n          \"quantity\": 8416.698916565467,\n          \"external_id\": \"string\",\n          \"ottimate_po_item_id\": \"string\",\n          \"po_external_item_id\": \"string\",\n          \"sku\": \"string\",\n          \"price\": 705.7690960188568,\n          \"uom\": \"string\"\n        }\n      ],\n      \"ottimate_po_id\": \"string\",\n      \"ottimate_location_id\": 3610,\n      \"erp_vendor_id\": \"string\",\n      \"po_number\": \"string\",\n      \"po_external_id\": \"string\",\n      \"external_id\": \"string\",\n      \"invoice_number_ref\": \"string\",\n      \"note\": \"string\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": {},\n  \"request_id\": \"string\",\n  \"timestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.ottimate.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ccb59b1b-4a04-4811-948e-6610ad671ebd",
+    "name": "API Reference accounts receipts API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

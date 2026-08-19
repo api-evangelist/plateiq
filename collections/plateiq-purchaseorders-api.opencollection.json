@@ -1,0 +1,241 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference accounts purchaseOrders API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "purchaseOrders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a paginated list of purchase orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/purchase-orders",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "ottimate_company_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by company ID"
+              },
+              {
+                "name": "ottimate_location_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by location ID"
+              },
+              {
+                "name": "erp_vendor_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by ERP vendor ID (external vendor identifier)"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by PO status"
+              },
+              {
+                "name": "date_from",
+                "value": "",
+                "type": "query",
+                "description": "Filter by start date (YYYY-MM-DD)"
+              },
+              {
+                "name": "date_to",
+                "value": "",
+                "type": "query",
+                "description": "Filter by end date (YYYY-MM-DD)"
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to expand. Supported values: items. When expand=items is used, date_from and date_to must both be provided and within a 30-day window."
+              },
+              {
+                "name": "external_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by external (ERP) purchase order ID"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (default 1)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (default 20)"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of purchase orders, filterable by company, location, vendor, status, and date range."
+        },
+        {
+          "info": {
+            "name": "Create a single purchase order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ottimate.com/v1/purchase-orders",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new purchase order with the provided details. The `po_number` field is required and must be provided by the client (no auto-generation)."
+        },
+        {
+          "info": {
+            "name": "Retrieve a specific purchase order by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/purchase-orders/:id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique ID of the purchase order"
+              }
+            ]
+          },
+          "docs": "Returns detailed information for a single purchase order including all line items."
+        },
+        {
+          "info": {
+            "name": "Update an existing purchase order",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.ottimate.com/v1/purchase-orders/:id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique ID of the purchase order"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a purchase order. Note: `status`, `po_number`, `external_id`, `erp_vendor_id`, and `ottimate_location_id` cannot be changed."
+        },
+        {
+          "info": {
+            "name": "Bulk create or update purchase orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ottimate.com/v1/purchase-orders/bulk",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates or updates multiple purchase orders in a single request. Maximum 100 purchase orders and 1000 total line items per request. Processing is always asynchronous via Celery and returns a batch tracking ID for polling progress."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

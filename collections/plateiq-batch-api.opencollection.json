@@ -1,0 +1,153 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference accounts batch API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "batch",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Poll batch progress",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/batch/:id/progress",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The batch ID returned from the initiating bulk operation"
+              }
+            ]
+          },
+          "docs": "Returns the current progress of a batch operation. Poll this endpoint until `status` is `completed`. When completed, a `results_url` is included. If all tasks failed, an `error` field is included with the failure reason."
+        },
+        {
+          "info": {
+            "name": "Retrieve batch results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/batch/:id/results",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The batch ID returned from the initiating bulk operation"
+              }
+            ]
+          },
+          "docs": "Returns the per-task results for a batch operation. Call this endpoint after polling `/progress` until `status` is `completed`. Each entry in `results` corresponds to one task, with the task outcome in `result` and any error message in `message`."
+        },
+        {
+          "info": {
+            "name": "List batches",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/batch",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by batch status. `processing` returns in-progress batches; `completed` returns finished batches."
+              },
+              {
+                "name": "date_from",
+                "value": "",
+                "type": "query",
+                "description": "Return only batches last modified at or after this ISO 8601 datetime (e.g. `2024-01-01T00:00:00Z`)."
+              },
+              {
+                "name": "date_from_utc",
+                "value": "",
+                "type": "query",
+                "description": "UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant."
+              },
+              {
+                "name": "date_to",
+                "value": "",
+                "type": "query",
+                "description": "Return only batches last modified at or before this ISO 8601 datetime (e.g. `2024-12-31T23:59:59Z`)."
+              },
+              {
+                "name": "date_to_utc",
+                "value": "",
+                "type": "query",
+                "description": "UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (default 20)."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number."
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of batch jobs belonging to the authenticated user, sorted by last modified time descending. Use the `status` filter to narrow results to in-progress or completed batches. Use `date_from` / `date_to` to filter by last modified time range."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

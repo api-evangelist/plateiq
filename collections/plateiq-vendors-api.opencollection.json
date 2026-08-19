@@ -1,0 +1,192 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference accounts vendors API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "vendors",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a paginated list of accounting vendors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/vendors",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "ottimate_company_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter vendors by company ID"
+              },
+              {
+                "name": "detail",
+                "value": "",
+                "type": "query",
+                "description": "Specify the level of detail in the response"
+              },
+              {
+                "name": "last_modified_date_from",
+                "value": "",
+                "type": "query",
+                "description": "Filter vendors last modified on or after this date. Requires ottimate_company_id. Accepted formats: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS. All times are interpreted as UTC. A date-only value is treated as 00:00:00 UTC."
+              },
+              {
+                "name": "last_modified_date_from_utc",
+                "value": "",
+                "type": "query",
+                "description": "UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant."
+              },
+              {
+                "name": "last_modified_date_to",
+                "value": "",
+                "type": "query",
+                "description": "Filter vendors last modified on or before this date. Requires ottimate_company_id. Accepted formats: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS. All times are interpreted as UTC. A date-only value is treated as 00:00:00 UTC — to include the full day pass an explicit time (e.g. 2024-12-31 23:59:59)."
+              },
+              {
+                "name": "last_modified_date_to_utc",
+                "value": "",
+                "type": "query",
+                "description": "UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (default 1)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (default 20)"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of accounting vendors, filterable by company. The `detail=basic` query parameter returns a simplified response."
+        },
+        {
+          "info": {
+            "name": "Create a single new accounting vendor",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ottimate.com/v1/vendors",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new vendor with the provided details. The `erp_vendor_id` is required and will be mapped to both `accounting_id` and `dd_unique_key`."
+        },
+        {
+          "info": {
+            "name": "Retrieve a specific vendor by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/vendors/:id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique ID of the vendor"
+              }
+            ]
+          },
+          "docs": "Returns detailed information for a single accounting vendor using its unique ID."
+        },
+        {
+          "info": {
+            "name": "Create or update multiple accounting vendors",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ottimate.com/v1/vendors/bulk",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Allows for the creation or updating of multiple vendors in a single request. Maximum 100 vendors per request."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

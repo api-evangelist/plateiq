@@ -1,0 +1,792 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference accounts catalog API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "catalog",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List catalog entries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/catalog/entries",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "ottimate_company_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter entries by company ID (required)"
+              },
+              {
+                "name": "erp_vendor_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter entries by vendor name"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search term based on item description or name"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (default: 1)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Items per page (default: 50, max: 100)"
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to expand. Options: prices, allowances. When used, returns full CatalogEntryObject instead of CatalogEntryBasicObject."
+              },
+              {
+                "name": "sku",
+                "value": "",
+                "type": "query",
+                "description": "SKU code"
+              },
+              {
+                "name": "upc",
+                "value": "",
+                "type": "query",
+                "description": "UPC code"
+              },
+              {
+                "name": "buying_format",
+                "value": "",
+                "type": "query",
+                "description": "Buying format (e.g. 'CASE', 'EACH'). Pass 'null' to filter entries that have no buying format (NULL or empty)."
+              },
+              {
+                "name": "size",
+                "value": "",
+                "type": "query",
+                "description": "Pack size (e.g. '6 CT', '10 LB')"
+              },
+              {
+                "name": "uom",
+                "value": "",
+                "type": "query",
+                "description": "Unit of measure (e.g. 'CASE', 'EACH', 'LB')"
+              },
+              {
+                "name": "price",
+                "value": "",
+                "type": "query",
+                "description": "Price for the pack size"
+              },
+              {
+                "name": "unit_price",
+                "value": "",
+                "type": "query",
+                "description": "Price per individual unit within the pack"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of catalog entries, filterable by company, vendor, and search term."
+        },
+        {
+          "info": {
+            "name": "Create a catalog entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ottimate.com/v1/catalog/entries",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new catalog entry or updates an existing one if catalog_unique_key matches."
+        },
+        {
+          "info": {
+            "name": "Retrieve a catalog entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/catalog/entries/:id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique ID of the catalog entry"
+              }
+            ]
+          },
+          "docs": "Returns detailed information for a single catalog entry."
+        },
+        {
+          "info": {
+            "name": "Update a catalog entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.ottimate.com/v1/catalog/entries/:id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique ID of the catalog entry"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing catalog entry by ID."
+        },
+        {
+          "info": {
+            "name": "List catalog allowances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/catalog/allowances",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "ottimate_company_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter allowances by company ID (required)"
+              },
+              {
+                "name": "catalog_entry_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by catalog entry ID"
+              },
+              {
+                "name": "ottimate_location_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by location ID"
+              },
+              {
+                "name": "effective_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter allowances valid on this date (YYYY-MM-DD)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (default 1)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (default 20)"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of catalog allowances, filterable by company, catalog entry, location, and effective date."
+        },
+        {
+          "info": {
+            "name": "Create a catalog allowance",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ottimate.com/v1/catalog/allowances",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new catalog allowance for a catalog entry."
+        },
+        {
+          "info": {
+            "name": "Update a catalog allowance",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.ottimate.com/v1/catalog/allowances/:id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique ID of the catalog allowance"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing catalog allowance by ID."
+        },
+        {
+          "info": {
+            "name": "List catalog variances",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/catalog/variances",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "ottimate_company_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by company ID (required)"
+              },
+              {
+                "name": "variance_only",
+                "value": "",
+                "type": "query",
+                "description": "If true, returns only entries with non-zero variance. Default: false (returns all items including zero variance)"
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to expand. Supports 'invoice_items' to include all invoice items for each entry."
+              },
+              {
+                "name": "invoice_start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start of date range (YYYY-MM-DD)"
+              },
+              {
+                "name": "invoice_end_date",
+                "value": "",
+                "type": "query",
+                "description": "End of date range (YYYY-MM-DD)"
+              },
+              {
+                "name": "erp_vendor_ids",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated ERP vendor IDs (accounting vendor IDs) to filter variances by vendor."
+              },
+              {
+                "name": "ottimate_location_ids",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated location IDs"
+              },
+              {
+                "name": "exception_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by variance type"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of items per page"
+              }
+            ]
+          },
+          "docs": "Returns catalog entries with price variance information from invoice items. By default, returns all items that had purchases in the specified period, including items with zero variance. Use variance_only=true to return only entries with non-zero variance. Use expand=invoice_items to include all invoice items inline (otherwise only the most recent invoice item is returned)."
+        },
+        {
+          "info": {
+            "name": "Bulk create/update catalog entries (async)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ottimate.com/v1/catalog/entries/bulk",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Creates or updates multiple catalog entries asynchronously. Returns 202 with batch tracking info. Maximum 1000 entries per request. Poll GET /batch/{id}/progress for status.\n\n**Deprecation notice:** The previous synchronous bulk API has been deprecated. This async endpoint is the recommended behavior going forward — it avoids timeouts on large batches and provides progress tracking via the batch polling API."
+        },
+        {
+          "info": {
+            "name": "Bulk create/update catalog allowances (async)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ottimate.com/v1/catalog/allowances/bulk",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Creates or updates multiple catalog allowances asynchronously. Returns 202 with batch tracking info. Maximum 1000 allowances per request. Poll GET /batch/{id}/progress for status.\n\n**Deprecation notice:** The previous synchronous bulk API has been deprecated. This async endpoint is the recommended behavior going forward — it avoids timeouts on large batches and provides progress tracking via the batch polling API."
+        },
+        {
+          "info": {
+            "name": "Bulk create catalog prices (async)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ottimate.com/v1/catalog/prices/bulk",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ]
+          },
+          "docs": "Creates multiple catalog prices asynchronously (create-only, skips duplicates). Returns 202 with batch tracking info. Maximum 1000 prices per request. Poll GET /batch/{id}/progress for status.\n\n**Deprecation notice:** The previous synchronous bulk API has been deprecated. This async endpoint is the recommended behavior going forward — it avoids timeouts on large batches and provides progress tracking via the batch polling API."
+        },
+        {
+          "info": {
+            "name": "Get invoice items for a catalog entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/catalog/variances/:id/invoice-items",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The catalog entry ID"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Items per page (default: 20)"
+              }
+            ]
+          },
+          "docs": "Returns paginated invoice items with price variances for a specific catalog entry. Use this endpoint when the expand=invoice_items response indicates has_more=true."
+        },
+        {
+          "info": {
+            "name": "List exported catalog variance batches",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/catalog/variance-batches",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "ottimate_company_id",
+                "value": "",
+                "type": "query",
+                "description": "Company ID to filter by (required)"
+              },
+              {
+                "name": "batch_number",
+                "value": "",
+                "type": "query",
+                "description": "Filter by exact batch number"
+              },
+              {
+                "name": "exported_after",
+                "value": "",
+                "type": "query",
+                "description": "Return batches exported on or after this datetime (ISO 8601)"
+              },
+              {
+                "name": "exported_after_utc",
+                "value": "",
+                "type": "query",
+                "description": "UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant."
+              },
+              {
+                "name": "exported_before",
+                "value": "",
+                "type": "query",
+                "description": "Return batches exported on or before this datetime (ISO 8601)"
+              },
+              {
+                "name": "exported_before_utc",
+                "value": "",
+                "type": "query",
+                "description": "UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of items per page"
+              }
+            ]
+          },
+          "docs": "Returns exported Catalog Variance Manager batches for the given company. Only batches with export_status='exported' are ever returned — drafts and failed batches are excluded. The costbatch_payload in each result matches the Pyxis /costbatch format exactly."
+        },
+        {
+          "info": {
+            "name": "Export a catalog variance batch (local only)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ottimate.com/v1/catalog/variance-batches/:id/export",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The catalog variance batch ID (ctb_xxx)"
+              }
+            ]
+          },
+          "docs": "Marks the batch as exported without sending data to any external system. Sets exported_at to the current timestamp and api_status to success. Returns the exported batch with its costbatch_payload. Returns 400 if the batch is already exported."
+        },
+        {
+          "info": {
+            "name": "List catalog prices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/catalog/prices",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "ottimate_company_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter prices by company ID (required)"
+              },
+              {
+                "name": "catalog_entry_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by catalog entry ID"
+              },
+              {
+                "name": "ottimate_location_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by location ID"
+              },
+              {
+                "name": "effective_date",
+                "value": "",
+                "type": "query",
+                "description": "Filter prices valid on this date (YYYY-MM-DD)"
+              },
+              {
+                "name": "price_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by price type"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (default 1)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (default 20)"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of catalog prices, filterable by company, catalog entry, location, effective date, and price type."
+        },
+        {
+          "info": {
+            "name": "Create a catalog price",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ottimate.com/v1/catalog/prices",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new catalog price for a catalog entry."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

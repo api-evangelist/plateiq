@@ -1,0 +1,616 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference accounts invoices API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "invoices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve paginated list of invoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/invoices",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of items per page"
+              },
+              {
+                "name": "date_from",
+                "value": "",
+                "type": "query",
+                "description": "Filter invoices from this date. Accepted formats: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS. All times are interpreted as UTC. When using expand=items, either date_from or last_modified_date_from is required."
+              },
+              {
+                "name": "date_from_utc",
+                "value": "",
+                "type": "query",
+                "description": "UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant."
+              },
+              {
+                "name": "date_to",
+                "value": "",
+                "type": "query",
+                "description": "Filter invoices to this date. Accepted formats: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS. All times are interpreted as UTC. When using expand=items and omitted, defaults to the current UTC datetime."
+              },
+              {
+                "name": "date_to_utc",
+                "value": "",
+                "type": "query",
+                "description": "UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by invoice status"
+              },
+              {
+                "name": "ottimate_location_ids",
+                "value": "",
+                "type": "query",
+                "description": "Filter by a comma-separated list of location IDs"
+              },
+              {
+                "name": "payment_status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by payment status"
+              },
+              {
+                "name": "ottimate_vendor_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by specific vendor ID"
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to expand. Options: items. When used, returns full line item details along with catalog entry details. Requires date_from or last_modified_date_from (within a 30-day window); date_to and last_modified_date_to are optional and default to the current datetime if omitted."
+              },
+              {
+                "name": "invoice_ids",
+                "value": "",
+                "type": "query",
+                "description": "Filter by a comma-separated list of invoice IDs"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search across multiple invoice fields"
+              },
+              {
+                "name": "custom_fields",
+                "value": "",
+                "type": "query",
+                "description": "Filter by custom field values. Pass a JSON object where each key is a custom field name and each value is the exact value to match. Multiple keys are ANDed together."
+              },
+              {
+                "name": "last_modified_date_from",
+                "value": "",
+                "type": "query",
+                "description": "Filter invoices last modified on or after this date. Accepted formats: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS. All times are interpreted as UTC. When using expand=items, either last_modified_date_from or date_from is required."
+              },
+              {
+                "name": "last_modified_date_from_utc",
+                "value": "",
+                "type": "query",
+                "description": "UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant."
+              },
+              {
+                "name": "last_modified_date_to",
+                "value": "",
+                "type": "query",
+                "description": "Filter invoices last modified on or before this date. Accepted formats: YYYY-MM-DD or YYYY-MM-DD HH:MM:SS. All times are interpreted as UTC. When using expand=items and omitted, defaults to the current UTC datetime."
+              },
+              {
+                "name": "last_modified_date_to_utc",
+                "value": "",
+                "type": "query",
+                "description": "UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant."
+              },
+              {
+                "name": "last_modified_user_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter invoices by the ID of the user who last modified them"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of invoices with comprehensive filtering capabilities.\n\n### Filtering Options\n- Date range filtering by creation date (from/to dates)\n- Date range filtering by last modified date (last_modified_date_from/last_modified_date_to)\n- Filter by the user who last modified the invoice (last_modified_user_id)\n- Vendor filtering by name or ID\n- Location filtering by ottimate_location_id\n- Status filtering (approved, incomplete, processing, etc.)\n\n### Pagination\nResults are returne"
+        },
+        {
+          "info": {
+            "name": "Retrieve detailed information for a specific invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/invoices/:id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Invoice UUID - Unique identifier of the invoice to retrieve"
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of fields to expand. Options: `history`, `gl_splits`. Use `history` to include the full audit log. Use `gl_splits` to include GL account splits (real splits or virtual splits derived from line-item mappings)."
+              }
+            ]
+          },
+          "docs": "Returns **comprehensive details** for a single invoice including all metadata, processing information, and payment status.\n\n## 📋 What You Get\n\nThis endpoint provides the **complete invoice record** with:\n\n- 🧾 **Full invoice metadata** (dates, amounts, status)\n- 🏢 **Vendor information** and contact details\n- 📍 **Location** where invoice was received\n- 💳 **Payment information** (when invoice is paid)\n- ⚠️ **Error details** (if invoice has processing issues)\n- 📤 **Export tracking** (integrati"
+        },
+        {
+          "info": {
+            "name": "Update invoice header, line items, and dimensions",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.ottimate.com/v1/invoices/:id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Invoice ID to update"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an invoice along with its line items and dimensions.\n\n### Features\n- Update invoice header fields (date, amount, vendor, notes, etc.)\n- Create new line items (omit `id`)\n- Update existing line items (include `id`)\n- Set, update, or remove header and item-level dimensions\n- Update custom metadata fields at header and item level (requires account-level custom field spec configuration)\n\n### Use Cases\n- Invoice corrections\n- Invoice reconciliation with updated line items\n- Adding or updating"
+        },
+        {
+          "info": {
+            "name": "Create invoice from file upload or URL download",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ottimate.com/v1/invoices/upload",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "ottimate_location_id",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "filename",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "metadata",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "created_email",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Creates a new invoice by uploading a file directly or downloading from a URL. This endpoint combines file processing, S3 storage, and invoice creation in a single API call.\n\n### File Processing\n- Multiple formats supported: PDF, JPG, PNG, TIFF\n- Direct file upload via multipart form data\n- URL-based file download and ingestion\n- Automatic format and size validation\n- Secure S3 storage integration\n\n### Invoice Creation Features\n- Single-step upload and creation process\n- Custom metadata support f"
+        },
+        {
+          "info": {
+            "name": "Mark multiple invoices as exported",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ottimate.com/v1/invoices/mark-exported",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              },
+              {
+                "name": "X-Export-Batch-Id",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Mark multiple invoices as exported"
+        },
+        {
+          "info": {
+            "name": "Unexport multiple invoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ottimate.com/v1/invoices/mark-unexported",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Unexport multiple invoices"
+        },
+        {
+          "info": {
+            "name": "Retrieve uploads",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/invoices/uploads",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "ottimate_location_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by a specific location ID"
+              }
+            ]
+          },
+          "docs": "Returns a list of uploads that have been uploaded but not yet processed."
+        },
+        {
+          "info": {
+            "name": "Retrieve list of approvers for a specific invoice",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/invoices/:id/approvers",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Invoice ID"
+              }
+            ]
+          },
+          "docs": "Returns a list of all approvers assigned to an invoice, including their approval status.\n\n### Features\n- View all assigned approvers for an invoice\n- Check approval status (pending, approved)\n- See approver details (name, email)\n- View policy-based and manual approvers\n\n### Use Cases\n- Check who needs to approve an invoice\n- Monitor approval progress\n- Audit approval chain"
+        },
+        {
+          "info": {
+            "name": "Flag an invoice for review",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ottimate.com/v1/invoices/:id/flag",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Invoice ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Flags an invoice for review, moving it to incomplete status with a flagging reason.\n\n### Features\n- Flags invoice and moves to incomplete status\n- Supports optional flagging reason\n- Triggers notifications to relevant users\n\n### Use Cases\n- Flag invoices with issues for review\n- Request corrections or additional information\n- Mark invoices needing manual intervention"
+        },
+        {
+          "info": {
+            "name": "Bulk import invoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ottimate.com/v1/invoices/import",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Asynchronously creates up to 100 invoices in a single request. Each invoice must include a unique `upload_id` and a valid `ottimate_location_id`. Processing is queued via backgrund job and returns a `batch_id` for polling progress and results."
+        },
+        {
+          "info": {
+            "name": "Replace all invoice images with uploaded files",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.ottimate.com/v1/invoices/:id/images",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique ID of the invoice"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "images",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "docs": "Accepts one or more image files via multipart/form-data under the 'images' key. Deletes all existing images and replaces them with the uploaded files. Supported formats: PDF, JPG, JPEG, PNG. Maximum file size per image: 50 MB. Per-file validation failures are reported in image_errors rather than rejecting the entire request."
+        },
+        {
+          "info": {
+            "name": "Retrieve catalog-matched invoice lines as receiver/quantity export",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/invoices/receiver-export",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "ottimate_company_id",
+                "value": "",
+                "type": "query",
+                "description": "Ottimate company ID to scope the response"
+              },
+              {
+                "name": "ottimate_location_id",
+                "value": "",
+                "type": "query",
+                "description": "Ottimate location (restaurant) ID to scope the response"
+              },
+              {
+                "name": "exported_after",
+                "value": "",
+                "type": "query",
+                "description": "ISO 8601 datetime; returns invoices exported after this timestamp"
+              },
+              {
+                "name": "exported_after_utc",
+                "value": "",
+                "type": "query",
+                "description": "UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant."
+              },
+              {
+                "name": "exported_before",
+                "value": "",
+                "type": "query",
+                "description": "ISO 8601 datetime; returns invoices exported before this timestamp"
+              },
+              {
+                "name": "exported_before_utc",
+                "value": "",
+                "type": "query",
+                "description": "UTC filter. Accepts ISO 8601 with optional Z/offset, or YYYY-MM-DD[ HH:MM:SS] (assumed UTC). Takes precedence over the non-_utc variant."
+              },
+              {
+                "name": "vendor_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by vendor ID"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max results per page (default 50, max 200)"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of exported invoices with their catalog-matched line items. Only invoices in exported state, from vendors with item validation enabled, are returned. Fringe catalog entries and unmatched lines are excluded. If an invoice has zero qualifying lines after filtering it is omitted entirely."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

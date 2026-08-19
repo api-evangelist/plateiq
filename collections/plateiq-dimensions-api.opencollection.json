@@ -1,0 +1,174 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API Reference accounts dimensions API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "dimensions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve a paginated list of dimensions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/dimensions",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "ottimate_company_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter dimensions by company ID"
+              },
+              {
+                "name": "erp_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter dimensions by ERP type"
+              },
+              {
+                "name": "detail",
+                "value": "",
+                "type": "query",
+                "description": "Specify the level of detail in the response"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (default 1)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (default 20)"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of dimensions, filterable by company and type. The `detail=basic` query parameter returns a simplified response."
+        },
+        {
+          "info": {
+            "name": "Create a single new dimension",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ottimate.com/v1/dimensions",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new dimension with the provided details. The `reference_id` and `erp_dimension_id` are required for a successful creation."
+        },
+        {
+          "info": {
+            "name": "Retrieve a specific dimension by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ottimate.com/v1/dimensions/:id",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique ID of the dimension"
+              }
+            ]
+          },
+          "docs": "Returns detailed information for a single dimension using its unique ID."
+        },
+        {
+          "info": {
+            "name": "Create or update multiple dimensions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ottimate.com/v1/dimensions/bulk",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              },
+              {
+                "name": "X-Api-Key",
+                "value": ""
+              },
+              {
+                "name": "X-API-Version",
+                "value": ""
+              },
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Allows for the creation or updating of multiple dimensions in a single request. The request body should contain a `ottimate_company_id` and an array of `dimensions`. Maximum 100 dimensions per request."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,1284 @@
+{
+  "item": [
+    {
+      "id": "5d937526-c52f-4828-a52f-f3e59530ce0e",
+      "name": "purchaseOrders",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9674781a-05b0-4efc-85d7-67c31679058f",
+          "name": "Retrieve a paginated list of purchase orders",
+          "request": {
+            "name": "Retrieve a paginated list of purchase orders",
+            "description": {
+              "content": "Returns a paginated list of purchase orders, filterable by company, location, vendor, status, and date range.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "purchase-orders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "ottimate_company_id",
+                  "value": "<integer>",
+                  "description": "Filter by company ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "ottimate_location_id",
+                  "value": "<integer>",
+                  "description": "Filter by location ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "erp_vendor_id",
+                  "value": "<string>",
+                  "description": "Filter by ERP vendor ID (external vendor identifier)"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter by PO status"
+                },
+                {
+                  "disabled": false,
+                  "key": "date_from",
+                  "value": "<date>",
+                  "description": "Filter by start date (YYYY-MM-DD)"
+                },
+                {
+                  "disabled": false,
+                  "key": "date_to",
+                  "value": "<date>",
+                  "description": "Filter by end date (YYYY-MM-DD)"
+                },
+                {
+                  "disabled": false,
+                  "key": "expand",
+                  "value": "<string>",
+                  "description": "Comma-separated list of fields to expand. Supported values: items. When expand=items is used, date_from and date_to must both be provided and within a 30-day window."
+                },
+                {
+                  "disabled": false,
+                  "key": "external_id",
+                  "value": "<string>",
+                  "description": "Filter by external (ERP) purchase order ID"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Page number (default 1)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Number of results per page (default 20)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication",
+                "key": "X-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                "key": "X-API-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "25a286e7-5af9-4eb2-8aa3-18075c7602f9",
+              "name": "Successful response with paginated purchase order list",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "purchase-orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ottimate_company_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "ottimate_location_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "erp_vendor_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "approved"
+                    },
+                    {
+                      "key": "date_from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "date_to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "external_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"version\": \"string\",\n  \"count\": 1349,\n  \"page\": 5321,\n  \"limit\": 6912,\n  \"purchase_orders\": [\n    {\n      \"id\": \"5d36f046-e4ce-f7a8-f948-3ac0e46af3ed\",\n      \"status\": \"archived\",\n      \"external_id\": \"string\",\n      \"po_number\": \"string\",\n      \"ottimate_location_id\": 8565,\n      \"ottimate_company_id\": 1988,\n      \"date\": \"1951-09-09\",\n      \"erp_vendor_id\": \"string\",\n      \"erp_vendor_name\": \"string\",\n      \"total_amount\": 654.0818150478677,\n      \"created_date\": \"1962-02-06T10:51:36.134Z\",\n      \"created_date_utc\": \"1965-08-27T05:19:17.571Z\",\n      \"last_modified_date\": \"1988-05-01T07:43:17.612Z\",\n      \"last_modified_date_utc\": \"1959-03-09T20:29:41.907Z\",\n      \"custom_fields\": {}\n    },\n    {\n      \"id\": \"48585dda-8a6a-f53f-7c90-a2f150ad652c\",\n      \"status\": \"pending\",\n      \"external_id\": \"string\",\n      \"po_number\": \"string\",\n      \"ottimate_location_id\": 7175,\n      \"ottimate_company_id\": 6619,\n      \"date\": \"2014-10-30\",\n      \"erp_vendor_id\": \"string\",\n      \"erp_vendor_name\": \"string\",\n      \"total_amount\": 6069.10355813814,\n      \"created_date\": \"2016-04-19T16:02:39.382Z\",\n      \"created_date_utc\": \"1995-10-13T14:51:16.470Z\",\n      \"last_modified_date\": \"1993-02-02T00:16:53.093Z\",\n      \"last_modified_date_utc\": \"2012-05-29T19:05:56.332Z\",\n      \"custom_fields\": {}\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cbc6cc74-6643-456f-aea2-4ef7f3299950",
+              "name": "Bad request - Invalid parameters or request format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "purchase-orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ottimate_company_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "ottimate_location_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "erp_vendor_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "approved"
+                    },
+                    {
+                      "key": "date_from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "date_to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "external_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": {},\n  \"request_id\": \"string\",\n  \"timestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e643ea1a-e830-451a-8a53-732283e19c6e",
+              "name": "Unauthorized - Authentication required or invalid credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "purchase-orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "ottimate_company_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "ottimate_location_id",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "erp_vendor_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "approved"
+                    },
+                    {
+                      "key": "date_from",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "date_to",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "expand",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "external_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": {},\n  \"request_id\": \"string\",\n  \"timestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dd89a6ee-1ef2-4171-8caf-2f79b2d846a3",
+          "name": "Create a single purchase order",
+          "request": {
+            "name": "Create a single purchase order",
+            "description": {
+              "content": "Creates a new purchase order with the provided details. The `po_number` field is required and must be provided by the client (no auto-generation).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "purchase-orders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication",
+                "key": "X-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                "key": "X-API-Version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Client-generated unique key (UUID/ULID recommended). JSON requests: the first 2xx response is cached for 24h and replayed on a same-key retry with a matching body; a different body returns 422. Non-JSON requests (e.g. file uploads): the key is single-use — any same-key retry returns 422 regardless of body. See [Idempotency](https://docs.ottimate.com/idempotency) for full details.",
+                "key": "Idempotency-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ottimate_location_id\": \"<integer>\",\n  \"po_number\": \"<string>\",\n  \"erp_vendor_id\": \"<string>\",\n  \"date\": \"<date>\",\n  \"total_amount\": \"<double>\",\n  \"items\": [\n    {\n      \"name\": \"<string>\",\n      \"quantity\": \"<double>\",\n      \"price\": \"<double>\",\n      \"external_id\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"uom\": \"<string>\",\n      \"dimensions\": {}\n    },\n    {\n      \"name\": \"<string>\",\n      \"quantity\": \"<double>\",\n      \"price\": \"<double>\",\n      \"external_id\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"uom\": \"<string>\",\n      \"dimensions\": {}\n    }\n  ],\n  \"external_id\": \"<string>\",\n  \"erp_vendor_name\": \"<string>\",\n  \"tax\": \"<double>\",\n  \"freight\": \"<double>\",\n  \"miscellaneous_charges\": \"<double>\",\n  \"invoice_number_ref\": \"<string>\",\n  \"is_2_way\": \"<boolean>\",\n  \"custom_fields\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9d7ee248-d498-4297-854d-333d71e2b5cf",
+              "name": "Successfully created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "purchase-orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-generated unique key (UUID/ULID recommended). JSON requests: the first 2xx response is cached for 24h and replayed on a same-key retry with a matching body; a different body returns 422. Non-JSON requests (e.g. file uploads): the key is single-use — any same-key retry returns 422 regardless of body. See [Idempotency](https://docs.ottimate.com/idempotency) for full details.",
+                    "key": "Idempotency-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ottimate_location_id\": \"<integer>\",\n  \"po_number\": \"<string>\",\n  \"erp_vendor_id\": \"<string>\",\n  \"date\": \"<date>\",\n  \"total_amount\": \"<double>\",\n  \"items\": [\n    {\n      \"name\": \"string\",\n      \"quantity\": 2162.882123123795,\n      \"price\": 431.814161051034,\n      \"external_id\": \"string\",\n      \"sku\": \"string\",\n      \"uom\": \"string\",\n      \"dimensions\": {}\n    },\n    {\n      \"name\": \"string\",\n      \"quantity\": 8996.574535733136,\n      \"price\": 4241.439660541392,\n      \"external_id\": \"string\",\n      \"sku\": \"string\",\n      \"uom\": \"string\",\n      \"dimensions\": {}\n    }\n  ],\n  \"external_id\": \"<string>\",\n  \"erp_vendor_name\": \"<string>\",\n  \"tax\": \"<double>\",\n  \"freight\": \"<double>\",\n  \"miscellaneous_charges\": \"<double>\",\n  \"invoice_number_ref\": \"<string>\",\n  \"is_2_way\": \"<boolean>\",\n  \"custom_fields\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"8c651fba-0eec-acff-6f78-42438bd83f74\",\n  \"status\": \"pending\",\n  \"external_id\": \"string\",\n  \"po_number\": \"string\",\n  \"ottimate_location_id\": 3928,\n  \"ottimate_company_id\": 8766,\n  \"date\": \"2003-06-29\",\n  \"erp_vendor_id\": \"string\",\n  \"erp_vendor_name\": \"string\",\n  \"total_amount\": 8464.061056422524,\n  \"items_count\": 9424,\n  \"items\": [\n    {\n      \"name\": \"string\",\n      \"quantity\": 9076.606561296165,\n      \"price\": 9062.510123977177,\n      \"id\": \"77a58a7f-8d5a-7291-c3fe-69ea9da4fd09\",\n      \"external_id\": \"string\",\n      \"sku\": \"string\",\n      \"uom\": \"string\",\n      \"dimensions\": {},\n      \"created_date\": \"1977-04-02T12:04:59.992Z\",\n      \"last_modified_date\": \"2014-07-09T06:58:46.952Z\"\n    },\n    {\n      \"name\": \"string\",\n      \"quantity\": 2709.683544992003,\n      \"price\": 5418.527511722082,\n      \"id\": \"78c21695-c229-c3d5-c280-623483e6b011\",\n      \"external_id\": \"string\",\n      \"sku\": \"string\",\n      \"uom\": \"string\",\n      \"dimensions\": {},\n      \"created_date\": \"1999-03-17T18:47:03.597Z\",\n      \"last_modified_date\": \"2026-01-27T22:08:41.523Z\"\n    }\n  ],\n  \"created_date\": \"2015-12-16T21:20:21.810Z\",\n  \"custom_fields\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cb58f90f-758d-4f8e-8c61-c18b9d9c3273",
+              "name": "Bad request - Invalid parameters or request format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "purchase-orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-generated unique key (UUID/ULID recommended). JSON requests: the first 2xx response is cached for 24h and replayed on a same-key retry with a matching body; a different body returns 422. Non-JSON requests (e.g. file uploads): the key is single-use — any same-key retry returns 422 regardless of body. See [Idempotency](https://docs.ottimate.com/idempotency) for full details.",
+                    "key": "Idempotency-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ottimate_location_id\": \"<integer>\",\n  \"po_number\": \"<string>\",\n  \"erp_vendor_id\": \"<string>\",\n  \"date\": \"<date>\",\n  \"total_amount\": \"<double>\",\n  \"items\": [\n    {\n      \"name\": \"string\",\n      \"quantity\": 2162.882123123795,\n      \"price\": 431.814161051034,\n      \"external_id\": \"string\",\n      \"sku\": \"string\",\n      \"uom\": \"string\",\n      \"dimensions\": {}\n    },\n    {\n      \"name\": \"string\",\n      \"quantity\": 8996.574535733136,\n      \"price\": 4241.439660541392,\n      \"external_id\": \"string\",\n      \"sku\": \"string\",\n      \"uom\": \"string\",\n      \"dimensions\": {}\n    }\n  ],\n  \"external_id\": \"<string>\",\n  \"erp_vendor_name\": \"<string>\",\n  \"tax\": \"<double>\",\n  \"freight\": \"<double>\",\n  \"miscellaneous_charges\": \"<double>\",\n  \"invoice_number_ref\": \"<string>\",\n  \"is_2_way\": \"<boolean>\",\n  \"custom_fields\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": {},\n  \"request_id\": \"string\",\n  \"timestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8c9738c4-ece4-4c6a-bd68-5bf4eb0f9f4d",
+          "name": "Retrieve a specific purchase order by ID",
+          "request": {
+            "name": "Retrieve a specific purchase order by ID",
+            "description": {
+              "content": "Returns detailed information for a single purchase order including all line items.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "purchase-orders",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) The unique ID of the purchase order"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication",
+                "key": "X-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                "key": "X-API-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1f363022-290d-4114-a83e-63652312d83c",
+              "name": "Successful response with purchase order details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "purchase-orders",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The unique ID of the purchase order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"purchase_order\": {\n    \"id\": \"09636de1-4107-09a1-740e-7ab0d5d06765\",\n    \"status\": \"archived\",\n    \"external_id\": \"string\",\n    \"po_number\": \"string\",\n    \"ottimate_location_id\": 478,\n    \"ottimate_company_id\": 3587,\n    \"date\": \"2009-02-26\",\n    \"erp_vendor_id\": \"string\",\n    \"erp_vendor_name\": \"string\",\n    \"total_amount\": 8635.539958485004,\n    \"tax\": 593.9960922912546,\n    \"freight\": 4965.016590955,\n    \"miscellaneous_charges\": 9858.186480621664,\n    \"invoice_number_ref\": \"string\",\n    \"is_2_way\": true,\n    \"items\": [\n      {\n        \"id\": \"60f7beff-40d9-c367-2da2-27897d957a4b\",\n        \"external_id\": \"string\",\n        \"name\": \"string\",\n        \"sku\": \"string\",\n        \"quantity\": 5425.458195187096,\n        \"price\": 1284.914236541611,\n        \"uom\": \"string\",\n        \"dimensions\": {},\n        \"created_date\": \"1960-09-22T06:52:50.440Z\",\n        \"created_date_utc\": \"1971-02-13T20:39:51.294Z\",\n        \"last_modified_date\": \"1969-04-12T00:26:22.753Z\",\n        \"last_modified_date_utc\": \"2000-08-10T07:26:45.938Z\"\n      },\n      {\n        \"id\": \"10e2d08d-3875-bdc4-1edc-e77cc027cfad\",\n        \"external_id\": \"string\",\n        \"name\": \"string\",\n        \"sku\": \"string\",\n        \"quantity\": 7562.495116920552,\n        \"price\": 5376.9898036251325,\n        \"uom\": \"string\",\n        \"dimensions\": {},\n        \"created_date\": \"2002-08-10T22:52:45.663Z\",\n        \"created_date_utc\": \"1991-08-11T00:27:19.298Z\",\n        \"last_modified_date\": \"1970-01-10T06:42:04.753Z\",\n        \"last_modified_date_utc\": \"1988-04-28T23:36:08.935Z\"\n      }\n    ],\n    \"created_date\": \"1989-01-28T01:58:50.577Z\",\n    \"created_date_utc\": \"1984-03-26T20:36:10.195Z\",\n    \"last_modified_date\": \"1998-11-25T13:17:17.640Z\",\n    \"last_modified_date_utc\": \"1982-11-03T05:48:49.224Z\",\n    \"custom_fields\": {}\n  },\n  \"version\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0ec192e5-f8a4-485b-b605-b471a36de856",
+              "name": "Not found - Resource does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "purchase-orders",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The unique ID of the purchase order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": {},\n  \"request_id\": \"string\",\n  \"timestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "90caca93-1676-45be-bde5-3db4e12a6cb8",
+          "name": "Update an existing purchase order",
+          "request": {
+            "name": "Update an existing purchase order",
+            "description": {
+              "content": "Updates a purchase order. Note: `status`, `po_number`, `external_id`, `erp_vendor_id`, and `ottimate_location_id` cannot be changed.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "purchase-orders",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) The unique ID of the purchase order"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication",
+                "key": "X-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                "key": "X-API-Version",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"erp_vendor_name\": \"<string>\",\n  \"date\": \"<date>\",\n  \"total_amount\": \"<double>\",\n  \"tax\": \"<double>\",\n  \"freight\": \"<double>\",\n  \"miscellaneous_charges\": \"<double>\",\n  \"invoice_number_ref\": \"<string>\",\n  \"is_2_way\": \"<boolean>\",\n  \"items\": [\n    {\n      \"id\": \"<uuid>\",\n      \"external_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"quantity\": \"<double>\",\n      \"price\": \"<double>\",\n      \"uom\": \"<string>\",\n      \"dimensions\": {}\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"external_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"quantity\": \"<double>\",\n      \"price\": \"<double>\",\n      \"uom\": \"<string>\",\n      \"dimensions\": {}\n    }\n  ],\n  \"custom_fields\": {}\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7c69fad0-f9e3-41dc-8e91-e7b82ff347c5",
+              "name": "Successfully updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "purchase-orders",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The unique ID of the purchase order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"erp_vendor_name\": \"<string>\",\n  \"date\": \"<date>\",\n  \"total_amount\": \"<double>\",\n  \"tax\": \"<double>\",\n  \"freight\": \"<double>\",\n  \"miscellaneous_charges\": \"<double>\",\n  \"invoice_number_ref\": \"<string>\",\n  \"is_2_way\": \"<boolean>\",\n  \"items\": [\n    {\n      \"id\": \"ad994aa0-8692-5dd6-dd18-d1538870ae97\",\n      \"external_id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"quantity\": 1000.4108310193549,\n      \"price\": 3651.7007759550524,\n      \"uom\": \"string\",\n      \"dimensions\": {}\n    },\n    {\n      \"id\": \"a25cb1a7-5840-9c65-67a2-cd077c99a2f3\",\n      \"external_id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"quantity\": 4755.160543370178,\n      \"price\": 6861.986770458516,\n      \"uom\": \"string\",\n      \"dimensions\": {}\n    }\n  ],\n  \"custom_fields\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"04fe2ac4-963e-8933-45d1-e00bf9a63e96\",\n  \"status\": \"open\",\n  \"version\": \"string\",\n  \"external_id\": \"string\",\n  \"po_number\": \"string\",\n  \"ottimate_location_id\": 1565,\n  \"ottimate_company_id\": 8400,\n  \"date\": \"1967-04-03\",\n  \"erp_vendor_id\": \"string\",\n  \"erp_vendor_name\": \"string\",\n  \"total_amount\": 4882.760884410551,\n  \"items_count\": 322,\n  \"last_modified_date\": \"1950-11-25T03:33:08.752Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c80bf857-9fe5-47a6-a540-e2a8a7aa8d6c",
+              "name": "Bad request - Invalid parameters or request format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "purchase-orders",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The unique ID of the purchase order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"erp_vendor_name\": \"<string>\",\n  \"date\": \"<date>\",\n  \"total_amount\": \"<double>\",\n  \"tax\": \"<double>\",\n  \"freight\": \"<double>\",\n  \"miscellaneous_charges\": \"<double>\",\n  \"invoice_number_ref\": \"<string>\",\n  \"is_2_way\": \"<boolean>\",\n  \"items\": [\n    {\n      \"id\": \"ad994aa0-8692-5dd6-dd18-d1538870ae97\",\n      \"external_id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"quantity\": 1000.4108310193549,\n      \"price\": 3651.7007759550524,\n      \"uom\": \"string\",\n      \"dimensions\": {}\n    },\n    {\n      \"id\": \"a25cb1a7-5840-9c65-67a2-cd077c99a2f3\",\n      \"external_id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"quantity\": 4755.160543370178,\n      \"price\": 6861.986770458516,\n      \"uom\": \"string\",\n      \"dimensions\": {}\n    }\n  ],\n  \"custom_fields\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": {},\n  \"request_id\": \"string\",\n  \"timestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e1f02faa-45ae-49ef-9c26-bd2cd99a63c7",
+              "name": "Not found - Resource does not exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "purchase-orders",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The unique ID of the purchase order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"erp_vendor_name\": \"<string>\",\n  \"date\": \"<date>\",\n  \"total_amount\": \"<double>\",\n  \"tax\": \"<double>\",\n  \"freight\": \"<double>\",\n  \"miscellaneous_charges\": \"<double>\",\n  \"invoice_number_ref\": \"<string>\",\n  \"is_2_way\": \"<boolean>\",\n  \"items\": [\n    {\n      \"id\": \"ad994aa0-8692-5dd6-dd18-d1538870ae97\",\n      \"external_id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"quantity\": 1000.4108310193549,\n      \"price\": 3651.7007759550524,\n      \"uom\": \"string\",\n      \"dimensions\": {}\n    },\n    {\n      \"id\": \"a25cb1a7-5840-9c65-67a2-cd077c99a2f3\",\n      \"external_id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"quantity\": 4755.160543370178,\n      \"price\": 6861.986770458516,\n      \"uom\": \"string\",\n      \"dimensions\": {}\n    }\n  ],\n  \"custom_fields\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": {},\n  \"request_id\": \"string\",\n  \"timestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4dd38e52-2b2d-4d7e-a4f9-ab152e6fecf9",
+          "name": "Bulk create or update purchase orders",
+          "request": {
+            "name": "Bulk create or update purchase orders",
+            "description": {
+              "content": "Creates or updates multiple purchase orders in a single request. Maximum 100 purchase orders and 1000 total line items per request. Processing is always asynchronous via Celery and returns a batch tracking ID for polling progress.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "purchase-orders",
+                "bulk"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) API key for authentication",
+                "key": "X-Api-Key",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                "key": "X-API-Version",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "Client-generated unique key (UUID/ULID recommended). JSON requests: the first 2xx response is cached for 24h and replayed on a same-key retry with a matching body; a different body returns 422. Non-JSON requests (e.g. file uploads): the key is single-use — any same-key retry returns 422 regardless of body. See [Idempotency](https://docs.ottimate.com/idempotency) for full details.",
+                "key": "Idempotency-Key",
+                "value": "<string>"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ottimate_company_id\": \"<integer>\",\n  \"ottimate_location_id\": \"<integer>\",\n  \"purchase_orders\": [\n    {\n      \"po_number\": \"<string>\",\n      \"erp_vendor_id\": \"<string>\",\n      \"date\": \"<date>\",\n      \"total_amount\": \"<double>\",\n      \"items\": [\n        {\n          \"name\": \"<string>\",\n          \"quantity\": \"<double>\",\n          \"price\": \"<double>\",\n          \"external_id\": \"<string>\",\n          \"sku\": \"<string>\",\n          \"uom\": \"<string>\",\n          \"dimensions\": {}\n        },\n        {\n          \"name\": \"<string>\",\n          \"quantity\": \"<double>\",\n          \"price\": \"<double>\",\n          \"external_id\": \"<string>\",\n          \"sku\": \"<string>\",\n          \"uom\": \"<string>\",\n          \"dimensions\": {}\n        }\n      ],\n      \"external_id\": \"<string>\",\n      \"erp_vendor_name\": \"<string>\",\n      \"tax\": \"<double>\",\n      \"freight\": \"<double>\",\n      \"miscellaneous_charges\": \"<double>\",\n      \"invoice_number_ref\": \"<string>\",\n      \"is_2_way\": \"<boolean>\",\n      \"custom_fields\": {}\n    },\n    {\n      \"po_number\": \"<string>\",\n      \"erp_vendor_id\": \"<string>\",\n      \"date\": \"<date>\",\n      \"total_amount\": \"<double>\",\n      \"items\": [\n        {\n          \"name\": \"<string>\",\n          \"quantity\": \"<double>\",\n          \"price\": \"<double>\",\n          \"external_id\": \"<string>\",\n          \"sku\": \"<string>\",\n          \"uom\": \"<string>\",\n          \"dimensions\": {}\n        },\n        {\n          \"name\": \"<string>\",\n          \"quantity\": \"<double>\",\n          \"price\": \"<double>\",\n          \"external_id\": \"<string>\",\n          \"sku\": \"<string>\",\n          \"uom\": \"<string>\",\n          \"dimensions\": {}\n        }\n      ],\n      \"external_id\": \"<string>\",\n      \"erp_vendor_name\": \"<string>\",\n      \"tax\": \"<double>\",\n      \"freight\": \"<double>\",\n      \"miscellaneous_charges\": \"<double>\",\n      \"invoice_number_ref\": \"<string>\",\n      \"is_2_way\": \"<boolean>\",\n      \"custom_fields\": {}\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "30c31936-88a3-4bb1-87ca-32a87dd47c0b",
+              "name": "Asynchronous processing started. Poll batch_url for progress.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "purchase-orders",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-generated unique key (UUID/ULID recommended). JSON requests: the first 2xx response is cached for 24h and replayed on a same-key retry with a matching body; a different body returns 422. Non-JSON requests (e.g. file uploads): the key is single-use — any same-key retry returns 422 regardless of body. See [Idempotency](https://docs.ottimate.com/idempotency) for full details.",
+                    "key": "Idempotency-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ottimate_company_id\": \"<integer>\",\n  \"ottimate_location_id\": \"<integer>\",\n  \"purchase_orders\": [\n    {\n      \"po_number\": \"string\",\n      \"erp_vendor_id\": \"string\",\n      \"date\": \"2002-05-22\",\n      \"total_amount\": 4992.1392773460975,\n      \"items\": [\n        {\n          \"name\": \"string\",\n          \"quantity\": 5204.7083031152415,\n          \"price\": 5482.612002123853,\n          \"external_id\": \"string\",\n          \"sku\": \"string\",\n          \"uom\": \"string\",\n          \"dimensions\": {}\n        },\n        {\n          \"name\": \"string\",\n          \"quantity\": 6690.260342796705,\n          \"price\": 1048.5091225126541,\n          \"external_id\": \"string\",\n          \"sku\": \"string\",\n          \"uom\": \"string\",\n          \"dimensions\": {}\n        }\n      ],\n      \"external_id\": \"string\",\n      \"erp_vendor_name\": \"string\",\n      \"tax\": 9192.247997949615,\n      \"freight\": 2071.2335765575285,\n      \"miscellaneous_charges\": 3866.3145080170857,\n      \"invoice_number_ref\": \"string\",\n      \"is_2_way\": true,\n      \"custom_fields\": {}\n    },\n    {\n      \"po_number\": \"string\",\n      \"erp_vendor_id\": \"string\",\n      \"date\": \"2009-02-26\",\n      \"total_amount\": 2511.7454820423022,\n      \"items\": [\n        {\n          \"name\": \"string\",\n          \"quantity\": 464.5420047271509,\n          \"price\": 5049.479845998356,\n          \"external_id\": \"string\",\n          \"sku\": \"string\",\n          \"uom\": \"string\",\n          \"dimensions\": {}\n        },\n        {\n          \"name\": \"string\",\n          \"quantity\": 9707.09234134624,\n          \"price\": 6083.231452679894,\n          \"external_id\": \"string\",\n          \"sku\": \"string\",\n          \"uom\": \"string\",\n          \"dimensions\": {}\n        }\n      ],\n      \"external_id\": \"string\",\n      \"erp_vendor_name\": \"string\",\n      \"tax\": 3633.903800669609,\n      \"freight\": 2970.83241663327,\n      \"miscellaneous_charges\": 4449.290719872275,\n      \"invoice_number_ref\": \"string\",\n      \"is_2_way\": false,\n      \"custom_fields\": {}\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"processing\",\n  \"batch_id\": \"string\",\n  \"version\": \"string\",\n  \"batch_url\": \"string\",\n  \"results_url\": \"string\",\n  \"summary\": {\n    \"count\": 6912,\n    \"total_items\": 1138\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c48411f0-3900-4181-916f-b5dfafff6b77",
+              "name": "Bad request - Invalid parameters or request format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "purchase-orders",
+                    "bulk"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "disabled": false,
+                    "description": "(Required) OAuth2 authentication flows. Auth server URLs will vary by environment",
+                    "key": "Authorization",
+                    "value": "string"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) API key for authentication",
+                    "key": "X-Api-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "API version to use (optional, defaults to latest). Supported values: 1.0.0, 1.1.0.",
+                    "key": "X-API-Version",
+                    "value": "<string>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "Client-generated unique key (UUID/ULID recommended). JSON requests: the first 2xx response is cached for 24h and replayed on a same-key retry with a matching body; a different body returns 422. Non-JSON requests (e.g. file uploads): the key is single-use — any same-key retry returns 422 regardless of body. See [Idempotency](https://docs.ottimate.com/idempotency) for full details.",
+                    "key": "Idempotency-Key",
+                    "value": "<string>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ottimate_company_id\": \"<integer>\",\n  \"ottimate_location_id\": \"<integer>\",\n  \"purchase_orders\": [\n    {\n      \"po_number\": \"string\",\n      \"erp_vendor_id\": \"string\",\n      \"date\": \"2002-05-22\",\n      \"total_amount\": 4992.1392773460975,\n      \"items\": [\n        {\n          \"name\": \"string\",\n          \"quantity\": 5204.7083031152415,\n          \"price\": 5482.612002123853,\n          \"external_id\": \"string\",\n          \"sku\": \"string\",\n          \"uom\": \"string\",\n          \"dimensions\": {}\n        },\n        {\n          \"name\": \"string\",\n          \"quantity\": 6690.260342796705,\n          \"price\": 1048.5091225126541,\n          \"external_id\": \"string\",\n          \"sku\": \"string\",\n          \"uom\": \"string\",\n          \"dimensions\": {}\n        }\n      ],\n      \"external_id\": \"string\",\n      \"erp_vendor_name\": \"string\",\n      \"tax\": 9192.247997949615,\n      \"freight\": 2071.2335765575285,\n      \"miscellaneous_charges\": 3866.3145080170857,\n      \"invoice_number_ref\": \"string\",\n      \"is_2_way\": true,\n      \"custom_fields\": {}\n    },\n    {\n      \"po_number\": \"string\",\n      \"erp_vendor_id\": \"string\",\n      \"date\": \"2009-02-26\",\n      \"total_amount\": 2511.7454820423022,\n      \"items\": [\n        {\n          \"name\": \"string\",\n          \"quantity\": 464.5420047271509,\n          \"price\": 5049.479845998356,\n          \"external_id\": \"string\",\n          \"sku\": \"string\",\n          \"uom\": \"string\",\n          \"dimensions\": {}\n        },\n        {\n          \"name\": \"string\",\n          \"quantity\": 9707.09234134624,\n          \"price\": 6083.231452679894,\n          \"external_id\": \"string\",\n          \"sku\": \"string\",\n          \"uom\": \"string\",\n          \"dimensions\": {}\n        }\n      ],\n      \"external_id\": \"string\",\n      \"erp_vendor_name\": \"string\",\n      \"tax\": 3633.903800669609,\n      \"freight\": 2970.83241663327,\n      \"miscellaneous_charges\": 4449.290719872275,\n      \"invoice_number_ref\": \"string\",\n      \"is_2_way\": false,\n      \"custom_fields\": {}\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": {},\n  \"request_id\": \"string\",\n  \"timestamp\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.ottimate.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f7b80292-ddcd-4932-acca-5e6897c7c123",
+    "name": "API Reference accounts purchaseOrders API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}
