@@ -28,7 +28,7 @@ x-backed-by:
 - initialized-capital
 x-tier: provider
 x-tier-reason: has-public-api
-specificationVersion: '0.20'
+specificationVersion: '0.23'
 created: '2026-07-17'
 modified: '2026-07-20'
 tags:
