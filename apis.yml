@@ -38,6 +38,17 @@ tags:
 - Invoice Automation
 - Payments
 - Fintech
+- Restaurant
+- Procurement
+- Spend Management
+- ERP Integration
+tags_raw:
+- Company
+- Enterprise Saas
+- Accounts Payable
+- Invoice Automation
+- Payments
+- Fintech
 - Restaurants
 - Procurement
 - Spend Management
@@ -49,6 +60,8 @@ apis:
   humanURL: https://docs.ottimate.com/welcome
   baseURL: https://api.ottimate.com/v1
   tags:
+  - Account
+  tags_raw:
   - accounts
   properties:
   - type: OpenAPI
@@ -69,6 +82,8 @@ apis:
   humanURL: https://docs.ottimate.com/welcome
   baseURL: https://api.ottimate.com/v1
   tags:
+  - Batch
+  tags_raw:
   - batch
   properties:
   - type: OpenAPI
@@ -89,6 +104,8 @@ apis:
   humanURL: https://docs.ottimate.com/welcome
   baseURL: https://api.ottimate.com/v1
   tags:
+  - Catalog
+  tags_raw:
   - catalog
   properties:
   - type: OpenAPI
@@ -109,6 +126,8 @@ apis:
   humanURL: https://docs.ottimate.com/welcome
   baseURL: https://api.ottimate.com/v1
   tags:
+  - Dimensions
+  tags_raw:
   - dimensions
   properties:
   - type: OpenAPI
@@ -129,6 +148,8 @@ apis:
   humanURL: https://docs.ottimate.com/welcome
   baseURL: https://api.ottimate.com/v1
   tags:
+  - Invoices
+  tags_raw:
   - invoices
   properties:
   - type: OpenAPI
@@ -149,6 +170,8 @@ apis:
   humanURL: https://docs.ottimate.com/welcome
   baseURL: https://api.ottimate.com/v1
   tags:
+  - Authentication
+  tags_raw:
   - oauth
   properties:
   - type: OpenAPI
@@ -169,6 +192,8 @@ apis:
   humanURL: https://docs.ottimate.com/welcome
   baseURL: https://api.ottimate.com/v1
   tags:
+  - Purchase Orders
+  tags_raw:
   - purchaseOrders
   properties:
   - type: OpenAPI
@@ -189,6 +214,8 @@ apis:
   humanURL: https://docs.ottimate.com/welcome
   baseURL: https://api.ottimate.com/v1
   tags:
+  - Receipts
+  tags_raw:
   - receipts
   properties:
   - type: OpenAPI
@@ -209,6 +236,8 @@ apis:
   humanURL: https://docs.ottimate.com/welcome
   baseURL: https://api.ottimate.com/v1
   tags:
+  - Vendors
+  tags_raw:
   - vendors
   properties:
   - type: OpenAPI
