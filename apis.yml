@@ -138,7 +138,7 @@ apis:
   humanURL: https://docs.ottimate.com/welcome
   baseURL: https://api.ottimate.com/v1
   tags:
-  - dimensions
+  - Dimensions
   tags_raw:
   - dimensions
   properties:
@@ -203,7 +203,8 @@ apis:
   description: The purchaseOrders API from PlateIQ — 3 operation(s) for purchaseorders.
   humanURL: https://docs.ottimate.com/welcome
   baseURL: https://api.ottimate.com/v1
-  tags: []
+  tags:
+  - Purchase Orders
   tags_raw:
   - purchaseOrders
   properties:
